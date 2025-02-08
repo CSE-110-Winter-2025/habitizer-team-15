@@ -6,7 +6,7 @@ import androidx.annotation.Nullable;
 import org.jetbrains.annotations.NotNull;
 
 public class Task {
-    private @NonNull Time recordedTime; // time taken for task
+    private @NonNull TaskTime recordedTime; // time taken for task
     private @NonNull int id; // task id
     private @NonNull String taskName; // task name
     private @NonNull boolean isCheckedOff; // if task is checked off
