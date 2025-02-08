@@ -27,10 +27,10 @@ public class Task {
     public boolean isCheckedOff() {
         return this.isCheckedOff;
     }
-    public void recordTime(Time time) {
+    public void recordTime(TaskTime time) {
         this.time = time;
     }
-    public Time getRecordedTime() {
+    public TaskTime getRecordedTime() {
         return this.time;
     }
     public void setTaskName(String name) {
