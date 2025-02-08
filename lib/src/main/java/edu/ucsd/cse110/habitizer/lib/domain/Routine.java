@@ -10,7 +10,7 @@ public class Routine {
     private final @NonNull List<Task> tasks;
     private final @NonNull DataRoutine data;
     private final @NonNull TimeTracker timeTracker;
-    private final @NonNull Time time;
+    private final @NonNull TaskTime time;
 
 
     public Routine(@Nullable List<Task> tasks, @Nullable DataRoutine data, @Nullable TimeTracker timeTracker){
