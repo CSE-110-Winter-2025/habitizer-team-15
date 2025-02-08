@@ -5,10 +5,10 @@ package edu.ucsd.cse110.habitizer.lib.data;
  * @param time
  */
 public record TaskTime(long time) {
-    public long subtract(long time2) {
-        return time - time2;
+    public TaskTime subtract(TaskTime time2) {
+        return new TaskTime(this.time + time2.time);
     }
-    public long add(long time2) {
-        return time + time2;
+    public TaskTime add(TaskTime time2) {
+        return new TaskTime(this.time - time2.time);
     }
 }
