@@ -26,10 +26,7 @@ public class Routine {
 
     public void end(){
         timeTracker.stop();
-    }
-
-    public void setTimeManager(){
-        time = timeTracker.elapsedTime();
+        time = timeTracker.getElapsedTime();
     }
 
     public void checkOffById(Task task){
