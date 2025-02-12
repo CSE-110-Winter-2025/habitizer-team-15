@@ -1,8 +1,10 @@
-package edu.ucsd.cse110.habitizer.app;
+package edu.ucsd.cse110.habitizer.app.presentation;
 
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import edu.ucsd.cse110.habitizer.app.R;
 
 public class MainActivity extends AppCompatActivity {
 

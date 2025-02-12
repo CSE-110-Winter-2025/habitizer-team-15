@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="96dp">
+    android:layout_height="76dp">
 
     <TextView
         android:id="@+id/task_name"
-        android:layout_width="304dp"
+        android:layout_width="0dp"
         android:layout_height="32dp"
         android:layout_marginStart="24dp"
         android:text="Task Name"

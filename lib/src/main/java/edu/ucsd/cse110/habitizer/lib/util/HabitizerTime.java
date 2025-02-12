@@ -1,6 +1,6 @@
 package edu.ucsd.cse110.habitizer.lib.util;
 
-import edu.ucsd.cse110.habitizer.lib.domain.time.ITimeManager;
+import edu.ucsd.cse110.habitizer.lib.domain.time.TimeManager;
 
 /**
  * Wrapper for any data type for time
@@ -17,6 +17,6 @@ public record HabitizerTime(long time) {
     }
 
     public long toSeconds() {
-        return time / ITimeManager.secondsToNanoseconds;
+        return time / TimeManager.secondsToNanoseconds;
     }
 }

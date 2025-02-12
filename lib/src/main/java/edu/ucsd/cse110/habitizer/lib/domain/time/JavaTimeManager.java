@@ -2,7 +2,7 @@ package edu.ucsd.cse110.habitizer.lib.domain.time;
 
 import edu.ucsd.cse110.habitizer.lib.util.HabitizerTime;
 
-public class JavaTimeManager extends ITimeManager {
+public class JavaTimeManager extends TimeManager {
 
     @Override
     public HabitizerTime getCurrentTimeNanoseconds() {

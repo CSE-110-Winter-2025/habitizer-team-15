@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Habitizer</string>
     <string name="end_routine">End Routine</string>
+    <string name="routine_total_time_format">%d of %dm</string>
 </resources>
