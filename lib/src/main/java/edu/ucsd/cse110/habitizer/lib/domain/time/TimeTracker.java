@@ -1,0 +1,50 @@
+package edu.ucsd.cse110.habitizer.lib.domain.time;
+
+import edu.ucsd.cse110.habitizer.lib.util.HabitizerTime;
+
+/**
+ * Add javadoc
+ */
+public class TimeTracker {
+	private final ITimeManager timeManager;
+	private HabitizerTime timeManagerStartTime;
+	private HabitizerTime trackerLastCheckoff;
+
+	private HabitizerTime trackerEndTime;
+
+	private boolean isStarted;
+
+	public TimeTracker(ITimeManager timeManager) {
+		this.timeManager = timeManager;
+	}
+
+	public HabitizerTime getElapsedTime() {
+		if (trackerEndTime != null)
+			return trackerEndTime;
+		return timeManager.getCurrentTimeNanoseconds().subtract(this.timeManagerStartTime);
+	}
+
+	private void checkoff() {
+		this.trackerLastCheckoff = getElapsedTime();
+	}
+
+	public HabitizerTime getCheckoffTime() {
+		return getElapsedTime().subtract(this.trackerLastCheckoff);
+	}
+
+	public HabitizerTime getCheckoffTimeAndCheckoff() {
+		var time = getCheckoffTime();
+		checkoff();
+		return time;
+	}
+
+	public void start() {
+		isStarted = true;
+		this.timeManagerStartTime = this.timeManager.getCurrentTimeNanoseconds();
+		this.trackerLastCheckoff = HabitizerTime.zero;
+	}
+
+	public void stop() {
+		trackerEndTime = getElapsedTime();
+	}
+}

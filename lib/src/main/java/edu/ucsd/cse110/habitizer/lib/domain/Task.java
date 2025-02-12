@@ -2,42 +2,63 @@ package edu.ucsd.cse110.habitizer.lib.domain;
 
 import androidx.annotation.NonNull;
 
-import edu.ucsd.cse110.habitizer.lib.data.TaskTime;
+import org.jetbrains.annotations.Nullable;
+
+import edu.ucsd.cse110.habitizer.lib.data.DataTask;
+import edu.ucsd.cse110.habitizer.lib.util.HabitizerTime;
+import edu.ucsd.cse110.observables.MutableSubject;
+import edu.ucsd.cse110.observables.PlainMutableSubject;
 
 public class Task {
-    private TaskTime recordedTime; // time taken for task
-    private int id; // task id
-    private @NonNull String taskName; // task name
-    private boolean isCheckedOff; // if task is checked off
+    private @Nullable HabitizerTime recordedTime;
+    private final @NonNull MutableSubject<String> name;
+    private @NonNull DataTask data;
+    private boolean isDone;
 
-    public Task(@NonNull String name) { // constructor
-        this.taskName = name;
-        this.isCheckedOff = false;
+    protected Task(@NonNull DataTask data) {
+        this.name = new PlainMutableSubject<>();
+        this.name.setValue(data.name());
+
+        this.data = data;
+
+        this.isDone = false;
     }
 
-    private int getId() {
-        return this.id;
+    /**
+     * Public constructor that doesn't require DataTask to populate Task.
+     * @param name The name of the task.
+     */
+    public Task(String name) {
+        this(DataTask.createNull(name));
     }
 
-    // accessors/modifiers
-    public void setCheckedOff() {
-        this.isCheckedOff = true;
+    public int getId() {
+        return data.id();
     }
-    public boolean isCheckedOff() {
-        return this.isCheckedOff;
+
+    public void setId(int id) {
+        data = data.newWithId(id);
     }
-    public void recordTime(TaskTime time) {
+
+    public void checkOff() {
+        this.isDone = true;
+    }
+    public boolean isDone() {
+        return this.isDone;
+    }
+    public void recordTime(HabitizerTime time) {
         this.recordedTime = time;
     }
-    public TaskTime getRecordedTime() {
+    @androidx.annotation.Nullable
+    public HabitizerTime getRecordedTime() {
         return this.recordedTime;
     }
-    public void setTaskName(@NonNull String name) {
-        this.taskName = name;
+    public void setName(@NonNull String name) {
+        this.name.setValue(name);
     }
-    @NonNull
-    public String getTaskName() {
-        return this.taskName;
+
+    public String getName() {
+        return this.name.getValue();
     }
 
 }
