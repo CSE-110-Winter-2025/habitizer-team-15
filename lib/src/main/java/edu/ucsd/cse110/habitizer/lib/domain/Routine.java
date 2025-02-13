@@ -2,7 +2,6 @@ package edu.ucsd.cse110.habitizer.lib.domain;
 
 import androidx.annotation.NonNull;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -23,7 +22,7 @@ public class Routine {
     private @NonNull HabitizerTime time;
 
 
-    protected Routine(@NonNull List<Task> tasks, @NonNull DataRoutine data, @NonNull TimeTracker timeTracker){
+    public Routine(@NonNull DataRoutine data, @NonNull TimeTracker timeTracker){
 
         this.tasks = new PlainMutableNotifiableSubject<>();
         this.tasks.observe(taskList -> {
@@ -31,7 +30,7 @@ public class Routine {
         });
         // With the way Routine is constructed, `tasks` MUST be NonNull
         // (despite what the warnings say)
-        this.tasks.setValue(tasks);
+        this.tasks.setValue(RoutinePopulator.createTasksFromDataTasks(data.dataTasks()));
 
         this.name = new PlainMutableSubject<>();
         this.name.setValue(data.name());
@@ -57,11 +56,15 @@ public class Routine {
      * @param timeTracker The TimeTracker to keep track of time with.
      */
     public Routine(String name, TimeTracker timeTracker) {
-        this(new ArrayList<>(), DataRoutine.createNull(name), timeTracker);
+        this(DataRoutine.createNull(name), timeTracker);
     }
 
     public String getName() {
-        return name.getValue();
+        return getNameSubject().getValue();
+    }
+
+    public MutableSubject<String> getNameSubject() {
+        return name;
     }
 
     public int getId() {
@@ -98,5 +101,9 @@ public class Routine {
 
     public void removeTaskById(int id) {
         tasks.getValue().remove(id);
+    }
+
+    public MutableNotifiableSubject<List<Task>> getTasksSubject() {
+        return tasks;
     }
 }
