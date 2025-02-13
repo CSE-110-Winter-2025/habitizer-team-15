@@ -22,6 +22,10 @@ public class Routine {
     private @NonNull HabitizerTime time;
 
 
+    public HabitizerTime getElapsedTime() {
+        return timeTracker.getElapsedTime();
+    }
+
     public Routine(@NonNull DataRoutine data, @NonNull TimeTracker timeTracker){
 
         this.tasks = new PlainMutableNotifiableSubject<>();

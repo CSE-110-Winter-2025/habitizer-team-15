@@ -21,6 +21,8 @@ public class TimeTracker {
 	public HabitizerTime getElapsedTime() {
 		if (trackerEndTime != null)
 			return trackerEndTime;
+		if (timeManagerStartTime == null)
+			return HabitizerTime.zero;
 		return timeManager.getCurrentTimeNanoseconds().subtract(this.timeManagerStartTime);
 	}
 
