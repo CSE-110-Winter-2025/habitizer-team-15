@@ -51,7 +51,7 @@ public class TaskViewAdapter extends ArrayAdapter<Task> {
         if (task.isDone()) {
             HabitizerTime time = task.getRecordedTime();
             String format = getContext().getString(R.string.task_time_string_format);
-            timeDisplay = String.format(format, time.toSeconds());
+            timeDisplay = String.format(format, time.toMinutes());
         }
         return timeDisplay;
     }
