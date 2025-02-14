@@ -8,12 +8,17 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import edu.ucsd.cse110.habitizer.lib.data.InMemoryDataSource;
 import edu.ucsd.cse110.habitizer.lib.domain.time.MockTimeManager;
 import edu.ucsd.cse110.habitizer.lib.domain.time.TimeTracker;
 
 public class RoutineTaskTests {
+
+    /**
+     * General test scenario.
+     */
     @Test
-    public void testScenario1() {
+    public void testScenario0() {
         MockTimeManager mockTime = new MockTimeManager();
         Routine routine = new Routine("Test Routine", new TimeTracker(mockTime));
 
@@ -62,5 +67,53 @@ public class RoutineTaskTests {
 
         assertNotNull(testTask3.getRecordedTime());
         assertEquals(6, testTask3.getRecordedTime().toSeconds());
+    }
+
+    /**
+     * Given
+         * The user has started the routine 15 minutes ago
+         * The user is on the first task called “Shower”
+         * The second task is called “Brush Teeth”
+         * The third task and last task is called “Dress”
+     * When
+         * The user taps “Shower”
+         * And 5 minutes later taps “Dress”
+     * Then
+         * The routine should now display the tasks as “Shower [15m]”
+         * And “Brush Teeth [-]”
+         * And “Dress [5m]”
+     */
+    @Test
+    public void bddScenario1() {
+        MockTimeManager mockTime = new MockTimeManager();
+        Routine routine = new Routine(InMemoryDataSource.MORNING_ROUTINE,
+                new TimeTracker(mockTime));
+
+        routine.start();
+        mockTime.setMockTime(15);
+
+        /**
+         * TODO: Add find functionality in case Morning Routine changes!
+         */
+        int showerId = 0;
+        int brushTeethId = 1;
+        int dressId = 2;
+
+        Task shower = routine.findTaskById(showerId);
+        Task brush = routine.findTaskById(brushTeethId);
+        Task dress = routine.findTaskById(dressId);
+
+        routine.checkOffById(showerId);
+
+        mockTime.setMockTime(20);
+
+        routine.checkOffById(dressId);
+
+        assertTrue(shower.isDone());
+        assertFalse(brush.isDone());
+        assertTrue(dress.isDone());
+
+        assertEquals(15, shower.getRecordedTime().toSeconds());
+        assertEquals(5, dress.getRecordedTime().toSeconds());
     }
 }

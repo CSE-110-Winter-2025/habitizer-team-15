@@ -1,13 +1,13 @@
 package edu.ucsd.cse110.habitizer.lib.util;
 
-import edu.ucsd.cse110.habitizer.lib.domain.time.ITimeManager;
-
 /**
  * Wrapper for any data type for time
  * @param time
  */
 public record HabitizerTime(long time) {
     public static final HabitizerTime zero = new HabitizerTime(0);
+    public static final int minutesToSeconds = 60;
+    public static final int secondsToNanoseconds = 1000000000;
 
     public HabitizerTime subtract(HabitizerTime time2) {
         return new HabitizerTime(this.time - time2.time);
@@ -17,6 +17,11 @@ public record HabitizerTime(long time) {
     }
 
     public long toSeconds() {
-        return time / ITimeManager.secondsToNanoseconds;
+        return time / secondsToNanoseconds;
     }
+
+    public long toMinutes() {
+        return toSeconds() / minutesToSeconds;
+    }
+
 }

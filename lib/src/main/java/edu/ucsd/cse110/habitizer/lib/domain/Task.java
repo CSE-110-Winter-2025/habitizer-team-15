@@ -15,7 +15,7 @@ public class Task {
     private @NonNull DataTask data;
     private boolean isDone;
 
-    protected Task(@NonNull DataTask data) {
+    public Task(@NonNull DataTask data) {
         this.name = new PlainMutableSubject<>();
         this.name.setValue(data.name());
 
@@ -29,7 +29,7 @@ public class Task {
      * @param name The name of the task.
      */
     public Task(String name) {
-        this(DataTask.createNull(name));
+        this(DataTask.createWithoutId(name));
     }
 
     public int getId() {
