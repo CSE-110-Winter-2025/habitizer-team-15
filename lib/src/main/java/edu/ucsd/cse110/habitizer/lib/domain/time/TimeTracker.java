@@ -6,7 +6,7 @@ import edu.ucsd.cse110.habitizer.lib.util.HabitizerTime;
  * Add javadoc
  */
 public class TimeTracker {
-	private final ITimeManager timeManager;
+	private final TimeManager timeManager;
 	private HabitizerTime timeManagerStartTime;
 	private HabitizerTime trackerLastCheckoff;
 
@@ -14,13 +14,15 @@ public class TimeTracker {
 
 	private boolean isStarted;
 
-	public TimeTracker(ITimeManager timeManager) {
+	public TimeTracker(TimeManager timeManager) {
 		this.timeManager = timeManager;
 	}
 
 	public HabitizerTime getElapsedTime() {
 		if (trackerEndTime != null)
 			return trackerEndTime;
+		if (timeManagerStartTime == null)
+			return HabitizerTime.zero;
 		return timeManager.getCurrentTimeNanoseconds().subtract(this.timeManagerStartTime);
 	}
 
