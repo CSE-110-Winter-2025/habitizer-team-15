@@ -14,7 +14,7 @@ public class HabitizerApplication extends Application {
     private Routine activeRoutine;
 
     @Override
-    public void onCreate() {
+    public void onCreate() { // setup routine display so that onCreate opens first
         super.onCreate();
         activeRoutine = new Routine(InMemoryDataSource.MORNING_ROUTINE,
             new TimeTracker(new DebugJavaTimeManager()));
