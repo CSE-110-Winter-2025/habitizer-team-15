@@ -41,12 +41,13 @@ public class TimeTracker {
 	}
 
 	public void start() {
-		isStarted = true;
+		this.isStarted = true;
 		this.timeManagerStartTime = this.timeManager.getCurrentTimeNanoseconds();
 		this.trackerLastCheckoff = HabitizerTime.zero;
 	}
 
 	public void stop() {
-		trackerEndTime = getElapsedTime();
+		this.trackerEndTime = getElapsedTime();
+		this.isStarted = false;
 	}
 }
