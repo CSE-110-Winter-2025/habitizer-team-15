@@ -11,17 +11,12 @@ import java.util.Objects;
 
 import edu.ucsd.cse110.habitizer.app.HabitizerApplication;
 import edu.ucsd.cse110.habitizer.lib.domain.Routine;
-import edu.ucsd.cse110.habitizer.lib.domain.Task;
 import edu.ucsd.cse110.habitizer.lib.util.HabitizerTime;
 import edu.ucsd.cse110.habitizer.lib.util.observables.MutableNotifiableSubject;
 import edu.ucsd.cse110.habitizer.lib.util.observables.PlainMutableNotifiableSubject;
-import edu.ucsd.cse110.observables.MutableSubject;
-import edu.ucsd.cse110.observables.PlainMutableSubject;
-import edu.ucsd.cse110.observables.Subject;
 
 public class MainViewModel extends ViewModel {
     private MutableNotifiableSubject<Routine> activeRoutine;
-
     public static final ViewModelInitializer<MainViewModel> initializer =
         new ViewModelInitializer<>(
             MainViewModel.class,
@@ -30,7 +25,6 @@ public class MainViewModel extends ViewModel {
                 assert app != null;
                 return new MainViewModel(app.getActiveRoutine());
             });
-
     public MainViewModel(@NonNull Routine routine) {
         this.activeRoutine = new PlainMutableNotifiableSubject<>();
         activeRoutine.setValue(routine);
@@ -48,7 +42,4 @@ public class MainViewModel extends ViewModel {
         return activeRoutine.getValue();
     }
 
-    public void checkOff(int id) {
-        getRoutine().checkOffById(id);
-    }
 }

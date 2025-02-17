@@ -56,9 +56,9 @@ public class RoutineTaskTests {
         // which should use the frozen routine time instead of the current time
         routine.checkOffById(testTask3.getId());
 
-        assertFalse(testTask1.isDone().getValue());
-        assertTrue(testTask2.isDone().getValue());
-        assertTrue(testTask3.isDone().getValue());
+        assertFalse(testTask1.isDone());
+        assertTrue(testTask2.isDone());
+        assertTrue(testTask3.isDone());
 
         assertNull(testTask1.getRecordedTime());
 
@@ -109,9 +109,9 @@ public class RoutineTaskTests {
 
         routine.checkOffById(dressId);
 
-        assertTrue(shower.isDone().getValue());
-        assertFalse(brush.isDone().getValue());
-        assertTrue(dress.isDone().getValue());
+        assertTrue(shower.isDone());
+        assertFalse(brush.isDone());
+        assertTrue(dress.isDone());
 
         assertEquals(15, shower.getRecordedTime().toSeconds());
         assertEquals(5, dress.getRecordedTime().toSeconds());
