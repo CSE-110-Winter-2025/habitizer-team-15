@@ -17,14 +17,16 @@ import edu.ucsd.cse110.habitizer.lib.util.observables.PlainMutableNotifiableSubj
 
 public class MainViewModel extends ViewModel {
     private MutableNotifiableSubject<Routine> activeRoutine;
+
     public static final ViewModelInitializer<MainViewModel> initializer =
-        new ViewModelInitializer<>(
-            MainViewModel.class,
-            creationExtras -> {
-                var app = (HabitizerApplication)creationExtras.get(APPLICATION_KEY);
-                assert app != null;
-                return new MainViewModel(app.getActiveRoutine());
-            });
+            new ViewModelInitializer<>(
+                    MainViewModel.class,
+                    creationExtras -> {
+                        var app = (HabitizerApplication)creationExtras.get(APPLICATION_KEY);
+                        assert app != null;
+                        return new MainViewModel(app.getActiveRoutine());
+                    });
+
     public MainViewModel(@NonNull Routine routine) {
         this.activeRoutine = new PlainMutableNotifiableSubject<>();
         activeRoutine.setValue(routine);
@@ -42,4 +44,7 @@ public class MainViewModel extends ViewModel {
         return activeRoutine.getValue();
     }
 
+    public void checkOff(int id) {
+        getRoutine().checkOffById(id);
+    }
 }

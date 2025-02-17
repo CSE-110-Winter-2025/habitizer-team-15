@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         MutableNotifiableSubject<List<Task>> tasksSubject = model.getRoutine()
                 .getTasksSubject();
-        this.adapter = new TaskViewAdapter(this, tasksSubject.getValue());
+        this.adapter = new TaskViewAdapter(this, tasksSubject.getValue(), model::checkOff);
 
         view.toolbar.setTitle(model.getRoutineName());
         view.taskListView.setAdapter(this.adapter);
@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         setupModelViewHooks();
 
         updateTimeDisplayObservers();
+
     }
 
     private void updateTimeDisplayObservers() {

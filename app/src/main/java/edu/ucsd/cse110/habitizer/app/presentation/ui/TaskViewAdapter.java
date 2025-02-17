@@ -24,7 +24,7 @@ public class TaskViewAdapter extends ArrayAdapter<Task> {
         super(context, 0, tasks);
         this.onTaskClick = onTaskClick;
     }
-    
+
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -46,16 +46,22 @@ public class TaskViewAdapter extends ArrayAdapter<Task> {
             var id = task.getId();
             assert id == Objects.requireNonNull(id);
             onTaskClick.accept(id);
-
-            setTaskTime(task, binding);
-            setCheckmarkVisibility(task, binding);
+            getCheckmarkVisibility(task, binding);
+            setupTimeDisplay(task, binding);
         });
 
         binding.taskName.setText(task.getName());
-        setTaskTime(task, binding);
-        setCheckmarkVisibility(task, binding);
+
+        setupTimeDisplay(task, binding);
+
+        getCheckmarkVisibility(task, binding);
 
         return binding.getRoot();
+    }
+
+    private void setupTimeDisplay(Task task, ListItemTaskBinding binding) {
+        String timeDisplay = getTimeDisplayString(task);
+        binding.taskTime.setText(timeDisplay);
     }
 
     @NonNull
@@ -69,15 +75,10 @@ public class TaskViewAdapter extends ArrayAdapter<Task> {
         return timeDisplay;
     }
 
-    private void setTaskTime(Task task, ListItemTaskBinding binding) {
-        String timeDisplay = getTimeDisplayString(task);
-        binding.taskTime.setText(timeDisplay);
-    }
-
-    public void setCheckmarkVisibility(Task task, ListItemTaskBinding binding) {
+    private void getCheckmarkVisibility(Task task, ListItemTaskBinding binding) {
         if (task.isDone().getValue()) {
             binding.checkmark.setVisibility(View.VISIBLE);
-            binding.taskName.setOnClickListener(null);
+            binding.taskBox.setOnClickListener(null);
         } else {
             binding.checkmark.setVisibility(View.INVISIBLE);
         }
