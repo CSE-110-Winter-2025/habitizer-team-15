@@ -1,13 +1,10 @@
 package edu.ucsd.cse110.habitizer.app.presentation.ui;
 
 import android.content.Context;
-import android.graphics.pdf.models.ListItem;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 
@@ -45,18 +42,18 @@ public class TaskViewAdapter extends ArrayAdapter<Task> {
             binding = ListItemTaskBinding.inflate(layoutInflater, parent, false);
         }
 
-        binding.taskName.setOnClickListener(v -> {
+        binding.taskBox.setOnClickListener(v -> {
             var id = task.getId();
             assert id == Objects.requireNonNull(id);
             onTaskClick.accept(id);
+
+            setTaskTime(task, binding);
+            setCheckmarkVisibility(task, binding);
         });
 
         binding.taskName.setText(task.getName());
-
-        String timeDisplay = getTimeDisplayString(task);
-        binding.taskTime.setText(timeDisplay);
-
-        getCheckmarkVisibility(task, binding);
+        setTaskTime(task, binding);
+        setCheckmarkVisibility(task, binding);
 
         return binding.getRoot();
     }
@@ -72,9 +69,15 @@ public class TaskViewAdapter extends ArrayAdapter<Task> {
         return timeDisplay;
     }
 
-    public void getCheckmarkVisibility(Task task, ListItemTaskBinding binding) {
+    private void setTaskTime(Task task, ListItemTaskBinding binding) {
+        String timeDisplay = getTimeDisplayString(task);
+        binding.taskTime.setText(timeDisplay);
+    }
+
+    public void setCheckmarkVisibility(Task task, ListItemTaskBinding binding) {
         if (task.isDone().getValue()) {
             binding.checkmark.setVisibility(View.VISIBLE);
+            binding.taskName.setOnClickListener(null);
         } else {
             binding.checkmark.setVisibility(View.INVISIBLE);
         }

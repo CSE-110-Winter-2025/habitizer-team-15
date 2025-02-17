@@ -91,9 +91,6 @@ public class MainActivity extends AppCompatActivity {
             adapter.notifyDataSetChanged();
         });
 
-//        for (var task : model.getRoutine().getTasksSubject().getValue()) {
-//            task.isDone().observe()
-//        }
         view.endRoutineButton.setOnClickListener(v -> {
             model.getRoutine().end();
         });
