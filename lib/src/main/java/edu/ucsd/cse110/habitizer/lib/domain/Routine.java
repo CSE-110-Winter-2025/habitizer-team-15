@@ -88,7 +88,12 @@ public class Routine {
         return tasks.getValue().get(id);
     }
 
+    // TODO: Extract to general checkOff(Task task) method
+    // that all other checkoff related methods delegate to
     public void checkOffById(int id){
+        Boolean value = timeTracker.isStarted().getValue();
+        if (Boolean.FALSE.equals(value))
+            return;
         Task task = findTaskById(id);
         task.recordTime(timeTracker.getCheckoffTimeAndCheckoff());
         task.checkOff();
