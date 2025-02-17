@@ -74,10 +74,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupModelViewHooks() {
+
         uiTimerSubject.observe(t -> {
             long time = model.getElapsedTime().toMinutes();
-            var str = String.format(getString(R.string.routine_total_time_format), time, 123);
-            view.routineTotalTime.setText(str);
+            var str = String.format(getString(R.string.routine_total_time_format), time);
+            view.routineTotalElapsed.setText(str);
         });
 
         model.getRoutine().getNameSubject().observe(newName -> {
@@ -90,8 +91,20 @@ public class MainActivity extends AppCompatActivity {
             adapter.notifyDataSetChanged();
         });
 
+        view.startRoutineButton.setOnClickListener(v -> {
+            var str = view.routineTotalTime.getText().toString();
+            view.routineTotalTime.setText(str);
+            view.routineTotalTime.setFocusable(false);
+            view.routineTotalTime.setEnabled(false);
+            view.routineTotalTime.setCursorVisible(false);
+            view.routineTotalTime.setKeyListener(null);
+            model.getRoutine().start();
+            view.startRoutineButton.setEnabled(false);
+        });
+
         view.endRoutineButton.setOnClickListener(v -> {
             model.getRoutine().end();
+            view.endRoutineButton.setText("Routine complete!");
         });
     }
 
