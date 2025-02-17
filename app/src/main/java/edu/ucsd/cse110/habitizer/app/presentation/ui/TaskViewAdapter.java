@@ -9,6 +9,8 @@ import android.widget.ArrayAdapter;
 import androidx.annotation.NonNull;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.function.Consumer;
 
 import edu.ucsd.cse110.habitizer.app.R;
 import edu.ucsd.cse110.habitizer.app.databinding.ListItemTaskBinding;
@@ -16,8 +18,11 @@ import edu.ucsd.cse110.habitizer.lib.domain.Task;
 import edu.ucsd.cse110.habitizer.lib.util.HabitizerTime;
 
 public class TaskViewAdapter extends ArrayAdapter<Task> {
-    public TaskViewAdapter(Context context, List<Task> tasks) {
+
+    Consumer<Integer> onTaskClick;
+    public TaskViewAdapter(Context context, List<Task> tasks, Consumer<Integer> onTaskClick) {
         super(context, 0, tasks);
+        this.onTaskClick = onTaskClick;
     }
     
     @NonNull
@@ -37,10 +42,18 @@ public class TaskViewAdapter extends ArrayAdapter<Task> {
             binding = ListItemTaskBinding.inflate(layoutInflater, parent, false);
         }
 
-        binding.taskName.setText(task.getName());
+        binding.taskBox.setOnClickListener(v -> {
+            var id = task.getId();
+            assert id == Objects.requireNonNull(id);
+            onTaskClick.accept(id);
 
-        String timeDisplay = getTimeDisplayString(task);
-        binding.taskTime.setText(timeDisplay);
+            setTaskTime(task, binding);
+            setCheckmarkVisibility(task, binding);
+        });
+
+        binding.taskName.setText(task.getName());
+        setTaskTime(task, binding);
+        setCheckmarkVisibility(task, binding);
 
         return binding.getRoot();
     }
@@ -48,11 +61,25 @@ public class TaskViewAdapter extends ArrayAdapter<Task> {
     @NonNull
     private String getTimeDisplayString(Task task) {
         String timeDisplay = "-";
-        if (task.isDone()) {
+        if (task.isDone().getValue()) {
             HabitizerTime time = task.getRecordedTime();
             String format = getContext().getString(R.string.task_time_string_format);
             timeDisplay = String.format(format, time.toMinutes());
         }
         return timeDisplay;
+    }
+
+    private void setTaskTime(Task task, ListItemTaskBinding binding) {
+        String timeDisplay = getTimeDisplayString(task);
+        binding.taskTime.setText(timeDisplay);
+    }
+
+    public void setCheckmarkVisibility(Task task, ListItemTaskBinding binding) {
+        if (task.isDone().getValue()) {
+            binding.checkmark.setVisibility(View.VISIBLE);
+            binding.taskName.setOnClickListener(null);
+        } else {
+            binding.checkmark.setVisibility(View.INVISIBLE);
+        }
     }
 }
