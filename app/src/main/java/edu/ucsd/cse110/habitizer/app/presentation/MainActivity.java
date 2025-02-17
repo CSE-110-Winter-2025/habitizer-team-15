@@ -1,6 +1,7 @@
 package edu.ucsd.cse110.habitizer.app.presentation;
 
 import android.os.Bundle;
+import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
         MutableNotifiableSubject<List<Task>> tasksSubject = model.getRoutine()
                 .getTasksSubject();
-        this.adapter = new TaskViewAdapter(this, tasksSubject.getValue());
+        this.adapter = new TaskViewAdapter(this, tasksSubject.getValue(), model::checkOff);
 
         view.toolbar.setTitle(model.getRoutineName());
         view.taskListView.setAdapter(this.adapter);
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         setupModelViewHooks();
 
         updateTimeDisplayObservers();
+
     }
 
     private void updateTimeDisplayObservers() {
@@ -89,6 +91,9 @@ public class MainActivity extends AppCompatActivity {
             adapter.notifyDataSetChanged();
         });
 
+//        for (var task : model.getRoutine().getTasksSubject().getValue()) {
+//            task.isDone().observe()
+//        }
         view.endRoutineButton.setOnClickListener(v -> {
             model.getRoutine().end();
         });
