@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private MainViewModel model;
     private ActivityMainBinding view;
     private TaskViewAdapter adapter;
+    private boolean isRunning = false;
     /**
      * This subject actually holds no value; it's purpose is to simply notify on ui thread calls
      */
@@ -100,11 +101,21 @@ public class MainActivity extends AppCompatActivity {
             view.routineTotalTime.setKeyListener(null);
             model.getRoutine().start();
             view.startRoutineButton.setEnabled(false);
+            this.isRunning = true;
+        });
+
+        view.pauseplaybutton.setOnClickListener(v -> {
+            if (this.isRunning) {
+                model.getRoutine().end();
+                view.endRoutineButton.setText("Routine paused!");
+            }
         });
 
         view.endRoutineButton.setOnClickListener(v -> {
-            model.getRoutine().end();
-            view.endRoutineButton.setText("Routine complete!");
+            if (this.isRunning) {
+                model.getRoutine().end();
+                view.endRoutineButton.setText("Routine complete!");
+            }
         });
     }
 
