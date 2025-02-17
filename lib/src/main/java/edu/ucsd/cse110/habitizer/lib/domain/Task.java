@@ -8,13 +8,12 @@ import edu.ucsd.cse110.habitizer.lib.data.DataTask;
 import edu.ucsd.cse110.habitizer.lib.util.HabitizerTime;
 import edu.ucsd.cse110.observables.MutableSubject;
 import edu.ucsd.cse110.observables.PlainMutableSubject;
-import edu.ucsd.cse110.observables.Subject;
 
 public class Task {
     private @Nullable HabitizerTime recordedTime;
     private final @NonNull MutableSubject<String> name;
     private @NonNull DataTask data;
-    private PlainMutableSubject<Boolean> isDone;
+    private boolean isDone;
 
     public Task(@NonNull DataTask data) {
         this.name = new PlainMutableSubject<>();
@@ -22,8 +21,7 @@ public class Task {
 
         this.data = data;
 
-        this.isDone = new PlainMutableSubject<>();
-        this.isDone.setValue(false);
+        this.isDone = false;
     }
 
     /**
@@ -43,9 +41,9 @@ public class Task {
     }
 
     public void checkOff() {
-        this.isDone.setValue(true);
+        this.isDone = true;
     }
-    public Subject<Boolean> isDone() {
+    public boolean isDone() {
         return this.isDone;
     }
     public void recordTime(HabitizerTime time) {

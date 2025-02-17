@@ -9,8 +9,6 @@ import android.widget.ArrayAdapter;
 import androidx.annotation.NonNull;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.function.Consumer;
 
 import edu.ucsd.cse110.habitizer.app.R;
 import edu.ucsd.cse110.habitizer.app.databinding.ListItemTaskBinding;
@@ -18,11 +16,8 @@ import edu.ucsd.cse110.habitizer.lib.domain.Task;
 import edu.ucsd.cse110.habitizer.lib.util.HabitizerTime;
 
 public class TaskViewAdapter extends ArrayAdapter<Task> {
-
-    Consumer<Integer> onTaskClick;
-    public TaskViewAdapter(Context context, List<Task> tasks, Consumer<Integer> onTaskClick) {
+    public TaskViewAdapter(Context context, List<Task> tasks) {
         super(context, 0, tasks);
-        this.onTaskClick = onTaskClick;
     }
     
     @NonNull
@@ -61,7 +56,7 @@ public class TaskViewAdapter extends ArrayAdapter<Task> {
     @NonNull
     private String getTimeDisplayString(Task task) {
         String timeDisplay = "-";
-        if (task.isDone().getValue()) {
+        if (task.isDone()) {
             HabitizerTime time = task.getRecordedTime();
             String format = getContext().getString(R.string.task_time_string_format);
             timeDisplay = String.format(format, time.toMinutes());
