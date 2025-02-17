@@ -38,34 +38,33 @@ public class MainActivity extends AppCompatActivity {
         this.view = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(this.view.getRoot());
 
-        // Initialize the Model
         var modelOwner = this;
         var modelFactory = ViewModelProvider.Factory.from(MainViewModel.initializer);
         var modelProvider = new ViewModelProvider(modelOwner, modelFactory);
         this.model = modelProvider.get(MainViewModel.class);
-
-        MutableNotifiableSubject<List<Task>> tasksSubject = model.getRoutine()
-                .getTasksSubject();
-        this.adapter = new TaskViewAdapter(this, tasksSubject.getValue());
-
-        view.toolbar.setTitle(model.getRoutineName());
-        view.taskListView.setAdapter(this.adapter);
-
-        this.uiTimerSubject = new PlainMutableNotifiableSubject<>();
-
-        Timer t = new Timer();
-        t.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                runOnUiThread(() -> updateTimeDisplayObservers());
-            }
-        }, 0, UI_UPDATE_PERIOD);
-
-        uiTimerSubject.setValue(t);
-
-        setupModelViewHooks();
-
-        updateTimeDisplayObservers();
+//
+//        MutableNotifiableSubject<List<Task>> tasksSubject = model.getRoutine()
+//                .getTasksSubject();
+//        this.adapter = new TaskViewAdapter(this, tasksSubject.getValue());
+//
+//        view.toolbar.setTitle(model.getRoutineName());
+//        view.taskListView.setAdapter(this.adapter);
+//
+//        this.uiTimerSubject = new PlainMutableNotifiableSubject<>();
+//
+//        Timer t = new Timer();
+//        t.schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//                runOnUiThread(() -> updateTimeDisplayObservers());
+//            }
+//        }, 0, UI_UPDATE_PERIOD);
+//
+//        uiTimerSubject.setValue(t);
+//
+//        setupModelViewHooks();
+//
+//        updateTimeDisplayObservers();
     }
 
     private void updateTimeDisplayObservers() {
@@ -73,25 +72,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupModelViewHooks() {
-        uiTimerSubject.observe(t -> {
-            long time = model.getElapsedTime().toMinutes();
-            var str = String.format(getString(R.string.routine_total_time_format), time, 123);
-            view.routineTotalTime.setText(str);
-        });
-
-        model.getRoutine().getNameSubject().observe(newName -> {
-            view.toolbar.setTitle(newName);
-        });
-        model.getRoutine().getTasksSubject().observe(newTasks -> {
-            if (newTasks == null) return;
-            adapter.clear();
-            adapter.addAll(newTasks);
-            adapter.notifyDataSetChanged();
-        });
-
-        view.endRoutineButton.setOnClickListener(v -> {
-            model.getRoutine().end();
-        });
+//        uiTimerSubject.observe(t -> {
+//            long time = model.getElapsedTime().toMinutes();
+//            var str = String.format(getString(R.string.routine_total_time_format), time, 123);
+//            view.routineTotalTime.setText(str);
+//        });
+//
+//        model.getRoutine().getNameSubject().observe(newName -> {
+//            view.toolbar.setTitle(newName);
+//        });
+//        model.getRoutine().getTasksSubject().observe(newTasks -> {
+//            if (newTasks == null) return;
+//            adapter.clear();
+//            adapter.addAll(newTasks);
+//            adapter.notifyDataSetChanged();
+//        });
+//
+//        view.endRoutineButton.setOnClickListener(v -> {
+//            model.getRoutine().end();
+//        });
     }
 
 }

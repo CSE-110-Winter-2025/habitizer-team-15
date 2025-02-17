@@ -3,4 +3,6 @@
     <string name="end_routine">End Routine</string>
     <string name="routine_total_time_format">%d of %dm</string>
     <string name="task_time_string_format">[%d m]</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
