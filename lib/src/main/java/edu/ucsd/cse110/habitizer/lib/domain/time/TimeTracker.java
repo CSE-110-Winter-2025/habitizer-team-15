@@ -43,7 +43,7 @@ public class TimeTracker {
 	public void start() {
 		this.isStarted = true;
 		this.timeManagerStartTime = this.timeManager.getCurrentTimeNanoseconds();
-		//this.trackerLastCheckoff = HabitizerTime.zero;
+		this.trackerLastCheckoff = HabitizerTime.zero;
 	}
 
 	public void stop() {
