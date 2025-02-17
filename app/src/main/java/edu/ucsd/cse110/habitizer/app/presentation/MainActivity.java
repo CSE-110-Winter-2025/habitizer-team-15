@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
     private MainViewModel model;
     private ActivityMainBinding view;
     private TaskViewAdapter adapter;
-
     /**
      * This subject actually holds no value; it's purpose is to simply notify on ui thread calls
      */
@@ -95,7 +94,9 @@ public class MainActivity extends AppCompatActivity {
 //        for (var task : model.getRoutine().getTasksSubject().getValue()) {
 //            task.isDone().observe()
 //        }
-
+        view.endRoutineButton.setOnClickListener(v -> {
+            model.getRoutine().end();
+        });
     }
 
 }

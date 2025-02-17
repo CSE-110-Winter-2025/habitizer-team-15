@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.viewmodel.ViewModelInitializer;
 
 
+import java.util.Objects;
+
 import edu.ucsd.cse110.habitizer.app.HabitizerApplication;
 import edu.ucsd.cse110.habitizer.lib.domain.Routine;
 import edu.ucsd.cse110.habitizer.lib.domain.Task;
@@ -35,11 +37,11 @@ public class MainViewModel extends ViewModel {
     }
 
     public String getRoutineName() {
-        return activeRoutine.getValue().getName();
+        return Objects.requireNonNull(activeRoutine.getValue()).getName();
     }
 
     public HabitizerTime getElapsedTime() {
-        return activeRoutine.getValue().getElapsedTime();
+        return Objects.requireNonNull(activeRoutine.getValue()).getElapsedTime();
     }
 
     public Routine getRoutine() {
