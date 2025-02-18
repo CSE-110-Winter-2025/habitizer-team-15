@@ -24,4 +24,8 @@ public record HabitizerTime(long time) {
         return toSeconds() / minutesToSeconds;
     }
 
+    public long ceilToMinutes() {
+        return (long) Math.ceil(toSeconds() / (double) minutesToSeconds);
+    }
+
 }

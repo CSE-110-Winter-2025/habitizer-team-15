@@ -13,6 +13,8 @@ import edu.ucsd.cse110.habitizer.app.R;
 import edu.ucsd.cse110.habitizer.app.databinding.ActivityMainBinding;
 import edu.ucsd.cse110.habitizer.app.presentation.ui.TaskViewAdapter;
 import edu.ucsd.cse110.habitizer.lib.domain.Task;
+import edu.ucsd.cse110.habitizer.lib.domain.time.RuntimeMockJavaTimeManager;
+import edu.ucsd.cse110.habitizer.lib.domain.time.TimeManager;
 import edu.ucsd.cse110.habitizer.lib.util.observables.MutableNotifiableSubject;
 import edu.ucsd.cse110.habitizer.lib.util.observables.PlainMutableNotifiableSubject;
 
@@ -104,12 +106,31 @@ public class MainActivity extends AppCompatActivity {
             this.isRunning = true;
         });
 
-        view.pauseplaybutton.setOnClickListener(v -> {
-            if (this.isRunning) {
-                model.getRoutine().end();
-                view.endRoutineButton.setText("Routine paused!");
-            }
-        });
+        TimeManager currTimeManager = model.getActiveTimeManager();
+        RuntimeMockJavaTimeManager runtimeMockJavaTimeManager;
+
+        if (currTimeManager instanceof RuntimeMockJavaTimeManager) {
+            runtimeMockJavaTimeManager = (RuntimeMockJavaTimeManager) currTimeManager;
+        } else {
+            runtimeMockJavaTimeManager = null;
+        }
+
+        if (runtimeMockJavaTimeManager != null) {
+            view.pauseplaybutton.setOnClickListener(v -> {
+                runtimeMockJavaTimeManager.switchPause();
+            });
+            // TODO: NEED FORWARD BUTTON TO CHANGE TIME
+            // view.forwardButton.setOnClickListener(v -> {
+            //     runtimeMockJavaTimeManager.forward(30);
+            // });
+        } else {
+            view.pauseplaybutton.setOnClickListener(v -> {
+                 if (this.isRunning) {
+                     model.getRoutine().end();
+                     view.endRoutineButton.setText("Routine paused!");
+                 }
+            });
+        }
 
         view.endRoutineButton.setOnClickListener(v -> {
             if (this.isRunning) {
@@ -117,6 +138,8 @@ public class MainActivity extends AppCompatActivity {
                 view.endRoutineButton.setText("Routine complete!");
             }
         });
+
+
     }
 
 }
