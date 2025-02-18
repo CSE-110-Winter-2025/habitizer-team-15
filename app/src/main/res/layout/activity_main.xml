@@ -27,11 +27,10 @@
 
         <ImageButton
             android:id="@+id/pauseplaybutton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
-            app:layout_constraintBottom_toBottomOf="@+id/toolbar"
             app:layout_constraintEnd_toStartOf="@+id/routine_total_elapsed"
             app:layout_constraintStart_toEndOf="@+id/start_routine_button"
             app:layout_constraintTop_toTopOf="@+id/toolbar"
@@ -119,6 +118,16 @@
             app:layout_constraintHorizontal_bias="0.532"
             app:layout_constraintStart_toStartOf="parent" />
 
+        <ImageButton
+            android:id="@+id/forward_button"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            app:layout_constraintBottom_toBottomOf="@+id/toolbar"
+            app:layout_constraintEnd_toStartOf="@+id/routine_total_elapsed"
+            app:layout_constraintStart_toEndOf="@+id/start_routine_button"
+            app:layout_constraintTop_toBottomOf="@+id/pauseplaybutton"
+            app:layout_constraintVertical_bias="1.0"
+            app:srcCompat="@drawable/forward" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
