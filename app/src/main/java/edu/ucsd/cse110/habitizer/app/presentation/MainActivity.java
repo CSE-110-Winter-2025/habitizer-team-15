@@ -119,10 +119,10 @@ public class MainActivity extends AppCompatActivity {
             view.pauseplaybutton.setOnClickListener(v -> {
                 runtimeMockJavaTimeManager.switchPause();
             });
-            // TODO: NEED FORWARD BUTTON TO CHANGE TIME
-            // view.forwardButton.setOnClickListener(v -> {
-            //     runtimeMockJavaTimeManager.forward(30);
-            // });
+
+             view.forwardButton.setOnClickListener(v -> {
+                 runtimeMockJavaTimeManager.forward(30);
+             });
         } else {
             view.pauseplaybutton.setOnClickListener(v -> {
                  if (this.isRunning) {

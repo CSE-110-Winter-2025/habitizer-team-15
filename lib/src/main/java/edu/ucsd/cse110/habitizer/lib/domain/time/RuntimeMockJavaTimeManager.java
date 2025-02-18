@@ -43,8 +43,12 @@ public class RuntimeMockJavaTimeManager extends TimeManager {
         }
     }
 
-    public void forward(int skipSeconds) {
-        diffTime.add(new HabitizerTime((long) skipSeconds * HabitizerTime.secondsToNanoseconds));
+    public void forward(long skipSeconds) {
+        if (isPaused) {
+            pauseTime = pauseTime.add(new HabitizerTime(skipSeconds * HabitizerTime.secondsToNanoseconds));
+        } else {
+            diffTime = diffTime.add(new HabitizerTime(skipSeconds * HabitizerTime.secondsToNanoseconds));
+        }
     }
 
 }
