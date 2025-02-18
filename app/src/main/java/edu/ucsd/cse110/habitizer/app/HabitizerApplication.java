@@ -6,22 +6,27 @@ import edu.ucsd.cse110.habitizer.lib.data.InMemoryDataSource;
 import edu.ucsd.cse110.habitizer.lib.domain.Routine;
 import edu.ucsd.cse110.habitizer.lib.domain.time.DebugJavaTimeManager;
 import edu.ucsd.cse110.habitizer.lib.domain.time.JavaTimeManager;
+import edu.ucsd.cse110.habitizer.lib.domain.time.RuntimeMockJavaTimeManager;
+import edu.ucsd.cse110.habitizer.lib.domain.time.TimeManager;
 import edu.ucsd.cse110.habitizer.lib.domain.time.TimeTracker;
 
 public class HabitizerApplication extends Application {
     private InMemoryDataSource inMemoryDataSource;
 
     private Routine activeRoutine;
+    private TimeManager activeTimeManager;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        activeTimeManager = new RuntimeMockJavaTimeManager(new DebugJavaTimeManager());
         activeRoutine = new Routine(InMemoryDataSource.MORNING_ROUTINE,
-                new TimeTracker(new DebugJavaTimeManager()));
+                new TimeTracker(activeTimeManager));
         // activeRoutine.start();
     }
 
     public Routine getActiveRoutine() {
         return activeRoutine;
     }
+    public TimeManager getActiveTimeManager() { return activeTimeManager; }
 }
