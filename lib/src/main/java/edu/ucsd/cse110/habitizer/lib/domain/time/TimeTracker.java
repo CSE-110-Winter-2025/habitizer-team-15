@@ -1,6 +1,8 @@
 package edu.ucsd.cse110.habitizer.lib.domain.time;
 
 import edu.ucsd.cse110.habitizer.lib.util.HabitizerTime;
+import edu.ucsd.cse110.observables.MutableSubject;
+import edu.ucsd.cse110.observables.PlainMutableSubject;
 
 /**
  * Add javadoc
@@ -12,9 +14,11 @@ public class TimeTracker {
 
 	private HabitizerTime trackerEndTime;
 
-	private boolean isStarted;
+	private MutableSubject<Boolean> isStarted;
 
 	public TimeTracker(TimeManager timeManager) {
+		this.isStarted = new PlainMutableSubject<>();
+		this.isStarted.setValue(false);
 		this.timeManager = timeManager;
 	}
 
@@ -41,13 +45,17 @@ public class TimeTracker {
 	}
 
 	public void start() {
-		this.isStarted = true;
+		this.isStarted.setValue(true);
 		this.timeManagerStartTime = this.timeManager.getCurrentTimeNanoseconds();
 		this.trackerLastCheckoff = HabitizerTime.zero;
 	}
 
 	public void stop() {
 		this.trackerEndTime = getElapsedTime();
-		this.isStarted = false;
+		this.isStarted.setValue(false);
+	}
+
+	public MutableSubject<Boolean> isStarted() {
+		return isStarted;
 	}
 }

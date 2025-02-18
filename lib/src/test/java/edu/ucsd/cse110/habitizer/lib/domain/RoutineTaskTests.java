@@ -53,20 +53,18 @@ public class RoutineTaskTests {
         mockTime.setMockTime(30);
 
         // We try checking off a task after ending the routine,
-        // which should use the frozen routine time instead of the current time
+        // which should NOT work
         routine.checkOffById(testTask3.getId());
 
         assertFalse(testTask1.isDone().getValue());
         assertTrue(testTask2.isDone().getValue());
-        assertTrue(testTask3.isDone().getValue());
+        assertFalse(testTask3.isDone().getValue());
 
         assertNull(testTask1.getRecordedTime());
-
         assertNotNull(testTask2.getRecordedTime());
-        assertEquals(5, testTask2.getRecordedTime().toSeconds());
+        assertNull(testTask3.getRecordedTime());
 
-        assertNotNull(testTask3.getRecordedTime());
-        assertEquals(6, testTask3.getRecordedTime().toSeconds());
+        assertEquals(5, testTask2.getRecordedTime().toSeconds());
     }
 
     /**

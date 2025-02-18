@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private MainViewModel model;
     private ActivityMainBinding view;
     private TaskViewAdapter adapter;
+    private boolean isRunning = false;
     /**
      * This subject actually holds no value; it's purpose is to simply notify on ui thread calls
      */
@@ -74,10 +75,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupModelViewHooks() {
+
         uiTimerSubject.observe(t -> {
             long time = model.getElapsedTime().toMinutes();
-            var str = String.format(getString(R.string.routine_total_time_format), time, 123);
-            view.routineTotalTime.setText(str);
+            var str = String.format(getString(R.string.routine_total_time_format), time);
+            view.routineTotalElapsed.setText(str);
         });
 
         model.getRoutine().getNameSubject().observe(newName -> {
@@ -90,8 +92,30 @@ public class MainActivity extends AppCompatActivity {
             adapter.notifyDataSetChanged();
         });
 
+        view.startRoutineButton.setOnClickListener(v -> {
+            var str = view.routineTotalTime.getText().toString();
+            view.routineTotalTime.setText(str);
+            view.routineTotalTime.setFocusable(false);
+            view.routineTotalTime.setEnabled(false);
+            view.routineTotalTime.setCursorVisible(false);
+            view.routineTotalTime.setKeyListener(null);
+            model.getRoutine().start();
+            view.startRoutineButton.setEnabled(false);
+            this.isRunning = true;
+        });
+
+        view.pauseplaybutton.setOnClickListener(v -> {
+            if (this.isRunning) {
+                model.getRoutine().end();
+                view.endRoutineButton.setText("Routine paused!");
+            }
+        });
+
         view.endRoutineButton.setOnClickListener(v -> {
-            model.getRoutine().end();
+            if (this.isRunning) {
+                model.getRoutine().end();
+                view.endRoutineButton.setText("Routine complete!");
+            }
         });
     }
 

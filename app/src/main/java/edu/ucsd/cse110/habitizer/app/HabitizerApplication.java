@@ -17,8 +17,8 @@ public class HabitizerApplication extends Application {
     public void onCreate() {
         super.onCreate();
         activeRoutine = new Routine(InMemoryDataSource.MORNING_ROUTINE,
-            new TimeTracker(new DebugJavaTimeManager()));
-        activeRoutine.start();
+                new TimeTracker(new DebugJavaTimeManager()));
+        // activeRoutine.start();
     }
 
     public Routine getActiveRoutine() {

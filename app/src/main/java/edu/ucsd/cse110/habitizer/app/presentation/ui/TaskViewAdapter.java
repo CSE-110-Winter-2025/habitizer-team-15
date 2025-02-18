@@ -67,7 +67,7 @@ public class TaskViewAdapter extends ArrayAdapter<Task> {
     @NonNull
     private String getTimeDisplayString(Task task) {
         String timeDisplay = "-";
-        if (task.isDone().getValue()) {
+        if (Boolean.TRUE.equals(task.isDone().getValue())) {
             HabitizerTime time = task.getRecordedTime();
             String format = getContext().getString(R.string.task_time_string_format);
             timeDisplay = String.format(format, time.toMinutes());
@@ -76,7 +76,7 @@ public class TaskViewAdapter extends ArrayAdapter<Task> {
     }
 
     private void getCheckmarkVisibility(Task task, ListItemTaskBinding binding) {
-        if (task.isDone().getValue()) {
+        if (Boolean.TRUE.equals(task.isDone().getValue())) {
             binding.checkmark.setVisibility(View.VISIBLE);
             binding.taskBox.setOnClickListener(null);
         } else {
