@@ -19,18 +19,18 @@ public class PausableTimeManager extends TimeManager {
     }
 
     @Override
-    public HabitizerTime getCurrentTimeNanoseconds() {
+    public HabitizerTime getCurrentTime() {
         // Either way, we add diffTime since unpaused time may still be different than time
         //      during a previous pause.
         if (isPaused) {
             return pauseTime;
         } else {
-            return usedTimeManager.getCurrentTimeNanoseconds().add(diffTime);
+            return usedTimeManager.getCurrentTime().add(diffTime);
         }
     }
 
     public void switchPause() {
-        HabitizerTime currTime = usedTimeManager.getCurrentTimeNanoseconds();
+        HabitizerTime currTime = usedTimeManager.getCurrentTime();
 
         isPaused ^= true;
 

@@ -42,7 +42,7 @@ public class RoutineTaskTests {
         mockTime.setMockTime(20);
 
         assertEquals(20, mockTime.getMockTime(), 0.001);
-        assertEquals(20, mockTime.getCurrentTimeSeconds(), 0.001);
+        assertEquals(20, mockTime.getCurrentTime().toSeconds(), 0.001);
 
         routine.checkOffById(testTask2.getId());
 

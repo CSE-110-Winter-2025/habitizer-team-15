@@ -27,7 +27,7 @@ public class TimeTracker {
 			return trackerEndTime;
 		if (timeManagerStartTime == null)
 			return HabitizerTime.zero;
-		return timeManager.getCurrentTimeNanoseconds().subtract(this.timeManagerStartTime);
+		return timeManager.getCurrentTime().subtract(this.timeManagerStartTime);
 	}
 
 	private void checkoff() {
@@ -46,7 +46,7 @@ public class TimeTracker {
 
 	public void start() {
 		this.isStarted.setValue(true);
-		this.timeManagerStartTime = this.timeManager.getCurrentTimeNanoseconds();
+		this.timeManagerStartTime = this.timeManager.getCurrentTime();
 		this.trackerLastCheckoff = HabitizerTime.zero;
 	}
 

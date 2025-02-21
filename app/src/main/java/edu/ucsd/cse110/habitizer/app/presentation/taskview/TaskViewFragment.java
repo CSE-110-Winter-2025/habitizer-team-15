@@ -2,6 +2,7 @@ package edu.ucsd.cse110.habitizer.app.presentation.taskview;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -83,7 +84,7 @@ public class TaskViewFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         this.view = FragmentTaskViewBinding.inflate(inflater, container, false);
 
@@ -102,7 +103,7 @@ public class TaskViewFragment extends Fragment {
     private void setupModelViewHooks() {
 
         uiTimerSubject.observe(t -> {
-            long time = model.getElapsedTime().toMinutes();
+            long time = (long) model.getElapsedTime().toMinutes();
             var str = String.format(getString(R.string.routine_total_time_format), time);
             view.routineTotalElapsed.setText(str);
         });

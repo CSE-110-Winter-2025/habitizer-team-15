@@ -34,7 +34,7 @@ public class Task {
      * @param name The name of the task.
      */
     public Task(String name) {
-        this(DataTask.createWithoutId(name));
+        this(DataTask.createEmpty(name));
     }
 
     /**

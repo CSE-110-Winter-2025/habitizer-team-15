@@ -7,7 +7,7 @@ public class MockTimeManager extends TimeManager {
     private double mockTime;
 
     @Override
-    public HabitizerTime getCurrentTimeNanoseconds() {
+    public HabitizerTime getCurrentTime() {
         return new HabitizerTime((long) (this.mockTime * HabitizerTime.secondsToNanoseconds));
     }
 
