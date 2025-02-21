@@ -17,7 +17,7 @@ public class Task {
     private @Nullable HabitizerTime recordedTime;
     private final @NonNull MutableSubject<String> name;
     private @NonNull DataTask data;
-    private PlainMutableSubject<Boolean> isDone;
+    private @NonNull PlainMutableSubject<Boolean> isDone;
 
     public Task(@NonNull DataTask data) {
         this.name = new PlainMutableSubject<>();
