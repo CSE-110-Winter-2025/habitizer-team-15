@@ -36,21 +36,21 @@ public class RoutineTaskTests {
         assertEquals(1, testTask2.getId());
         assertEquals(2, testTask3.getId());
 
-        mockTime.setMockTime(15);
+        mockTime.setMockTimeMinutes(15);
         routine.start();
 
-        mockTime.setMockTime(20);
+        mockTime.setMockTimeMinutes(20);
 
-        assertEquals(20, mockTime.getMockTime(), 0.001);
-        assertEquals(20, mockTime.getCurrentTimeSeconds(), 0.001);
+        assertEquals(20, mockTime.getMockTimeMinutes(), 0.001);
+        assertEquals(20, mockTime.getCurrentTime().toMinutes(), 0.001);
 
         routine.checkOffById(testTask2.getId());
 
-        mockTime.setMockTime(26);
+        mockTime.setMockTimeMinutes(26);
         routine.end();
 
         // Time passes after the routine ends
-        mockTime.setMockTime(30);
+        mockTime.setMockTimeMinutes(30);
 
         // We try checking off a task after ending the routine,
         // which should NOT work
@@ -64,7 +64,7 @@ public class RoutineTaskTests {
         assertNotNull(testTask2.getRecordedTime());
         assertNull(testTask3.getRecordedTime());
 
-        assertEquals(5, testTask2.getRecordedTime().toSeconds());
+        assertEquals(5, testTask2.getRecordedTime().toMinutes(), 0.001);
     }
 
     /**
@@ -88,7 +88,7 @@ public class RoutineTaskTests {
                 new TimeTracker(mockTime));
 
         routine.start();
-        mockTime.setMockTime(15);
+        mockTime.setMockTimeMinutes(15);
 
         /**
          * TODO: Add find functionality in case Morning Routine changes!
@@ -103,7 +103,7 @@ public class RoutineTaskTests {
 
         routine.checkOffById(showerId);
 
-        mockTime.setMockTime(20);
+        mockTime.setMockTimeMinutes(20);
 
         routine.checkOffById(dressId);
 
@@ -111,7 +111,7 @@ public class RoutineTaskTests {
         assertFalse(brush.isDone().getValue());
         assertTrue(dress.isDone().getValue());
 
-        assertEquals(15, shower.getRecordedTime().toSeconds());
-        assertEquals(5, dress.getRecordedTime().toSeconds());
+        assertEquals(15, shower.getRecordedTime().toMinutes(), 0.001);
+        assertEquals(5, dress.getRecordedTime().toMinutes(), 0.001);
     }
 }

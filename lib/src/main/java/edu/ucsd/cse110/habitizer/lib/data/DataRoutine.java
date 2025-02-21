@@ -17,7 +17,7 @@ public record DataRoutine(
     List<DataTask> dataTasks,
     int id)
 {
-    public static DataRoutine createNull(String name) {
+    public static DataRoutine createEmpty(String name) {
         return new DataRoutine(name, new ArrayList<>(), -1);
     }
 }

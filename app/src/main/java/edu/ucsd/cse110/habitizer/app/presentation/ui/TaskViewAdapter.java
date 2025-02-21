@@ -31,20 +31,16 @@ public class TaskViewAdapter extends ArrayAdapter<Task> {
         var task = getItem(position);
         assert task != null;
 
-        // Check if a view is being reused...
         ListItemTaskBinding binding;
         if (convertView != null) {
-            // if so, bind to it
             binding = ListItemTaskBinding.bind(convertView);
         } else {
-            // otherwise inflate a new view from our layout XML.
             var layoutInflater = LayoutInflater.from(getContext());
             binding = ListItemTaskBinding.inflate(layoutInflater, parent, false);
         }
 
         binding.taskBox.setOnClickListener(v -> {
             var id = task.getId();
-            assert id == Objects.requireNonNull(id);
             onTaskClick.accept(id);
             getCheckmarkVisibility(task, binding);
             setupTimeDisplay(task, binding);
@@ -70,7 +66,7 @@ public class TaskViewAdapter extends ArrayAdapter<Task> {
         if (Boolean.TRUE.equals(task.isDone().getValue())) {
             HabitizerTime time = task.getRecordedTime();
             String format = getContext().getString(R.string.task_time_string_format);
-            timeDisplay = String.format(format, time.ceilToMinutes());
+            timeDisplay = String.format(format, (long) Math.ceil(time.toMinutes()));
         }
         return timeDisplay;
     }

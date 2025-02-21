@@ -12,7 +12,7 @@ public record DataTask(
         @NotNull String name,
        int id)
 {
-    public static DataTask createWithoutId(String name) {
+    public static DataTask createEmpty(String name) {
         return new DataTask(name, -1);
     }
 

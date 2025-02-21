@@ -4,13 +4,17 @@ import androidx.annotation.NonNull;
 
 import edu.ucsd.cse110.habitizer.lib.util.HabitizerTime;
 
-public class RuntimeMockJavaTimeManager extends TimeManager {
+/**
+ * Wrapper for TimeManager that allows for pausing
+ * TODO: Copy pause functionality to TimeTracker
+ */
+public class PausableTimeManager extends TimeManager {
     private Boolean isPaused;
     private HabitizerTime pauseTime;
     private HabitizerTime diffTime;
     private final TimeManager usedTimeManager;
 
-    public RuntimeMockJavaTimeManager(@NonNull TimeManager usedTimeManager) {
+    public PausableTimeManager(@NonNull TimeManager usedTimeManager) {
         this.isPaused = false;
         this.pauseTime = new HabitizerTime(0);
         this.diffTime = new HabitizerTime(0);
@@ -19,18 +23,18 @@ public class RuntimeMockJavaTimeManager extends TimeManager {
     }
 
     @Override
-    public HabitizerTime getCurrentTimeNanoseconds() {
+    public HabitizerTime getCurrentTime() {
         // Either way, we add diffTime since unpaused time may still be different than time
         //      during a previous pause.
         if (isPaused) {
             return pauseTime;
         } else {
-            return usedTimeManager.getCurrentTimeNanoseconds().add(diffTime);
+            return usedTimeManager.getCurrentTime().add(diffTime);
         }
     }
 
     public void switchPause() {
-        HabitizerTime currTime = usedTimeManager.getCurrentTimeNanoseconds();
+        HabitizerTime currTime = usedTimeManager.getCurrentTime();
 
         isPaused ^= true;
 

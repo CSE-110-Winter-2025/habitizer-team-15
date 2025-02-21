@@ -2,6 +2,7 @@ package edu.ucsd.cse110.habitizer.app.presentation;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -13,7 +14,7 @@ import edu.ucsd.cse110.habitizer.app.R;
 import edu.ucsd.cse110.habitizer.app.databinding.ActivityMainBinding;
 import edu.ucsd.cse110.habitizer.app.presentation.ui.TaskViewAdapter;
 import edu.ucsd.cse110.habitizer.lib.domain.Task;
-import edu.ucsd.cse110.habitizer.lib.domain.time.RuntimeMockJavaTimeManager;
+import edu.ucsd.cse110.habitizer.lib.domain.time.PausableTimeManager;
 import edu.ucsd.cse110.habitizer.lib.domain.time.TimeManager;
 import edu.ucsd.cse110.habitizer.lib.util.observables.MutableNotifiableSubject;
 import edu.ucsd.cse110.habitizer.lib.util.observables.PlainMutableNotifiableSubject;
@@ -22,124 +23,12 @@ import edu.ucsd.cse110.habitizer.lib.util.observables.PlainMutableNotifiableSubj
  * TODO: Move this to a separate "TaskViewFragment"
  */
 public class MainActivity extends AppCompatActivity {
-
-    public static final int UI_UPDATE_PERIOD = 100;
-    private MainViewModel model;
     private ActivityMainBinding view;
-    private TaskViewAdapter adapter;
-    private boolean isRunning = false;
-    /**
-     * This subject actually holds no value; it's purpose is to simply notify on ui thread calls
-     */
-    private MutableNotifiableSubject<Timer> uiTimerSubject;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         this.view = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(this.view.getRoot());
-
-        // Initialize the Model
-        var modelOwner = this;
-        var modelFactory = ViewModelProvider.Factory.from(MainViewModel.initializer);
-        var modelProvider = new ViewModelProvider(modelOwner, modelFactory);
-        this.model = modelProvider.get(MainViewModel.class);
-
-        MutableNotifiableSubject<List<Task>> tasksSubject = model.getRoutine()
-                .getTasksSubject();
-        this.adapter = new TaskViewAdapter(this, tasksSubject.getValue(), model::checkOff);
-
-        view.toolbar.setTitle(model.getRoutineName());
-        view.taskListView.setAdapter(this.adapter);
-
-        this.uiTimerSubject = new PlainMutableNotifiableSubject<>();
-
-        Timer t = new Timer();
-        t.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                runOnUiThread(() -> updateTimeDisplayObservers());
-            }
-        }, 0, UI_UPDATE_PERIOD);
-
-        uiTimerSubject.setValue(t);
-
-        setupModelViewHooks();
-
-        updateTimeDisplayObservers();
-
+        setContentView(view.getRoot());
     }
-
-    private void updateTimeDisplayObservers() {
-        uiTimerSubject.updateObservers();
-    }
-
-    private void setupModelViewHooks() {
-
-        uiTimerSubject.observe(t -> {
-            long time = model.getElapsedTime().toMinutes();
-            var str = String.format(getString(R.string.routine_total_time_format), time);
-            view.routineTotalElapsed.setText(str);
-        });
-
-        model.getRoutine().getNameSubject().observe(newName -> {
-            view.toolbar.setTitle(newName);
-        });
-        model.getRoutine().getTasksSubject().observe(newTasks -> {
-            if (newTasks == null) return;
-            adapter.clear();
-            adapter.addAll(newTasks);
-            adapter.notifyDataSetChanged();
-        });
-
-        view.startRoutineButton.setOnClickListener(v -> {
-            var str = view.routineTotalTime.getText().toString();
-            view.routineTotalTime.setText(str);
-            view.routineTotalTime.setFocusable(false);
-            view.routineTotalTime.setEnabled(false);
-            view.routineTotalTime.setCursorVisible(false);
-            view.routineTotalTime.setKeyListener(null);
-            model.getRoutine().start();
-            view.startRoutineButton.setEnabled(false);
-            this.isRunning = true;
-        });
-
-        TimeManager currTimeManager = model.getActiveTimeManager();
-        RuntimeMockJavaTimeManager runtimeMockJavaTimeManager;
-
-        if (currTimeManager instanceof RuntimeMockJavaTimeManager) {
-            runtimeMockJavaTimeManager = (RuntimeMockJavaTimeManager) currTimeManager;
-        } else {
-            runtimeMockJavaTimeManager = null;
-        }
-
-        if (runtimeMockJavaTimeManager != null) {
-            view.pauseplaybutton.setOnClickListener(v -> {
-                runtimeMockJavaTimeManager.switchPause();
-            });
-
-             view.forwardButton.setOnClickListener(v -> {
-                 runtimeMockJavaTimeManager.forward(30);
-             });
-        } else {
-            view.pauseplaybutton.setOnClickListener(v -> {
-                 if (this.isRunning) {
-                     model.getRoutine().end();
-                     view.endRoutineButton.setText("Routine paused!");
-                 }
-            });
-        }
-
-        view.endRoutineButton.setOnClickListener(v -> {
-            if (this.isRunning) {
-                model.getRoutine().end();
-                view.endRoutineButton.setText("Routine complete!");
-            }
-        });
-
-
-    }
-
 }

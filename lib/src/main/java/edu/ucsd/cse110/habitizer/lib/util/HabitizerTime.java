@@ -1,7 +1,7 @@
 package edu.ucsd.cse110.habitizer.lib.util;
 
 /**
- * Wrapper for any data type for time
+ * Nanosecond time wrapper
  * @param time
  */
 public record HabitizerTime(long time) {
@@ -16,16 +16,12 @@ public record HabitizerTime(long time) {
         return new HabitizerTime(this.time + time2.time);
     }
 
-    public long toSeconds() {
-        return time / secondsToNanoseconds;
+    public double toSeconds() {
+        return (double)time / secondsToNanoseconds;
     }
 
-    public long toMinutes() {
+    public double toMinutes() {
         return toSeconds() / minutesToSeconds;
-    }
-
-    public long ceilToMinutes() {
-        return (long) Math.ceil(toSeconds() / (double) minutesToSeconds);
     }
 
 }
