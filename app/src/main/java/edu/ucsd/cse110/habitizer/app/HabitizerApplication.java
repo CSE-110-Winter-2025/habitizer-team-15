@@ -4,9 +4,8 @@ import android.app.Application;
 
 import edu.ucsd.cse110.habitizer.lib.data.InMemoryDataSource;
 import edu.ucsd.cse110.habitizer.lib.domain.Routine;
-import edu.ucsd.cse110.habitizer.lib.domain.time.DebugJavaTimeManager;
 import edu.ucsd.cse110.habitizer.lib.domain.time.JavaTimeManager;
-import edu.ucsd.cse110.habitizer.lib.domain.time.RuntimeMockJavaTimeManager;
+import edu.ucsd.cse110.habitizer.lib.domain.time.PausableTimeManager;
 import edu.ucsd.cse110.habitizer.lib.domain.time.TimeManager;
 import edu.ucsd.cse110.habitizer.lib.domain.time.TimeTracker;
 
@@ -19,10 +18,9 @@ public class HabitizerApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        activeTimeManager = new RuntimeMockJavaTimeManager(new DebugJavaTimeManager());
+        activeTimeManager = new PausableTimeManager(new JavaTimeManager());
         activeRoutine = new Routine(InMemoryDataSource.MORNING_ROUTINE,
                 new TimeTracker(activeTimeManager));
-        // activeRoutine.start();
     }
 
     public Routine getActiveRoutine() {

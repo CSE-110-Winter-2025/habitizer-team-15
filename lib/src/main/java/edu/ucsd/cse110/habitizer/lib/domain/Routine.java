@@ -32,9 +32,7 @@ public class Routine {
         this.tasks.observe(taskList -> {
             updateTaskIds();
         });
-        // With the way Routine is constructed, `tasks` MUST be NonNull
-        // (despite what the warnings say)
-        this.tasks.setValue(RoutinePopulator.createTasksFromDataTasks(data.dataTasks()));
+        this.tasks.setValue(Task.createListFromDataTasks(data.dataTasks()));
 
         this.name = new PlainMutableSubject<>();
         this.name.setValue(data.name());
@@ -60,7 +58,7 @@ public class Routine {
      * @param timeTracker The TimeTracker to keep track of time with.
      */
     public Routine(String name, TimeTracker timeTracker) {
-        this(DataRoutine.createNull(name), timeTracker);
+        this(DataRoutine.createEmpty(name), timeTracker);
     }
 
     public String getName() {
@@ -90,6 +88,8 @@ public class Routine {
 
     // TODO: Extract to general checkOff(Task task) method
     // that all other checkoff related methods delegate to
+
+
     public void checkOffById(int id){
         Boolean value = timeTracker.isStarted().getValue();
         if (Boolean.FALSE.equals(value))

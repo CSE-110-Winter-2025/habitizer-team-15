@@ -8,7 +8,7 @@ public class JavaTimeManager extends TimeManager {
 
     @Override
     public HabitizerTime getCurrentTimeNanoseconds() {
-        return new HabitizerTime((long) (Calendar.getInstance().getTimeInMillis() / 1000
-                * HabitizerTime.secondsToNanoseconds));
+        return new HabitizerTime((long) (Calendar.getInstance().getTimeInMillis() / 1000.0
+                        * HabitizerTime.secondsToNanoseconds));
     }
 }

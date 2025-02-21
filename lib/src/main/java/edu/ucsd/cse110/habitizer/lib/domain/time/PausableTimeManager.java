@@ -4,13 +4,13 @@ import androidx.annotation.NonNull;
 
 import edu.ucsd.cse110.habitizer.lib.util.HabitizerTime;
 
-public class RuntimeMockJavaTimeManager extends TimeManager {
+public class PausableTimeManager extends TimeManager {
     private Boolean isPaused;
     private HabitizerTime pauseTime;
     private HabitizerTime diffTime;
     private final TimeManager usedTimeManager;
 
-    public RuntimeMockJavaTimeManager(@NonNull TimeManager usedTimeManager) {
+    public PausableTimeManager(@NonNull TimeManager usedTimeManager) {
         this.isPaused = false;
         this.pauseTime = new HabitizerTime(0);
         this.diffTime = new HabitizerTime(0);

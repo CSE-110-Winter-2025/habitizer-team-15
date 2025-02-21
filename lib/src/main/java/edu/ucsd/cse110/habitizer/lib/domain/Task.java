@@ -4,6 +4,9 @@ import androidx.annotation.NonNull;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.ucsd.cse110.habitizer.lib.data.DataTask;
 import edu.ucsd.cse110.habitizer.lib.util.HabitizerTime;
 import edu.ucsd.cse110.observables.MutableSubject;
@@ -32,6 +35,20 @@ public class Task {
      */
     public Task(String name) {
         this(DataTask.createWithoutId(name));
+    }
+
+    /**
+     * Creates a List of Tasks given a List of DataTasks.
+     * @param dataTasks The List of DataTasks.
+     * @return List of tasks.
+     */
+    // This static method is here since a utility class for DataTasks is not necessary (yet).
+    public static List<Task> createListFromDataTasks(List<DataTask> dataTasks) {
+        ArrayList<Task> tasks = new ArrayList<>();
+        for (DataTask dataTask : dataTasks) {
+            tasks.add(new Task(dataTask));
+        }
+        return tasks;
     }
 
     public int getId() {

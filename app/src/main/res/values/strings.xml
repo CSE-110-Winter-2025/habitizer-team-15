@@ -5,4 +5,8 @@
     <string name="routine_total_set_time_format">%dm</string>
     <string name="task_time_string_format">[%d m]</string>
     <string name="default_goal_time">90</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="routine_complete">Routine complete!</string>
+    <string name="routine_paused">Routine paused!</string>
 </resources>
