@@ -15,6 +15,7 @@
             android:id="@+id/debug_tools"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="visible"
             app:constraint_referenced_ids="pause_play_button,start_routine_button,forward_button" />
 
         <androidx.appcompat.widget.Toolbar

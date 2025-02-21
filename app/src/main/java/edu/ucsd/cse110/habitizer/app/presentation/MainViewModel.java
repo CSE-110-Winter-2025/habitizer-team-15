@@ -51,8 +51,4 @@ public class MainViewModel extends ViewModel {
     public TimeManager getActiveTimeManager() {
         return activeTimeManager;
     }
-
-    public void checkOff(int id) {
-        getRoutine().checkOffById(id);
-    }
 }

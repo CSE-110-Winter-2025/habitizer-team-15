@@ -4,21 +4,21 @@ import edu.ucsd.cse110.habitizer.lib.util.HabitizerTime;
 
 public class MockTimeManager extends TimeManager {
 
-    private double mockTime;
+    private double mockTimeMinutes;
 
     @Override
     public HabitizerTime getCurrentTime() {
-        return new HabitizerTime((long) (this.mockTime * HabitizerTime.secondsToNanoseconds));
+        return new HabitizerTime((long) (this.mockTimeMinutes * HabitizerTime.minutesToSeconds * HabitizerTime.secondsToNanoseconds));
     }
 
-    public void setMockTime(long mockTime) {
-        this.mockTime = mockTime;
+    public void setMockTimeMinutes(long mockTimeMinutes) {
+        this.mockTimeMinutes = mockTimeMinutes;
     }
-    public double getMockTime() {
-        return mockTime;
+    public double getMockTimeMinutes() {
+        return mockTimeMinutes;
     }
 
     public void addMockTime(long elapsed) {
-        this.mockTime += elapsed;
+        this.mockTimeMinutes += elapsed;
     }
 }

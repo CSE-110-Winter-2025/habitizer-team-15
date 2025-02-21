@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.function.Consumer;
 
 import edu.ucsd.cse110.habitizer.app.R;
 import edu.ucsd.cse110.habitizer.app.databinding.ActivityMainBinding;
@@ -65,7 +66,8 @@ public class TaskViewFragment extends Fragment {
 
         MutableNotifiableSubject<List<Task>> tasksSubject = model.getRoutine()
                 .getTasksSubject();
-        this.adapter = new TaskViewAdapter(requireContext(), tasksSubject.getValue(), model::checkOff);
+        this.adapter = new TaskViewAdapter(requireContext(), tasksSubject.getValue(),
+                integer -> model.getRoutine().checkOffById(integer));
 
 
         this.uiTimerSubject = new PlainMutableNotifiableSubject<>();
