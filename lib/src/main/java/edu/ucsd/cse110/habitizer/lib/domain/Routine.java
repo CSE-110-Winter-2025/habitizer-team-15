@@ -3,6 +3,7 @@ package edu.ucsd.cse110.habitizer.lib.domain;
 import androidx.annotation.NonNull;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 import edu.ucsd.cse110.habitizer.lib.data.DataRoutine;
@@ -78,6 +79,8 @@ public class Routine {
     }
 
     public void end() {
+        if (!isStarted())
+            return;
         timeTracker.stop();
         time = timeTracker.getElapsedTime();
     }
@@ -86,17 +89,33 @@ public class Routine {
         return tasks.getValue().get(id);
     }
 
+    public Task findTaskByName(String name) {
+        Optional<Task> first = tasks.getValue().stream()
+                .filter(task -> task.getName().equals(name))
+                .findFirst();
+        if (first.isPresent())
+            return first.get();
+        return null;
+    }
+
+    public boolean isStarted() {
+        Boolean value = timeTracker.isStarted().getValue();
+        return Boolean.TRUE.equals(value);
+    }
+
     // TODO: Extract to general checkOff(Task task) method
     // that all other checkoff related methods delegate to
 
-
-    public void checkOffById(int id){
-        Boolean value = timeTracker.isStarted().getValue();
-        if (Boolean.FALSE.equals(value))
+    public void checkOff(Task task) {
+        if (!isStarted())
             return;
-        Task task = findTaskById(id);
         task.recordTime(timeTracker.getCheckoffTimeAndCheckoff());
         task.checkOff();
+    }
+
+    public void checkOffById(int id){
+        Task task = findTaskById(id);
+        checkOff(task);
     }
 
     public int size() {
@@ -108,8 +127,14 @@ public class Routine {
         tasks.updateObservers();
     }
 
-    public void removeTaskById(int id) {
-        tasks.getValue().remove(id);
+    public void removeTask(Task task) {
+        tasks.getValue().remove(task);
+        tasks.updateObservers();
+    }
+
+    public void removeTaskById(int id)
+    {
+        removeTask(findTaskById(id));
     }
 
     public MutableNotifiableSubject<List<Task>> getTasksSubject() {

@@ -14,6 +14,6 @@ public class InMemoryDataSource {
                 DataTask.createEmpty("Dinner prep"),
                 DataTask.createEmpty("Pack bag")
             ), -1);
-    public static final List<DataTask> EVENING_ROUTINE_TASKS = List.of(
+    public static final List<DataTask> EVENING_ROUTINE = List.of(
     );
 }
