@@ -4,6 +4,10 @@ import androidx.annotation.NonNull;
 
 import edu.ucsd.cse110.habitizer.lib.util.HabitizerTime;
 
+/**
+ * Wrapper for TimeManager that allows for pausing
+ * TODO: Copy pause functionality to TimeTracker
+ */
 public class PausableTimeManager extends TimeManager {
     private Boolean isPaused;
     private HabitizerTime pauseTime;
