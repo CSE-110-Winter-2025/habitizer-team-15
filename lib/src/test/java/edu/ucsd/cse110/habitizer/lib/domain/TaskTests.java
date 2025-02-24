@@ -201,4 +201,5 @@ public class TaskTests {
         testTask2.setId(taskId1);
     }
 
+    // TODO: Add equals test
 }

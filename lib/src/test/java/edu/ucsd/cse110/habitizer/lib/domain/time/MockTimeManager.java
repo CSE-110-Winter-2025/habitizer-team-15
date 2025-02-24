@@ -18,11 +18,7 @@ public class MockTimeManager extends TimeManager {
         return mockTimeMinutes;
     }
 
-    public void addMockTimeMinutes(long mockTimeMinutes) {
-        this.mockTimeMinutes += mockTimeMinutes;
-    }
-
-    public void addMockTime(long elapsed) {
-        this.mockTimeMinutes += elapsed;
+    public void addMockTimeMinutes(long elapsedMockTimeMinutes) {
+        this.mockTimeMinutes += elapsedMockTimeMinutes;
     }
 }

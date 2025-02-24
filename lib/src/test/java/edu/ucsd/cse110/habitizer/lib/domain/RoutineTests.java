@@ -36,6 +36,17 @@ public class RoutineTests {
     private final HabitizerTime routineTime1 = new HabitizerTime(42);
     private final HabitizerTime routineTime2 = new HabitizerTime(-1);
     private final Routine testRoutine = new Routine(testDataRoutine1, mockTimeTracker);
+    public static final DataRoutine MORNING_ROUTINE_WITH_IDS =
+        new DataRoutine("Morning",
+            List.of(
+            new DataTask("Shower", 4),
+            new DataTask("Brush teeth", 3),
+            new DataTask("Dress", 6),
+            new DataTask("Make coffee", 1),
+            new DataTask("Make lunch", 7),
+            new DataTask("Dinner prep", 5),
+            new DataTask("Pack bag", 2)
+        ), -1);
 
     @Test
     public void testConstructorWithDataRoutine() {
@@ -120,7 +131,7 @@ public class RoutineTests {
             });
 
 
-        testDataRoutine = InMemoryDataSource.MORNING_ROUTINE_WITH_IDS;
+        testDataRoutine = MORNING_ROUTINE_WITH_IDS;
 
         // All Ids of tasks in testDataRoutine1 start as a set insignificantly defined order
         //      because InMemoryDataSource.MORNING_ROUTINE_WITH_IDS sets them so
@@ -318,10 +329,10 @@ public class RoutineTests {
                 assertTrue(task2.isDone().getValue());
 
                 // Add 5 to complete the 15 minute interval
-                mockTime1.addMockTime(5);
+                mockTime1.addMockTimeMinutes(5);
 
                 // Add 5 to complete the 20 minute interval
-                mockTime2.addMockTime(5);
+                mockTime2.addMockTimeMinutes(5);
             });
 
         // We add time, and check to see that calling checkOff doesn't set new time after end
