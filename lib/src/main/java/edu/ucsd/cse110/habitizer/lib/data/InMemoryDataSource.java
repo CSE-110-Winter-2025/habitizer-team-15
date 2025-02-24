@@ -16,4 +16,16 @@ public class InMemoryDataSource {
             ), -1);
     public static final List<DataTask> EVENING_ROUTINE = List.of(
     );
+
+    public static final DataRoutine MORNING_ROUTINE_WITH_IDS =
+        new DataRoutine("Morning",
+            List.of(
+                new DataTask("Shower", 4),
+                new DataTask("Brush teeth", 3),
+                new DataTask("Dress", 6),
+                new DataTask("Make coffee", 1),
+                new DataTask("Make lunch", 7),
+                new DataTask("Dinner prep", 5),
+                new DataTask("Pack bag", 2)
+            ), -1);
 }

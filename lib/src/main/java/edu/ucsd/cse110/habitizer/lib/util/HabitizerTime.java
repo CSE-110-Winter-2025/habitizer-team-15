@@ -1,5 +1,7 @@
 package edu.ucsd.cse110.habitizer.lib.util;
 
+import java.util.Objects;
+
 /**
  * Nanosecond time wrapper
  * @param time
@@ -24,4 +26,16 @@ public record HabitizerTime(long time) {
         return toSeconds() / minutesToSeconds;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        HabitizerTime that = (HabitizerTime) o;
+        return time == that.time;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(time);
+    }
 }
