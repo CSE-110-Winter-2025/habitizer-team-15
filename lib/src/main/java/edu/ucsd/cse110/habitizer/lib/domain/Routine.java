@@ -3,6 +3,7 @@ package edu.ucsd.cse110.habitizer.lib.domain;
 import androidx.annotation.NonNull;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
@@ -104,7 +105,7 @@ public class Routine {
     }
 
     public void checkOff(Task task) {
-        if (!isStarted())
+        if (!isStarted() || task.isDone().getValue())
             return;
         task.recordTime(timeTracker.getCheckoffTimeAndCheckoff());
         task.checkOff();
