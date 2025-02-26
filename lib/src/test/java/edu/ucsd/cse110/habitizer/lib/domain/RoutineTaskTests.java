@@ -12,6 +12,9 @@ import edu.ucsd.cse110.habitizer.lib.data.InMemoryDataSource;
 import edu.ucsd.cse110.habitizer.lib.domain.time.MockTimeManager;
 import edu.ucsd.cse110.habitizer.lib.domain.time.TimeTracker;
 
+/**
+ * Domain integration tests between Routine and Task.
+ */
 public class RoutineTaskTests {
 
     /**

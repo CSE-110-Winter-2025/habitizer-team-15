@@ -15,9 +15,11 @@ import java.util.List;
 public record DataRoutine(
     @NotNull String name,
     List<DataTask> dataTasks,
-    int id)
+    int id,
+
+    long totalTime)
 {
     public static DataRoutine createEmpty(String name) {
-        return new DataRoutine(name, new ArrayList<>(), -1);
+        return new DataRoutine(name, new ArrayList<>(), -1, 0);
     }
 }

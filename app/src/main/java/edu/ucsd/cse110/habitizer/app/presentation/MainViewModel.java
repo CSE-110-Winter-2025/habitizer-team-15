@@ -4,6 +4,8 @@ import static androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.APPLI
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.lifecycle.viewmodel.ViewModelInitializer;
 
 
@@ -29,6 +31,12 @@ public class MainViewModel extends ViewModel {
                         return new MainViewModel(app.getActiveRoutine(), app.getActiveTimeManager());
                     });
 
+    public static final MainViewModel getSingletonModel(ViewModelStoreOwner modelOwner) {
+        var modelFactory = ViewModelProvider.Factory.from(MainViewModel.initializer);
+        var modelProvider = new ViewModelProvider(modelOwner, modelFactory);
+        return modelProvider.get(MainViewModel.class);
+    }
+
     public MainViewModel(@NonNull Routine routine, TimeManager activeTimeManager) {
         this.activeRoutine = new PlainMutableNotifiableSubject<>();
         activeRoutine.setValue(routine);
@@ -46,6 +54,9 @@ public class MainViewModel extends ViewModel {
 
     public Routine getRoutine() {
         return activeRoutine.getValue();
+    }
+    public MutableNotifiableSubject<Routine> getRoutineSubject() {
+        return activeRoutine;
     }
 
     public TimeManager getActiveTimeManager() {

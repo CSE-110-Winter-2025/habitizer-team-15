@@ -11,6 +11,14 @@ public record HabitizerTime(long time) {
     public static final int minutesToSeconds = 60;
     public static final int secondsToNanoseconds = 1000000000;
 
+    public static HabitizerTime fromSeconds(double seconds) {
+        return new HabitizerTime((long) (seconds * secondsToNanoseconds));
+    }
+
+    public static HabitizerTime fromMinutes(double minutes) {
+        return fromSeconds(minutes * minutesToSeconds);
+    }
+
     public HabitizerTime subtract(HabitizerTime time2) {
         return new HabitizerTime(this.time - time2.time);
     }

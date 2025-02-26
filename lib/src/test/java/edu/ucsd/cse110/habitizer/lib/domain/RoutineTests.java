@@ -24,6 +24,9 @@ import edu.ucsd.cse110.habitizer.lib.domain.time.TimeTracker;
 import edu.ucsd.cse110.habitizer.lib.util.HabitizerTime;
 import edu.ucsd.cse110.observables.MutableSubject;
 
+/**
+ * Unit tests for Routine.
+ */
 public class RoutineTests {
     private List<Task> routineTasks1 = Task.createListFromDataTasks(InMemoryDataSource.MORNING_ROUTINE.dataTasks());
     private List<Task> routineTasks2 = new ArrayList<>();
@@ -46,7 +49,7 @@ public class RoutineTests {
             new DataTask("Make lunch", 7),
             new DataTask("Dinner prep", 5),
             new DataTask("Pack bag", 2)
-        ), -1);
+        ), -1, 45);
 
     @Test
     public void testConstructorWithDataRoutine() {

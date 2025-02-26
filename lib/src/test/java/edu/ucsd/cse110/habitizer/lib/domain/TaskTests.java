@@ -11,12 +11,13 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.crypto.Data;
-
 import edu.ucsd.cse110.habitizer.lib.data.DataTask;
 import edu.ucsd.cse110.habitizer.lib.data.InMemoryDataSource;
 import edu.ucsd.cse110.habitizer.lib.util.HabitizerTime;
 
+/**
+ * Unit tests for Task
+ */
 public class TaskTests {
     private final HabitizerTime taskRecordedTime1 = new HabitizerTime(42);
     private final HabitizerTime taskRecordedTime2 = new HabitizerTime(-1);

@@ -27,6 +27,9 @@ public class Routine {
     public HabitizerTime getElapsedTime() {
         return timeTracker.getElapsedTime();
     }
+    public HabitizerTime getTotalTime() {
+        return new HabitizerTime(data.totalTime());
+    }
 
     public Routine(@NonNull DataRoutine data, @NonNull TimeTracker timeTracker){
 
@@ -104,9 +107,6 @@ public class Routine {
         return Boolean.TRUE.equals(value);
     }
 
-    // TODO: Extract to general checkOff(Task task) method
-    // that all other checkoff related methods delegate to
-
     public void checkOff(Task task) {
         if (!isStarted() || task.isDone().getValue())
             return;
@@ -125,6 +125,11 @@ public class Routine {
 
     public void addTask(Task task){
         tasks.getValue().add(task);
+        tasks.updateObservers();
+    }
+
+    public void addTask(int i, Task task){
+        tasks.getValue().add(i, task);
         tasks.updateObservers();
     }
 
