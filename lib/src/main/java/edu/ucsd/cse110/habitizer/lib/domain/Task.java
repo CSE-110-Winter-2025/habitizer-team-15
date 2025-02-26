@@ -6,6 +6,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import edu.ucsd.cse110.habitizer.lib.data.DataTask;
 import edu.ucsd.cse110.habitizer.lib.util.HabitizerTime;
@@ -80,4 +81,26 @@ public class Task {
         return this.name.getValue();
     }
 
+    // Is this fine to have? If so, fine-tune and make less messy.
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        if (!((getRecordedTime() == null && task.getRecordedTime() == null)
+                    || (getRecordedTime() != null && task.getRecordedTime() != null))) {
+            return false;
+        }
+
+        return ((getRecordedTime() == null && task.getRecordedTime() == null)
+                        || getRecordedTime().equals(task.getRecordedTime()))
+                    && Objects.equals(getName(), task.getName())
+                    && Objects.equals(data.id(), task.data.id())
+                    && Objects.equals(isDone.getValue(), task.isDone.getValue());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getRecordedTime(), getName(), data, isDone);
+    }
 }
