@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.KeyEvent;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -40,20 +41,37 @@ public class AddTaskDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         this.view = FragmentDialogAddTaskBinding.inflate(getLayoutInflater());
-        return new AlertDialog.Builder(getActivity())
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.task_dialog_title)
                 .setMessage(R.string.task_dialog_message)
                 .setView(view.getRoot())
                 .setPositiveButton(getString(R.string.task_dialog_add), this::onAddClick)
-                .setNegativeButton(getString(R.string.task_dialog_cancel), this::onCancelClick)
-                .create();
+                .setNegativeButton(getString(R.string.task_dialog_cancel), this::onCancelClick);
+
+        AlertDialog alertDialog = builder.create();
+
+        // We can't reference alertDialog until we've actually created it
+        alertDialog.setOnShowListener(dialogInterface -> {
+            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+        });
+
+        alertDialog.setOnKeyListener((dialogInterface, i, keyEvent) -> {
+            String taskName = view.inputTaskNameEditText.getText().toString();
+            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(!taskName.isEmpty());
+            return false;
+        });
+        return alertDialog;
     }
 
     private void onAddClick(DialogInterface dialog, int which) {
         String taskName = view.inputTaskNameEditText.getText().toString();
-
-        model.getRoutine().addTask(new Task(taskName));
-
+        if (taskName.isEmpty())
+            return;
+        Task task = new Task(taskName);
+        if (view.taskBottomBtn.isChecked())
+            model.getRoutine().addTask(task);
+        else
+            model.getRoutine().addTask(0, task);
         dialog.dismiss();
     }
     private void onCancelClick(DialogInterface dialog, int which) {

@@ -128,6 +128,11 @@ public class Routine {
         tasks.updateObservers();
     }
 
+    public void addTask(int i, Task task){
+        tasks.getValue().add(i, task);
+        tasks.updateObservers();
+    }
+
     public void removeTask(Task task) {
         tasks.getValue().remove(task);
         tasks.updateObservers();
