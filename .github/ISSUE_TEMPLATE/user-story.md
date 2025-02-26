@@ -4,6 +4,7 @@ about: As a user...
 title: ''
 labels: ''
 assignees: ''
+type: 'Story'
 
 ---
 
