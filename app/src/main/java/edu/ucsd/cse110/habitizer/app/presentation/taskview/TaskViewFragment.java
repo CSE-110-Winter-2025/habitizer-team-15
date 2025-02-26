@@ -5,7 +5,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,12 +13,13 @@ import android.view.ViewGroup;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.function.Consumer;
 
 import edu.ucsd.cse110.habitizer.app.R;
-import edu.ucsd.cse110.habitizer.app.databinding.ActivityMainBinding;
 import edu.ucsd.cse110.habitizer.app.databinding.FragmentTaskViewBinding;
+import edu.ucsd.cse110.habitizer.app.presentation.MainActivity;
 import edu.ucsd.cse110.habitizer.app.presentation.MainViewModel;
+import edu.ucsd.cse110.habitizer.app.presentation.routineview.TempRoutineViewFragment;
+import edu.ucsd.cse110.habitizer.app.presentation.taskview.edit.AddTaskDialogFragment;
 import edu.ucsd.cse110.habitizer.app.presentation.ui.TaskViewAdapter;
 import edu.ucsd.cse110.habitizer.lib.domain.Task;
 import edu.ucsd.cse110.habitizer.lib.domain.time.PausableTimeManager;
@@ -40,6 +40,7 @@ public class TaskViewFragment extends Fragment {
     private TaskViewAdapter adapter;
 
     private boolean isEditMode = false;
+    public static final String BUNDLE_EDIT_MODE_KEY = "isEditMode";
     private MutableNotifiableSubject<Timer> uiTimerSubject;
 
     public TaskViewFragment() {
@@ -47,7 +48,9 @@ public class TaskViewFragment extends Fragment {
 
     public static TaskViewFragment newInstance(boolean isEditMode) {
         var taskViewFragment = newInstance();
-        taskViewFragment.isEditMode = isEditMode;
+        Bundle args = new Bundle();
+        args.putBoolean(BUNDLE_EDIT_MODE_KEY, isEditMode);
+        taskViewFragment.setArguments(args);
         return taskViewFragment;
     }
     public static TaskViewFragment newInstance() {
@@ -57,15 +60,14 @@ public class TaskViewFragment extends Fragment {
         return fragment;
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        var modelOwner = this;
-        var modelFactory = ViewModelProvider.Factory.from(MainViewModel.initializer);
-        var modelProvider = new ViewModelProvider(modelOwner, modelFactory);
-        this.model = modelProvider.get(MainViewModel.class);
+        assert getArguments() != null;
+        this.isEditMode = getArguments().getBoolean(BUNDLE_EDIT_MODE_KEY);
+
+        this.model = MainViewModel.getSingletonModel(getActivity());
 
         MutableNotifiableSubject<List<Task>> tasksSubject = model.getRoutine()
                 .getTasksSubject();
@@ -96,8 +98,11 @@ public class TaskViewFragment extends Fragment {
         view.toolbar.setTitle(model.getRoutineName());
         view.taskListView.setAdapter(this.adapter);
 
-        if (isEditMode)
+        if (isEditMode) {
             view.editMode.setVisibility(View.VISIBLE);
+            view.runMode.setVisibility(View.GONE);
+        }
+
 
         setupModelViewHooks();
         updateTimeDisplayObservers();
@@ -110,9 +115,11 @@ public class TaskViewFragment extends Fragment {
 
     private void setupModelViewHooks() {
 
+        String string = getString(R.string.routine_total_time_format);
         uiTimerSubject.observe(t -> {
             long time = (long) model.getElapsedTime().toMinutes();
-            var str = String.format(getString(R.string.routine_total_time_format), time);
+            long total_time = (long) model.getRoutine().getTotalTime().toMinutes();
+            var str = String.format(string, time, total_time);
             view.routineTotalElapsed.setText(str);
         });
 
@@ -121,8 +128,6 @@ public class TaskViewFragment extends Fragment {
         });
         model.getRoutine().getTasksSubject().observe(newTasks -> {
             if (newTasks == null) return;
-            adapter.clear();
-            adapter.addAll(newTasks);
             adapter.notifyDataSetChanged();
         });
 
@@ -162,6 +167,18 @@ public class TaskViewFragment extends Fragment {
             // TODO: This shouldn't rely on the button getting clicked, but
             //  rather the model changing (i.e. this should observe the model)
             view.endRoutineButton.setText(R.string.routine_complete);
+        });
+
+        view.addTask.setOnClickListener(v -> {
+            var frag = AddTaskDialogFragment.newInstance();
+            frag.show(getParentFragmentManager(), "AddTaskDialogFragment");
+        });
+
+        view.backToMenu.setOnClickListener(v -> {
+            getParentFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.main_activity_fragment_container, TempRoutineViewFragment.newInstance())
+                    .commit();
         });
     }
 }

@@ -27,6 +27,9 @@ public class Routine {
     public HabitizerTime getElapsedTime() {
         return timeTracker.getElapsedTime();
     }
+    public HabitizerTime getTotalTime() {
+        return new HabitizerTime(data.totalTime());
+    }
 
     public Routine(@NonNull DataRoutine data, @NonNull TimeTracker timeTracker){
 

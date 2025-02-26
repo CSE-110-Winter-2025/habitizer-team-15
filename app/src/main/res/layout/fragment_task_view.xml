@@ -16,21 +16,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="visible"
-            app:constraint_referenced_ids="end_routine_button" />
+            app:constraint_referenced_ids="end_routine_button,debug_tools" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/edit_mode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:constraint_referenced_ids="edit_mode_text" />
-
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/debug_tools"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="visible"
-            app:constraint_referenced_ids="pause_play_button,start_routine_button,forward_button" />
+            app:constraint_referenced_ids="edit_mode_text,add_task"
+            tools:visibility="visible" />
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -68,9 +62,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintTop_toBottomOf="@+id/edit_mode_text"
             app:layout_constraintVertical_bias="0.0"
-            tools:listitem="@layout/list_item_task" >
+            tools:listitem="@layout/list_item_task">
 
         </ListView>
 
@@ -79,6 +73,7 @@
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginEnd="16dp"
+            android:contentDescription="@string/debug_pause_play"
             app:layout_constraintEnd_toStartOf="@+id/routine_total_elapsed"
             app:layout_constraintTop_toTopOf="@+id/toolbar"
             app:srcCompat="@drawable/ic_pause"
@@ -89,7 +84,8 @@
             android:layout_width="98dp"
             android:layout_height="55dp"
             android:layout_marginEnd="16dp"
-            android:text="Start"
+            android:contentDescription="@string/debug_start_routine"
+            android:text="@string/start"
             app:layout_constraintBottom_toBottomOf="@+id/toolbar"
             app:layout_constraintEnd_toStartOf="@+id/forward_button"
             app:layout_constraintTop_toTopOf="@+id/toolbar" />
@@ -99,19 +95,24 @@
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginEnd="16dp"
+            android:contentDescription="@string/debug_forward_30"
             app:layout_constraintEnd_toStartOf="@+id/routine_total_elapsed"
             app:layout_constraintTop_toBottomOf="@+id/pause_play_button"
             app:srcCompat="@drawable/forward" />
 
         <TextView
             android:id="@+id/edit_mode_text"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="Edit Mode"
-            app:layout_constraintBottom_toBottomOf="@+id/task_list_view"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:background="#000000"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:text="@string/edit_mode"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            app:layout_constraintEnd_toEndOf="@+id/toolbar"
+            app:layout_constraintStart_toStartOf="@+id/toolbar"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
         <Button
             android:id="@+id/end_routine_button"
@@ -124,6 +125,33 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/add_task"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/add_task"
+            app:layout_constraintBottom_toBottomOf="@+id/task_list_view"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <Button
+            android:id="@+id/back_to_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/back_to_menu"
+            app:layout_constraintBottom_toBottomOf="@+id/task_list_view"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/debug_tools"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:constraint_referenced_ids="pause_play_button,start_routine_button,forward_button" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
