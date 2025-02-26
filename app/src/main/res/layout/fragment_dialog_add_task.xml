@@ -43,13 +43,13 @@
             app:layout_constraintTop_toBottomOf="@id/input_task_name">
 
             <RadioButton
-                android:id="@+id/task_append_btn"
+                android:id="@+id/task_top_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/top" />
 
             <RadioButton
-                android:id="@+id/task_append_btn2"
+                android:id="@+id/task_bottom_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

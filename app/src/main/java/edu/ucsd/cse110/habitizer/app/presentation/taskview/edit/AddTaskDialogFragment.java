@@ -50,8 +50,8 @@ public class AddTaskDialogFragment extends DialogFragment {
     }
 
     private void onAddClick(DialogInterface dialog, int which) {
-
         String taskName = view.inputTaskNameEditText.getText().toString();
+
         model.getRoutine().addTask(new Task(taskName));
 
         dialog.dismiss();
