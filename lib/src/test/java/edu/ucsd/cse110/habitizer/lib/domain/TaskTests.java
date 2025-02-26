@@ -8,17 +8,24 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.crypto.Data;
+
 import edu.ucsd.cse110.habitizer.lib.data.DataTask;
+import edu.ucsd.cse110.habitizer.lib.data.InMemoryDataSource;
 import edu.ucsd.cse110.habitizer.lib.util.HabitizerTime;
 
 public class TaskTests {
-    private final HabitizerTime habitizerTime1 = new HabitizerTime(42);
-    private final HabitizerTime habitizerTime2 = new HabitizerTime(-1);
+    private final HabitizerTime taskRecordedTime1 = new HabitizerTime(42);
+    private final HabitizerTime taskRecordedTime2 = new HabitizerTime(-1);
     private final String taskName1 = "Test Task 1";
     private final String taskName2 = "Test Task 2";
     private final int taskId1 = 123;
     private final int taskId2 = -456;
     private final DataTask testDataTask1 = new DataTask(taskName1, taskId1);
+    private final List<DataTask> testDataTasks1 = InMemoryDataSource.MORNING_ROUTINE.dataTasks();
 
     /**
      * Tests Constructor that is passed in a DataTask
@@ -64,10 +71,10 @@ public class TaskTests {
         assertNull(testTask1.getRecordedTime());
         assertNull(testTask1.getRecordedTime());
 
-        testTask1.recordTime(habitizerTime1);
-        testTask2.recordTime(habitizerTime2);
+        testTask1.recordTime(taskRecordedTime1);
+        testTask2.recordTime(taskRecordedTime2);
 
-        /* Check getRecordedTime() */
+        // Check getRecordedTime()
         assertEquals(new HabitizerTime(42), testTask1.getRecordedTime());
         assertEquals(new HabitizerTime(-1), testTask2.getRecordedTime());
     }
@@ -80,11 +87,11 @@ public class TaskTests {
         Task testTask1 = new Task(testDataTask1);
         Task testTask2 = new Task(taskName2);
 
-        /* Check getName() getter */
+        // Check getName() getter
         assertEquals("Test Task 1", testTask1.getName());
         assertEquals("Test Task 2", testTask2.getName());
 
-        /* Check setName() setter */
+        // Check setName() setter
         testTask1.setName("Test Task 2");
         testTask2.setName("Test Task 1");
 
@@ -97,11 +104,11 @@ public class TaskTests {
         Task testTask1 = new Task(testDataTask1);
         Task testTask2 = new Task(taskName2);
 
-        /* Check getId() getter */
+        // Check getId() getter
         assertEquals(taskId1, testTask1.getId());
         assertEquals(-1, testTask2.getId());
 
-        /* Check setId() setter */
+        // Check setId() setter
         testTask1.setId(taskId2);
         testTask2.setId(taskId1);
 
@@ -117,16 +124,27 @@ public class TaskTests {
         Task testTask1 = new Task(testDataTask1);
         Task testTask2 = new Task(taskName2);
 
-        /* Test isDone when return should be false */
+        // Test isDone when return should be false
         assertFalse(testTask1.isDone().getValue());
         assertFalse(testTask2.isDone().getValue());
 
-        /* Checks checkOff function */
+        // Checks checkOff function
         testTask1.checkOff();
         testTask2.checkOff();
-        /* Test isDone when return should be true */
+        // Test isDone when return should be true
         assertTrue(testTask1.isDone().getValue());
         assertTrue(testTask2.isDone().getValue());
+    }
+
+    @Test
+    public void testCreateListFromDataTasks() {
+        List<Task> tasks = new ArrayList<Task>();
+        for (DataTask dataTask : testDataTasks1) {
+            tasks.add(new Task(dataTask));
+        }
+        List<Task> testTasks = Task.createListFromDataTasks(testDataTasks1);
+
+        assertEquals(tasks, testTasks);
     }
 
     /**
@@ -141,7 +159,7 @@ public class TaskTests {
         testTask1.recordTime(new HabitizerTime(1));
         testTask2.recordTime(new HabitizerTime(-1));
 
-        /* Already tested set & get, so just check other values */
+        // Already tested set & get, so just check other values
         assertEquals("Test Task 1", testTask1.getName());
         assertEquals("Test Task 2", testTask2.getName());
         assertEquals(123, testTask1.getId());
@@ -152,7 +170,7 @@ public class TaskTests {
         testTask1.setId(taskId2);
         testTask2.setId(taskId1);
 
-        /* Already tested set & get, so just check other values */
+        // Already tested set & get, so just check other values
         assertEquals(new HabitizerTime(1), testTask1.getRecordedTime());
         assertEquals(new HabitizerTime(-1), testTask2.getRecordedTime());
         assertEquals("Test Task 1", testTask1.getName());
@@ -163,7 +181,7 @@ public class TaskTests {
         testTask1.setName("Test Task 2");
         testTask2.setName("Test Task 1");
 
-        /* Already tested set & get, so just check other values */
+        // Already tested set & get, so just check other values
         assertEquals(new HabitizerTime(1), testTask1.getRecordedTime());
         assertEquals(new HabitizerTime(-1), testTask2.getRecordedTime());
         assertEquals(taskId2, testTask1.getId());
@@ -174,7 +192,7 @@ public class TaskTests {
         testTask1.checkOff();
         testTask2.checkOff();
 
-        /* Already tested set & get, so just check other values */
+        // Already tested set & get, so just check other values
         assertEquals(new HabitizerTime(1), testTask1.getRecordedTime());
         assertEquals(new HabitizerTime(-1), testTask2.getRecordedTime());
         assertEquals("Test Task 2", testTask1.getName());
@@ -183,4 +201,5 @@ public class TaskTests {
         testTask2.setId(taskId1);
     }
 
+    // TODO: Add equals test
 }
