@@ -103,9 +103,6 @@ public class Routine {
         return Boolean.TRUE.equals(value);
     }
 
-    // TODO: Extract to general checkOff(Task task) method
-    // that all other checkoff related methods delegate to
-
     public void checkOff(Task task) {
         if (!isStarted())
             return;

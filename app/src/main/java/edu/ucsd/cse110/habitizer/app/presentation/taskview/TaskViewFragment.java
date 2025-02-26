@@ -38,13 +38,19 @@ public class TaskViewFragment extends Fragment {
     private MainViewModel model;
     private FragmentTaskViewBinding view;
     private TaskViewAdapter adapter;
-    private boolean isRunning = false;
+
+    private boolean isEditMode = false;
     private MutableNotifiableSubject<Timer> uiTimerSubject;
 
     public TaskViewFragment() {
     }
 
-    public static TaskViewFragment newInstance(String param1, String param2) {
+    public static TaskViewFragment newInstance(boolean isEditMode) {
+        var taskViewFragment = newInstance();
+        taskViewFragment.isEditMode = isEditMode;
+        return taskViewFragment;
+    }
+    public static TaskViewFragment newInstance() {
         TaskViewFragment fragment = new TaskViewFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -56,9 +62,6 @@ public class TaskViewFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
-        // Initialize the Model
         var modelOwner = this;
         var modelFactory = ViewModelProvider.Factory.from(MainViewModel.initializer);
         var modelProvider = new ViewModelProvider(modelOwner, modelFactory);
@@ -92,6 +95,9 @@ public class TaskViewFragment extends Fragment {
 
         view.toolbar.setTitle(model.getRoutineName());
         view.taskListView.setAdapter(this.adapter);
+
+        if (isEditMode)
+            view.editMode.setVisibility(View.VISIBLE);
 
         setupModelViewHooks();
         updateTimeDisplayObservers();
@@ -130,7 +136,6 @@ public class TaskViewFragment extends Fragment {
 //            view.routineTotalTime.setKeyListener(null);
             model.getRoutine().start();
             view.startRoutineButton.setEnabled(false);
-            this.isRunning = true;
         });
 
         TimeManager currTimeManager = model.getActiveTimeManager();
@@ -150,20 +155,13 @@ public class TaskViewFragment extends Fragment {
             view.forwardButton.setOnClickListener(v -> {
                 pausable.forward(30);
             });
-        } else {
-            view.pausePlayButton.setOnClickListener(v -> {
-                if (this.isRunning) {
-                    model.getRoutine().end();
-                    view.endRoutineButton.setText(R.string.routine_paused);
-                }
-            });
         }
 
         view.endRoutineButton.setOnClickListener(v -> {
-            if (this.isRunning) {
-                model.getRoutine().end();
-                view.endRoutineButton.setText(R.string.routine_complete);
-            }
+            model.getRoutine().end();
+            // TODO: This shouldn't rely on the button getting clicked, but
+            //  rather the model changing (i.e. this should observe the model)
+            view.endRoutineButton.setText(R.string.routine_complete);
         });
     }
 }
