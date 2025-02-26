@@ -46,7 +46,7 @@ public class RoutineTests {
             new DataTask("Make lunch", 7),
             new DataTask("Dinner prep", 5),
             new DataTask("Pack bag", 2)
-        ), -1);
+        ), -1, 45);
 
     @Test
     public void testConstructorWithDataRoutine() {
