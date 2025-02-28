@@ -9,19 +9,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import edu.ucsd.cse110.habitizer.app.R;
-import edu.ucsd.cse110.habitizer.app.databinding.FragmentTempRoutineViewBinding;
+import edu.ucsd.cse110.habitizer.app.databinding.FragmentRoutineViewBinding;
 import edu.ucsd.cse110.habitizer.app.presentation.taskview.TaskViewFragment;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link TempRoutineViewFragment#newInstance} factory method to
+ * Use the {@link RoutineViewFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TempRoutineViewFragment extends Fragment {
+public class RoutineViewFragment extends Fragment {
 
-    private FragmentTempRoutineViewBinding view;
-    public static TempRoutineViewFragment newInstance() {
-        TempRoutineViewFragment fragment = new TempRoutineViewFragment();
+    private FragmentRoutineViewBinding view;
+    public static RoutineViewFragment newInstance() {
+        RoutineViewFragment fragment = new RoutineViewFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -35,7 +35,7 @@ public class TempRoutineViewFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = FragmentTempRoutineViewBinding.inflate(inflater, container, false);
+        view = FragmentRoutineViewBinding.inflate(inflater, container, false);
         setupMvpHooks();
         return view.getRoot();
     }

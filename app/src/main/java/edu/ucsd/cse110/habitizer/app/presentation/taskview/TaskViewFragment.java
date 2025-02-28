@@ -16,9 +16,8 @@ import java.util.TimerTask;
 
 import edu.ucsd.cse110.habitizer.app.R;
 import edu.ucsd.cse110.habitizer.app.databinding.FragmentTaskViewBinding;
-import edu.ucsd.cse110.habitizer.app.presentation.MainActivity;
 import edu.ucsd.cse110.habitizer.app.presentation.MainViewModel;
-import edu.ucsd.cse110.habitizer.app.presentation.routineview.TempRoutineViewFragment;
+import edu.ucsd.cse110.habitizer.app.presentation.routineview.RoutineViewFragment;
 import edu.ucsd.cse110.habitizer.app.presentation.taskview.edit.AddTaskDialogFragment;
 import edu.ucsd.cse110.habitizer.app.presentation.ui.TaskViewAdapter;
 import edu.ucsd.cse110.habitizer.lib.domain.Task;
@@ -103,6 +102,9 @@ public class TaskViewFragment extends Fragment {
             view.runMode.setVisibility(View.GONE);
         }
 
+        if (!isEditMode) {
+            model.getRoutine().start();
+        }
 
         setupModelViewHooks();
         updateTimeDisplayObservers();
@@ -131,17 +133,17 @@ public class TaskViewFragment extends Fragment {
             adapter.notifyDataSetChanged();
         });
 
-        view.startRoutineButton.setOnClickListener(v -> {
-//            TODO: What is this?
-//            var str = view.routineTotalTime.getText().toString();
-//            view.routineTotalTime.setText(str);
-//            view.routineTotalTime.setFocusable(false);
-//            view.routineTotalTime.setEnabled(false);
-//            view.routineTotalTime.setCursorVisible(false);
-//            view.routineTotalTime.setKeyListener(null);
-            model.getRoutine().start();
-            view.startRoutineButton.setEnabled(false);
-        });
+//        view.startRoutineButton.setOnClickListener(v -> {
+////            TODO: What is this?
+////            var str = view.routineTotalTime.getText().toString();
+////            view.routineTotalTime.setText(str);
+////            view.routineTotalTime.setFocusable(false);
+////            view.routineTotalTime.setEnabled(false);
+////            view.routineTotalTime.setCursorVisible(false);
+////            view.routineTotalTime.setKeyListener(null);
+//            // model.getRoutine().start();
+//            view.startRoutineButton.setEnabled(false);
+//        });
 
         TimeManager currTimeManager = model.getActiveTimeManager();
         PausableTimeManager pausable;
@@ -177,7 +179,7 @@ public class TaskViewFragment extends Fragment {
         view.backToMenu.setOnClickListener(v -> {
             getParentFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.main_activity_fragment_container, TempRoutineViewFragment.newInstance())
+                    .replace(R.id.main_activity_fragment_container, RoutineViewFragment.newInstance())
                     .commit();
         });
     }
