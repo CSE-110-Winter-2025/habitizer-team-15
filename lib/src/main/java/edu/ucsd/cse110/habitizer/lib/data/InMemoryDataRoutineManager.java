@@ -9,7 +9,7 @@ import edu.ucsd.cse110.habitizer.lib.util.HabitizerTime;
 import edu.ucsd.cse110.habitizer.lib.util.observables.MutableNotifiableSubject;
 import edu.ucsd.cse110.habitizer.lib.util.observables.PlainMutableNotifiableSubject;
 
-public class InMemoryDataRoutineManager {
+public class InMemoryDataRoutineManager implements IDataRoutineManager {
     public MutableNotifiableSubject<List<DataRoutine>> dataRoutines = new PlainMutableNotifiableSubject<>();
     public InMemoryDataRoutineManager() {
         dataRoutines.setValue(new ArrayList<>());
@@ -47,18 +47,21 @@ public class InMemoryDataRoutineManager {
         addDataRoutine(DATA_EVENING_ROUTINE);
     }
 
+    @Override
     public void clearDataRoutines() {
         List<DataRoutine> list = dataRoutines.getValue();
         list.clear();
         dataRoutines.updateObservers();
     }
 
+    @Override
     public void addDataRoutine(DataRoutine dataRoutine) {
         List<DataRoutine> list = dataRoutines.getValue();
         list.add(dataRoutine);
         dataRoutines.updateObservers();
     }
 
+    @Override
     public void addDataRoutine(int i, DataRoutine dataRoutine) {
         List<DataRoutine> list = dataRoutines.getValue();
         list.add(i, dataRoutine);
@@ -69,6 +72,7 @@ public class InMemoryDataRoutineManager {
      * Returns a copy of the DataRoutines list.
      * @return
      */
+    @Override
     public List<DataRoutine> getDataRoutines() {
         return List.copyOf(dataRoutines.getValue());
     }
