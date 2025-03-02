@@ -16,7 +16,6 @@ import java.util.TimerTask;
 
 import edu.ucsd.cse110.habitizer.app.R;
 import edu.ucsd.cse110.habitizer.app.databinding.FragmentTaskViewBinding;
-import edu.ucsd.cse110.habitizer.app.presentation.MainActivity;
 import edu.ucsd.cse110.habitizer.app.presentation.MainViewModel;
 import edu.ucsd.cse110.habitizer.app.presentation.routineview.TempRoutineViewFragment;
 import edu.ucsd.cse110.habitizer.app.presentation.taskview.edit.AddTaskDialogFragment;
@@ -72,7 +71,7 @@ public class TaskViewFragment extends Fragment {
         MutableNotifiableSubject<List<Task>> tasksSubject = model.getRoutine()
                 .getTasksSubject();
         this.adapter = new TaskViewAdapter(model, requireContext(), tasksSubject.getValue(),
-                integer -> model.getRoutine().checkOffById(integer), isEditMode);
+                integer -> model.getRoutine().checkOffById(integer), isEditMode, this);
 
 
         this.uiTimerSubject = new PlainMutableNotifiableSubject<>();
@@ -169,12 +168,12 @@ public class TaskViewFragment extends Fragment {
             view.endRoutineButton.setText(R.string.routine_complete);
         });
 
-        view.addTask.setOnClickListener(v -> {
+        view.addTaskButton.setOnClickListener(v -> {
             var frag = AddTaskDialogFragment.newInstance();
             frag.show(getParentFragmentManager(), "AddTaskDialogFragment");
         });
 
-        view.backToMenu.setOnClickListener(v -> {
+        view.backToMenuButton.setOnClickListener(v -> {
             getParentFragmentManager()
                     .beginTransaction()
                     .replace(R.id.main_activity_fragment_container, TempRoutineViewFragment.newInstance())

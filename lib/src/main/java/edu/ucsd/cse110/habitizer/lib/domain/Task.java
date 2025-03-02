@@ -76,6 +76,9 @@ public class Task {
     public void setName(@NonNull String name) {
         this.name.setValue(name);
     }
+    public Subject<String> getNameSubject() {
+        return this.name;
+    }
 
     public String getName() {
         return this.name.getValue();

@@ -10,22 +10,29 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import edu.ucsd.cse110.habitizer.app.R;
-import edu.ucsd.cse110.habitizer.app.databinding.FragmentDialogAddTaskBinding;
+import edu.ucsd.cse110.habitizer.app.databinding.FragmentDialogRenameTaskBinding;
 import edu.ucsd.cse110.habitizer.app.presentation.MainViewModel;
 import edu.ucsd.cse110.habitizer.lib.domain.Task;
 
-public class AddTaskDialogFragment extends DialogFragment {
-
-    private @NonNull FragmentDialogAddTaskBinding view;
+public class RenameTaskDialogFragment extends DialogFragment {
+    private @NonNull FragmentDialogRenameTaskBinding view;
     private MainViewModel model;
+    public Task task;
 
-    AddTaskDialogFragment() {
+    RenameTaskDialogFragment() {
 
     }
-    public static AddTaskDialogFragment newInstance() {
-        var frag = new AddTaskDialogFragment();
+
+    public static RenameTaskDialogFragment newInstance() {
+        var frag = new RenameTaskDialogFragment();
         Bundle args = new Bundle();
         frag.setArguments(args);
+        return frag;
+    }
+
+    public static RenameTaskDialogFragment newInstance(Task task) {
+        var frag = RenameTaskDialogFragment.newInstance();
+        frag.task = task;
         return frag;
     }
 
@@ -38,23 +45,22 @@ public class AddTaskDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        this.view = FragmentDialogAddTaskBinding.inflate(getLayoutInflater());
+        this.view = FragmentDialogRenameTaskBinding.inflate(getLayoutInflater());
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.task_dialog_title)
-                .setMessage(R.string.task_dialog_message)
-                .setView(view.getRoot())
-                .setPositiveButton(getString(R.string.task_dialog_add), this::onAddClick)
-                .setNegativeButton(getString(R.string.dialog_cancel), this::onCancelClick);
+            .setTitle(R.string.rename_task)
+            .setMessage(R.string.enter_new_task_name)
+            .setView(view.getRoot())
+            .setPositiveButton(R.string.rename, this::onRenameClick)
+            .setNegativeButton(R.string.dialog_cancel, this::onCancelClick);
 
         AlertDialog alertDialog = builder.create();
 
-        // We can't reference alertDialog until we've actually created it
         alertDialog.setOnShowListener(dialogInterface -> {
             alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
         });
 
         alertDialog.setOnKeyListener((dialogInterface, i, keyEvent) -> {
-            String taskName = view.inputTaskNameEditText.getText().toString();
+            String taskName = view.inputRenameTaskEditText.getText().toString();
             alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(!taskName.isEmpty());
             // We didn't "consume" keyEvent, so we return false
             return false;
@@ -62,17 +68,16 @@ public class AddTaskDialogFragment extends DialogFragment {
         return alertDialog;
     }
 
-    private void onAddClick(DialogInterface dialog, int which) {
-        String addedTaskName = view.inputTaskNameEditText.getText().toString();
-        if (addedTaskName.isEmpty())
+
+    private void onRenameClick(DialogInterface dialog, int which) {
+        String renamedTaskName = view.inputRenameTaskEditText.getText().toString();
+        if (renamedTaskName.isEmpty()) {
             return;
-        Task task = new Task(addedTaskName);
-        if (view.taskBottomBtn.isChecked())
-            model.getRoutine().addTask(task);
-        else
-            model.getRoutine().addTask(0, task);
+        }
+        task.setName(renamedTaskName);
         dialog.dismiss();
     }
+
     private void onCancelClick(DialogInterface dialog, int which) {
         dialog.cancel();
     }

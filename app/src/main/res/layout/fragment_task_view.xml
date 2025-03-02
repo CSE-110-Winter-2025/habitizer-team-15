@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:constraint_referenced_ids="edit_mode_text,add_task"
+            app:constraint_referenced_ids="edit_mode_text,@+id/add_task_button"
             tools:visibility="visible" />
 
         <androidx.appcompat.widget.Toolbar
@@ -125,7 +125,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
-            android:id="@+id/add_task"
+            android:id="@+id/add_task_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
@@ -135,7 +135,7 @@
             app:layout_constraintEnd_toEndOf="parent" />
 
         <Button
-            android:id="@+id/back_to_menu"
+            android:id="@+id/back_to_menu_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"

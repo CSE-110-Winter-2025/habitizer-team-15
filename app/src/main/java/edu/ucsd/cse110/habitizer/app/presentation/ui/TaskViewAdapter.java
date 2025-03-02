@@ -14,6 +14,8 @@ import java.util.function.Consumer;
 import edu.ucsd.cse110.habitizer.app.R;
 import edu.ucsd.cse110.habitizer.app.databinding.ListItemTaskBinding;
 import edu.ucsd.cse110.habitizer.app.presentation.MainViewModel;
+import edu.ucsd.cse110.habitizer.app.presentation.taskview.TaskViewFragment;
+import edu.ucsd.cse110.habitizer.app.presentation.taskview.edit.RenameTaskDialogFragment;
 import edu.ucsd.cse110.habitizer.lib.domain.Task;
 import edu.ucsd.cse110.habitizer.lib.util.HabitizerTime;
 
@@ -22,12 +24,15 @@ public class TaskViewAdapter extends ArrayAdapter<Task> {
     private final MainViewModel model;
     Consumer<Integer> onTaskClick;
     private final boolean isEditMode;
+    private final TaskViewFragment taskViewFragment;
 
-    public TaskViewAdapter(MainViewModel model, Context context, List<Task> tasks, Consumer<Integer> onTaskClick, boolean isEditMode) {
+    public TaskViewAdapter(MainViewModel model, Context context, List<Task> tasks,
+                           Consumer<Integer> onTaskClick, boolean isEditMode, TaskViewFragment taskViewFragment) {
         super(context, 0, tasks);
         this.model = model;
         this.onTaskClick = onTaskClick;
         this.isEditMode = isEditMode;
+        this.taskViewFragment = taskViewFragment;
     }
 
     @NonNull
@@ -57,6 +62,10 @@ public class TaskViewAdapter extends ArrayAdapter<Task> {
     private void setupMvpHooks(ListItemTaskBinding binding, Task task) {
         binding.taskName.setText(task.getName());
 
+        task.getNameSubject().observe(newName -> {
+            binding.taskName.setText(newName);
+        });
+
         setupTimeDisplay(task, binding);
 
         getCheckmarkVisibility(task, binding);
@@ -71,6 +80,11 @@ public class TaskViewAdapter extends ArrayAdapter<Task> {
         // Edit mode buttons
         binding.delete.setOnClickListener(v -> {
             model.getRoutine().removeTask(task);
+        });
+
+        binding.rename.setOnClickListener(v -> {
+            var frag = RenameTaskDialogFragment.newInstance(task);
+            frag.show(taskViewFragment.getParentFragmentManager(), "RenameTaskDialogFragment");
         });
     }
 
