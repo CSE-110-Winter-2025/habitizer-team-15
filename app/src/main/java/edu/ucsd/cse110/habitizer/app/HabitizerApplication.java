@@ -17,7 +17,6 @@ import edu.ucsd.cse110.habitizer.lib.util.observables.PlainMutableNotifiableSubj
 public class HabitizerApplication extends Application {
     private InMemoryDataSource inMemoryDataSource;
 
-    private MutableNotifiableSubject<Routine> activeRoutine;
     private TimeManager activeTimeManager;
 
     @Override
@@ -28,14 +27,7 @@ public class HabitizerApplication extends Application {
         // TODO: Initialize with routines only on first run!
         inMemoryDataSource.initializeFirstRun();
 
-        activeRoutine = new PlainMutableNotifiableSubject<>();
-
         activeTimeManager = new PausableTimeManager(new JavaTimeManager());
-        activeRoutine.setValue(new Routine(NULL_ROUTINE, new TimeTracker(activeTimeManager)));
-    }
-
-    public MutableNotifiableSubject<Routine> getActiveRoutine() {
-        return activeRoutine;
     }
     public TimeManager getActiveTimeManager() { return activeTimeManager; }
 }

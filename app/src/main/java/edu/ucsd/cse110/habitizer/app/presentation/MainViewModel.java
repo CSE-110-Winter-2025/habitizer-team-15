@@ -2,6 +2,8 @@ package edu.ucsd.cse110.habitizer.app.presentation;
 
 import static androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY;
 
+import static edu.ucsd.cse110.habitizer.lib.data.InMemoryDataRoutineManager.NULL_ROUTINE;
+
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
@@ -15,6 +17,7 @@ import edu.ucsd.cse110.habitizer.lib.domain.time.TimeManager;
 import edu.ucsd.cse110.habitizer.lib.domain.time.TimeTracker;
 import edu.ucsd.cse110.habitizer.lib.util.HabitizerTime;
 import edu.ucsd.cse110.habitizer.lib.util.observables.MutableNotifiableSubject;
+import edu.ucsd.cse110.habitizer.lib.util.observables.PlainMutableNotifiableSubject;
 
 public class MainViewModel extends ViewModel {
     private MutableNotifiableSubject<Routine> activeRoutine;
@@ -26,7 +29,7 @@ public class MainViewModel extends ViewModel {
                     creationExtras -> {
                         var app = (HabitizerApplication)creationExtras.get(APPLICATION_KEY);
                         assert app != null;
-                        return new MainViewModel(app.getActiveRoutine(), app.getActiveTimeManager());
+                        return new MainViewModel(app.getActiveTimeManager());
                     });
 
     public static final MainViewModel getSingletonModel(ViewModelStoreOwner modelOwner) {
@@ -35,8 +38,10 @@ public class MainViewModel extends ViewModel {
         return modelProvider.get(MainViewModel.class);
     }
 
-    public MainViewModel(MutableNotifiableSubject<Routine> routine, TimeManager activeTimeManager) {
-        this.activeRoutine = routine;
+    public MainViewModel(TimeManager activeTimeManager) {
+        this.activeRoutine = new PlainMutableNotifiableSubject<>();
+        this.activeRoutine.setValue(new Routine(NULL_ROUTINE, new TimeTracker(activeTimeManager)));;
+
         this.activeTimeManager = activeTimeManager;
     }
 
