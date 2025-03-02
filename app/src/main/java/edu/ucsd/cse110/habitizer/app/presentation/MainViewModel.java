@@ -10,8 +10,11 @@ import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.lifecycle.viewmodel.ViewModelInitializer;
 
 
+import java.util.List;
+
 import edu.ucsd.cse110.habitizer.app.HabitizerApplication;
 import edu.ucsd.cse110.habitizer.lib.data.DataRoutine;
+import edu.ucsd.cse110.habitizer.lib.data.InMemoryDataSource;
 import edu.ucsd.cse110.habitizer.lib.domain.Routine;
 import edu.ucsd.cse110.habitizer.lib.domain.time.TimeManager;
 import edu.ucsd.cse110.habitizer.lib.domain.time.TimeTracker;
@@ -22,14 +25,14 @@ import edu.ucsd.cse110.habitizer.lib.util.observables.PlainMutableNotifiableSubj
 public class MainViewModel extends ViewModel {
     private MutableNotifiableSubject<Routine> activeRoutine;
     private TimeManager activeTimeManager;
-
+    private final InMemoryDataSource inMemoryDataSource;
     public static final ViewModelInitializer<MainViewModel> initializer =
             new ViewModelInitializer<>(
                     MainViewModel.class,
                     creationExtras -> {
                         var app = (HabitizerApplication)creationExtras.get(APPLICATION_KEY);
                         assert app != null;
-                        return new MainViewModel(app.getActiveTimeManager());
+                        return new MainViewModel(app.getActiveTimeManager(), app.getInMemoryDataSource());
                     });
 
     public static final MainViewModel getSingletonModel(ViewModelStoreOwner modelOwner) {
@@ -38,7 +41,8 @@ public class MainViewModel extends ViewModel {
         return modelProvider.get(MainViewModel.class);
     }
 
-    public MainViewModel(TimeManager activeTimeManager) {
+    public MainViewModel(TimeManager activeTimeManager, InMemoryDataSource inMemoryDataSource) {
+        this.inMemoryDataSource = inMemoryDataSource;
         this.activeRoutine = new PlainMutableNotifiableSubject<>();
         this.activeRoutine.setValue(new Routine(NULL_ROUTINE, new TimeTracker(activeTimeManager)));;
 
@@ -58,6 +62,10 @@ public class MainViewModel extends ViewModel {
     }
     public MutableNotifiableSubject<Routine> getActiveRoutineSubject() {
         return activeRoutine;
+    }
+
+    public List<DataRoutine> getDataRoutines() {
+        return inMemoryDataSource.getDataRoutineManager().getDataRoutines();
     }
 
     public void setActiveRoutine(DataRoutine data) {

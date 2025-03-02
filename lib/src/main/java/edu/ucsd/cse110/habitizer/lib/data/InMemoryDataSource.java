@@ -1,11 +1,10 @@
 package edu.ucsd.cse110.habitizer.lib.data;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class InMemoryDataSource {
-    private InMemoryDataRoutineManager inMemoryDataRoutineManager = new InMemoryDataRoutineManager();
-    public InMemoryDataSource() {}
+    private InMemoryDataRoutineManager inMemoryDataRoutineManager;
+    public InMemoryDataSource(InMemoryDataRoutineManager inMemoryDataRoutineManager) {
+        this.inMemoryDataRoutineManager = inMemoryDataRoutineManager;
+    }
 
     public void initializeFirstRun() {
         inMemoryDataRoutineManager.initializeDefaultRoutines();
