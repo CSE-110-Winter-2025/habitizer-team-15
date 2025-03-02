@@ -4,12 +4,10 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.KeyEvent;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import edu.ucsd.cse110.habitizer.app.R;
 import edu.ucsd.cse110.habitizer.app.databinding.FragmentDialogAddTaskBinding;
@@ -69,9 +67,9 @@ public class AddTaskDialogFragment extends DialogFragment {
             return;
         Task task = new Task(taskName);
         if (view.taskBottomBtn.isChecked())
-            model.getRoutine().addTask(task);
+            model.getActiveRoutine().addTask(task);
         else
-            model.getRoutine().addTask(0, task);
+            model.getActiveRoutine().addTask(0, task);
         dialog.dismiss();
     }
     private void onCancelClick(DialogInterface dialog, int which) {

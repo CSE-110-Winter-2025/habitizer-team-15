@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.ucsd.cse110.habitizer.lib.data.DataTask;
-import edu.ucsd.cse110.habitizer.lib.data.InMemoryDataSource;
+import edu.ucsd.cse110.habitizer.lib.data.InMemoryDataRoutineManager;
 import edu.ucsd.cse110.habitizer.lib.util.HabitizerTime;
 
 /**
@@ -26,7 +26,7 @@ public class TaskTests {
     private final int taskId1 = 123;
     private final int taskId2 = -456;
     private final DataTask testDataTask1 = new DataTask(taskName1, taskId1);
-    private final List<DataTask> testDataTasks1 = InMemoryDataSource.MORNING_ROUTINE.dataTasks();
+    private final List<DataTask> testDataTasks1 = InMemoryDataRoutineManager.DATA_MORNING_ROUTINE.dataTasks();
 
     /**
      * Tests Constructor that is passed in a DataTask

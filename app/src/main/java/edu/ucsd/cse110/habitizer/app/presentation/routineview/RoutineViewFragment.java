@@ -10,7 +10,9 @@ import android.view.ViewGroup;
 
 import edu.ucsd.cse110.habitizer.app.R;
 import edu.ucsd.cse110.habitizer.app.databinding.FragmentRoutineViewBinding;
+import edu.ucsd.cse110.habitizer.app.presentation.MainViewModel;
 import edu.ucsd.cse110.habitizer.app.presentation.taskview.TaskViewFragment;
+import edu.ucsd.cse110.habitizer.lib.data.InMemoryDataRoutineManager;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,6 +22,7 @@ import edu.ucsd.cse110.habitizer.app.presentation.taskview.TaskViewFragment;
 public class RoutineViewFragment extends Fragment {
 
     private FragmentRoutineViewBinding view;
+    private MainViewModel model;
     public static RoutineViewFragment newInstance() {
         RoutineViewFragment fragment = new RoutineViewFragment();
         Bundle args = new Bundle();
@@ -30,6 +33,7 @@ public class RoutineViewFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.model = MainViewModel.getSingletonModel(getActivity());
     }
 
     @Override
@@ -42,12 +46,17 @@ public class RoutineViewFragment extends Fragment {
 
     private void setupMvpHooks() {
         view.startMorning.setOnClickListener(view1 -> {
+            // TODO: Call this depending on what the user picks from
+            //  the list given by DataRoutineManager!
+
+            model.setActiveRoutine(InMemoryDataRoutineManager.DATA_MORNING_ROUTINE);
             getParentFragmentManager()
                     .beginTransaction()
                     .replace(R.id.main_activity_fragment_container, TaskViewFragment.newInstance())
                     .commit();
         });
         view.editMorning.setOnClickListener(view1 -> {
+            model.setActiveRoutine(InMemoryDataRoutineManager.DATA_MORNING_ROUTINE);
             getParentFragmentManager()
                     .beginTransaction()
                     .replace(R.id.main_activity_fragment_container, TaskViewFragment.newInstance(true))

@@ -68,10 +68,10 @@ public class TaskViewFragment extends Fragment {
 
         this.model = MainViewModel.getSingletonModel(getActivity());
 
-        MutableNotifiableSubject<List<Task>> tasksSubject = model.getRoutine()
+        MutableNotifiableSubject<List<Task>> tasksSubject = model.getActiveRoutine()
                 .getTasksSubject();
         this.adapter = new TaskViewAdapter(requireContext(), tasksSubject.getValue(),
-                integer -> model.getRoutine().checkOffById(integer));
+                integer -> model.getActiveRoutine().checkOffById(integer));
 
 
         this.uiTimerSubject = new PlainMutableNotifiableSubject<>();
@@ -94,7 +94,7 @@ public class TaskViewFragment extends Fragment {
                              Bundle savedInstanceState) {
         this.view = FragmentTaskViewBinding.inflate(inflater, container, false);
 
-        view.toolbar.setTitle(model.getRoutineName());
+        view.toolbar.setTitle(model.getActiveRoutineName());
         view.taskListView.setAdapter(this.adapter);
 
         if (isEditMode) {
@@ -103,7 +103,7 @@ public class TaskViewFragment extends Fragment {
         }
 
         if (!isEditMode) {
-            model.getRoutine().start();
+            model.getActiveRoutine().start();
         }
 
         setupModelViewHooks();
@@ -119,16 +119,16 @@ public class TaskViewFragment extends Fragment {
 
         String string = getString(R.string.routine_total_time_format);
         uiTimerSubject.observe(t -> {
-            long time = (long) model.getElapsedTime().toMinutes();
-            long total_time = (long) model.getRoutine().getTotalTime().toMinutes();
+            long time = (long) model.getActiveRoutineElapsedTime().toMinutes();
+            long total_time = (long) model.getActiveRoutine().getTotalTime().toMinutes();
             var str = String.format(string, time, total_time);
             view.routineTotalElapsed.setText(str);
         });
 
-        model.getRoutine().getNameSubject().observe(newName -> {
+        model.getActiveRoutine().getNameSubject().observe(newName -> {
             view.toolbar.setTitle(newName);
         });
-        model.getRoutine().getTasksSubject().observe(newTasks -> {
+        model.getActiveRoutine().getTasksSubject().observe(newTasks -> {
             if (newTasks == null) return;
             adapter.notifyDataSetChanged();
         });
@@ -165,7 +165,7 @@ public class TaskViewFragment extends Fragment {
         }
 
         view.endRoutineButton.setOnClickListener(v -> {
-            model.getRoutine().end();
+            model.getActiveRoutine().end();
             // TODO: This shouldn't rely on the button getting clicked, but
             //  rather the model changing (i.e. this should observe the model)
             view.endRoutineButton.setText(R.string.routine_complete);
