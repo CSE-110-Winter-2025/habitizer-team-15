@@ -23,4 +23,5 @@
     <string name="task_dialog_title">New Task</string>
     <string name="add_task">Add Task</string>
     <string name="back_to_menu">Back to Menu</string>
+    <string name="task_empty_time">-</string>
 </resources>

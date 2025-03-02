@@ -71,8 +71,8 @@ public class TaskViewFragment extends Fragment {
 
         MutableNotifiableSubject<List<Task>> tasksSubject = model.getRoutine()
                 .getTasksSubject();
-        this.adapter = new TaskViewAdapter(requireContext(), tasksSubject.getValue(),
-                integer -> model.getRoutine().checkOffById(integer));
+        this.adapter = new TaskViewAdapter(model, requireContext(), tasksSubject.getValue(),
+                integer -> model.getRoutine().checkOffById(integer), isEditMode);
 
 
         this.uiTimerSubject = new PlainMutableNotifiableSubject<>();
