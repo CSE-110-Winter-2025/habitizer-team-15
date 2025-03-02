@@ -18,10 +18,13 @@
     <string name="top">Top</string>
     <string name="bottom">Bottom</string>
     <string name="task_dialog_add">Add</string>
-    <string name="task_dialog_cancel">Cancel</string>
+    <string name="dialog_cancel">Cancel</string>
     <string name="task_dialog_message">Please provide the new task name.</string>
     <string name="task_dialog_title">New Task</string>
     <string name="add_task">Add Task</string>
     <string name="back_to_menu">Back to Menu</string>
     <string name="task_empty_time">-</string>
+    <string name="rename_task">Rename Task</string>
+    <string name="enter_new_task_name">Enter new task name</string>
+    <string name="rename">Rename</string>
 </resources>

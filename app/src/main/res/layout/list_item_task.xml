@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:constraint_referenced_ids="delete"
+        app:constraint_referenced_ids="rename,delete"
         tools:visibility="visible" />
 
     <View
@@ -56,15 +56,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/checkmark" />
 
-    <Button
-        android:id="@+id/delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Delete"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/right_padding"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/task_time"
         android:layout_width="wrap_content"
@@ -81,5 +72,25 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_end="24dp" />
+
+    <ImageButton
+        android:id="@+id/rename"
+        android:layout_width="37dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/task_box"
+        app:layout_constraintStart_toEndOf="@+id/task_name"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/edit_task_name" />
+
+    <ImageButton
+        android:id="@+id/delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/task_time"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/delete_task" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
