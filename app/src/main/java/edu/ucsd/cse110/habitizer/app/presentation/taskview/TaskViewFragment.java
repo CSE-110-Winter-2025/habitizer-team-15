@@ -152,9 +152,16 @@ public class TaskViewFragment extends Fragment {
         }
 
         if (pausable != null) {
-            view.pausePlayButton.setOnClickListener(v -> {
-                pausable.switchPause();
+            view.pauseResumeButton.setOnClickListener(v -> {
+                if(pausable.switchPause())
+                    view.pauseResumeButton.setText("Resume");
+                else
+                    view.pauseResumeButton.setText("Pause");
             });
+
+//            view.pausePlayButton.setOnClickListener(v -> {
+//                pausable.switchPause();
+//            });
 
             view.forwardButton.setOnClickListener(v -> {
                 pausable.forward(30);

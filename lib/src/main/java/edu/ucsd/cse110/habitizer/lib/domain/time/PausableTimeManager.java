@@ -10,7 +10,7 @@ import edu.ucsd.cse110.habitizer.lib.util.HabitizerTime;
  * TODO: Copy pause functionality to TimeTracker
  */
 public class PausableTimeManager extends TimeManager {
-    private Boolean isPaused;
+    private boolean isPaused;
     private HabitizerTime pauseTime;
     private HabitizerTime diffTime;
     private final TimeManager usedTimeManager;
@@ -33,7 +33,7 @@ public class PausableTimeManager extends TimeManager {
             return usedTimeManager.getCurrentTime().add(diffTime);
     }
 
-    public void switchPause() {
+    public boolean switchPause() {
         HabitizerTime currTime = usedTimeManager.getCurrentTime();
 
         isPaused ^= true;
@@ -44,6 +44,7 @@ public class PausableTimeManager extends TimeManager {
             pauseTime = currTime.add(diffTime);
         else
             diffTime = pauseTime.subtract(currTime);
+        return isPaused;
     }
 
     public void forward(long skipSeconds) {

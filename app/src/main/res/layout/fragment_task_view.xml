@@ -16,14 +16,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="visible"
-            app:constraint_referenced_ids="end_routine_button,debug_tools" />
+            app:constraint_referenced_ids="pause_resume_button,end_routine_button,debug_tools" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/edit_mode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:constraint_referenced_ids="edit_mode_text,@+id/add_task_button"
+            app:constraint_referenced_ids="edit_mode_text,add_task_button"
             tools:visibility="visible" />
 
         <androidx.appcompat.widget.Toolbar
@@ -55,27 +55,17 @@
 
         <ListView
             android:id="@+id/task_list_view"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_width="410dp"
+            android:layout_height="530dp"
             app:layout_constraintBottom_toTopOf="@+id/bottom_guideline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edit_mode_text"
+            app:layout_constraintVertical_bias="0.0"
             tools:listitem="@layout/list_item_task">
 
         </ListView>
-
-        <ImageButton
-            android:id="@+id/pause_play_button"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginEnd="16dp"
-            android:contentDescription="@string/debug_pause_play"
-            app:layout_constraintEnd_toStartOf="@+id/routine_total_elapsed"
-            app:layout_constraintTop_toTopOf="@+id/toolbar"
-            app:srcCompat="@drawable/ic_pause"
-            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
         <Button
             android:id="@+id/start_routine_button"
@@ -93,7 +83,9 @@
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginBottom="20dp"
             android:contentDescription="@string/debug_forward_30"
+            app:layout_constraintBottom_toTopOf="@+id/edit_mode_text"
             app:layout_constraintEnd_toStartOf="@+id/routine_total_elapsed"
             app:layout_constraintTop_toBottomOf="@+id/pause_play_button"
             app:srcCompat="@drawable/forward" />
@@ -113,9 +105,22 @@
             app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
         <Button
+            android:id="@+id/pause_resume_button"
+            android:layout_width="329dp"
+            android:layout_height="43dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="10dp"
+            android:text="Pause"
+            app:layout_constraintBottom_toTopOf="@+id/end_routine_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/task_list_view"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <Button
             android:id="@+id/end_routine_button"
-            android:layout_width="322dp"
-            android:layout_height="48dp"
+            android:layout_width="337dp"
+            android:layout_height="40dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
@@ -156,7 +161,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_end="80dp" />
+            app:layout_constraintGuide_end="109dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
