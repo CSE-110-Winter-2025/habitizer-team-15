@@ -18,6 +18,7 @@ import edu.ucsd.cse110.habitizer.app.R;
 import edu.ucsd.cse110.habitizer.app.databinding.FragmentTaskViewBinding;
 import edu.ucsd.cse110.habitizer.app.presentation.MainViewModel;
 import edu.ucsd.cse110.habitizer.app.presentation.routineview.TempRoutineViewFragment;
+import edu.ucsd.cse110.habitizer.app.presentation.taskview.debug.TaskViewDebugFragment;
 import edu.ucsd.cse110.habitizer.app.presentation.taskview.edit.AddTaskDialogFragment;
 import edu.ucsd.cse110.habitizer.app.presentation.ui.TaskViewAdapter;
 import edu.ucsd.cse110.habitizer.lib.domain.Task;
@@ -73,7 +74,10 @@ public class TaskViewFragment extends Fragment {
         this.adapter = new TaskViewAdapter(model, requireContext(), tasksSubject.getValue(),
                 integer -> model.getRoutine().checkOffById(integer), isEditMode, this);
 
+        initializeUiTimer();
+    }
 
+    private void initializeUiTimer() {
         this.uiTimerSubject = new PlainMutableNotifiableSubject<>();
 
         FragmentActivity activity = getActivity();
@@ -101,7 +105,6 @@ public class TaskViewFragment extends Fragment {
             view.editMode.setVisibility(View.VISIBLE);
             view.runMode.setVisibility(View.GONE);
         }
-
 
         setupModelViewHooks();
         updateTimeDisplayObservers();
@@ -142,24 +145,14 @@ public class TaskViewFragment extends Fragment {
             view.startRoutineButton.setEnabled(false);
         });
 
-        TimeManager currTimeManager = model.getActiveTimeManager();
-        PausableTimeManager pausable;
 
-        if (currTimeManager instanceof PausableTimeManager)
-            pausable = (PausableTimeManager) currTimeManager;
-        else {
-            pausable = null;
-        }
+        view.debugMenu.setOnClickListener(v -> {
+            if (view.debugMenuCard.getVisibility() == View.VISIBLE)
+                view.debugMenuCard.setVisibility(View.GONE);
+            else
+                view.debugMenuCard.setVisibility(View.VISIBLE);
+        });
 
-        if (pausable != null) {
-            view.pausePlayButton.setOnClickListener(v -> {
-                pausable.switchPause();
-            });
-
-            view.forwardButton.setOnClickListener(v -> {
-                pausable.forward(30);
-            });
-        }
 
         view.endRoutineButton.setOnClickListener(v -> {
             model.getRoutine().end();
