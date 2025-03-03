@@ -157,7 +157,7 @@ public class TaskViewFragment extends Fragment {
             });
 
             view.forwardButton.setOnClickListener(v -> {
-                pausable.forward(30);
+                pausable.forward(15);
             });
         }
 
