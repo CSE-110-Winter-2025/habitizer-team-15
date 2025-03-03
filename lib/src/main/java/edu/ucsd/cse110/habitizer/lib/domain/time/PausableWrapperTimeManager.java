@@ -6,15 +6,14 @@ import edu.ucsd.cse110.habitizer.lib.util.HabitizerTime;
 
 /**
  * Wrapper for TimeManager that allows for pausing
- * TODO: Copy pause functionality to TimeTracker
  */
-public class PausableTimeManager extends TimeManager {
+public class PausableWrapperTimeManager implements ITimeManager {
     private boolean isPaused;
     private HabitizerTime pauseTime;
     private HabitizerTime diffTime;
-    private final TimeManager usedTimeManager;
+    private final ITimeManager usedTimeManager;
 
-    public PausableTimeManager(@NonNull TimeManager usedTimeManager) {
+    public PausableWrapperTimeManager(@NonNull ITimeManager usedTimeManager) {
         this.isPaused = false;
         this.pauseTime = new HabitizerTime(0);
         this.diffTime = new HabitizerTime(0);
@@ -54,4 +53,7 @@ public class PausableTimeManager extends TimeManager {
             diffTime = diffTime.add(new HabitizerTime(skipSeconds * HabitizerTime.secondsToNanoseconds));
     }
 
+    public boolean isPaused() {
+        return isPaused;
+    }
 }

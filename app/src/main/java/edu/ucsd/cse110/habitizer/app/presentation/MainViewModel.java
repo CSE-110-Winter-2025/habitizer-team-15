@@ -13,14 +13,14 @@ import java.util.Objects;
 
 import edu.ucsd.cse110.habitizer.app.HabitizerApplication;
 import edu.ucsd.cse110.habitizer.lib.domain.Routine;
-import edu.ucsd.cse110.habitizer.lib.domain.time.TimeManager;
+import edu.ucsd.cse110.habitizer.lib.domain.time.ITimeManager;
 import edu.ucsd.cse110.habitizer.lib.util.HabitizerTime;
 import edu.ucsd.cse110.habitizer.lib.util.observables.MutableNotifiableSubject;
 import edu.ucsd.cse110.habitizer.lib.util.observables.PlainMutableNotifiableSubject;
 
 public class MainViewModel extends ViewModel {
     private MutableNotifiableSubject<Routine> activeRoutine;
-    private TimeManager activeTimeManager;
+    private ITimeManager activeTimeManager;
 
     public static final ViewModelInitializer<MainViewModel> initializer =
             new ViewModelInitializer<>(
@@ -37,7 +37,7 @@ public class MainViewModel extends ViewModel {
         return modelProvider.get(MainViewModel.class);
     }
 
-    public MainViewModel(@NonNull Routine routine, TimeManager activeTimeManager) {
+    public MainViewModel(@NonNull Routine routine, ITimeManager activeTimeManager) {
         this.activeRoutine = new PlainMutableNotifiableSubject<>();
         activeRoutine.setValue(routine);
 
@@ -59,7 +59,7 @@ public class MainViewModel extends ViewModel {
         return activeRoutine;
     }
 
-    public TimeManager getActiveTimeManager() {
+    public ITimeManager getActiveTimeManager() {
         return activeTimeManager;
     }
 }

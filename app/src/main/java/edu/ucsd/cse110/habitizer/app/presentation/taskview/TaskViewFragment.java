@@ -21,8 +21,8 @@ import edu.ucsd.cse110.habitizer.app.presentation.routineview.TempRoutineViewFra
 import edu.ucsd.cse110.habitizer.app.presentation.taskview.edit.AddTaskDialogFragment;
 import edu.ucsd.cse110.habitizer.app.presentation.ui.TaskViewAdapter;
 import edu.ucsd.cse110.habitizer.lib.domain.Task;
-import edu.ucsd.cse110.habitizer.lib.domain.time.PausableTimeManager;
-import edu.ucsd.cse110.habitizer.lib.domain.time.TimeManager;
+import edu.ucsd.cse110.habitizer.lib.domain.time.PausableWrapperTimeManager;
+import edu.ucsd.cse110.habitizer.lib.domain.time.ITimeManager;
 import edu.ucsd.cse110.habitizer.lib.util.observables.MutableNotifiableSubject;
 import edu.ucsd.cse110.habitizer.lib.util.observables.PlainMutableNotifiableSubject;
 
@@ -142,11 +142,11 @@ public class TaskViewFragment extends Fragment {
             view.startRoutineButton.setEnabled(false);
         });
 
-        TimeManager currTimeManager = model.getActiveTimeManager();
-        PausableTimeManager pausable;
+        ITimeManager currTimeManager = model.getActiveTimeManager();
+        PausableWrapperTimeManager pausable;
 
-        if (currTimeManager instanceof PausableTimeManager)
-            pausable = (PausableTimeManager) currTimeManager;
+        if (currTimeManager instanceof PausableWrapperTimeManager)
+            pausable = (PausableWrapperTimeManager) currTimeManager;
         else {
             pausable = null;
         }
