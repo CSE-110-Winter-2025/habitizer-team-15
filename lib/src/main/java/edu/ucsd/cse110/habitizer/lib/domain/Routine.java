@@ -3,7 +3,6 @@ package edu.ucsd.cse110.habitizer.lib.domain;
 import androidx.annotation.NonNull;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
@@ -103,7 +102,7 @@ public class Routine {
     }
 
     public boolean isStarted() {
-        Boolean value = timeTracker.isStarted().getValue();
+        Boolean value = timeTracker.getIsStartedSubject().getValue();
         return Boolean.TRUE.equals(value);
     }
 
