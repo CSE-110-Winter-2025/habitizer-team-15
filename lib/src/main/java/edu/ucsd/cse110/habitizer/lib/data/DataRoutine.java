@@ -22,4 +22,14 @@ public record DataRoutine(
     public static DataRoutine createEmpty(String name) {
         return new DataRoutine(name, new ArrayList<>(), -1, 0);
     }
+
+    @Override
+    public String toString() {
+        return "DataRoutine{" +
+                "name='" + name + '\'' +
+                ", dataTasks=" + dataTasks +
+                ", id=" + id +
+                ", totalTime=" + totalTime +
+                '}';
+    }
 }

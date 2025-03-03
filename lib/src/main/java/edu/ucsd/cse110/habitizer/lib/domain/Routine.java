@@ -123,21 +123,25 @@ public class Routine {
         return tasks.getValue().size();
     }
 
+    // update corresponding DataRoutine
     public void addTask(Task task){
         tasks.getValue().add(task);
         tasks.updateObservers();
     }
 
+    // update corresponding DataRoutine
     public void addTask(int i, Task task){
         tasks.getValue().add(i, task);
         tasks.updateObservers();
     }
 
+    // update corresponding DataRoutine
     public void removeTask(Task task) {
         tasks.getValue().remove(task);
         tasks.updateObservers();
     }
 
+    // update corresponding DataRoutine
     public void removeTaskById(int id)
     {
         removeTask(findTaskById(id));

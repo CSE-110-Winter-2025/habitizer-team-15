@@ -22,24 +22,18 @@
         app:title="Routines"
         app:titleTextColor="@color/white" />
 
-    <Button
-        android:id="@+id/start_morning"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="268dp"
-        android:text="Start Morning"
+    <ListView
+        android:id="@+id/routine_list_view"
+        android:layout_width="409dp"
+        android:layout_height="672dp"
+        android:layout_marginTop="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.816"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        tools:listitem="@layout/list_item_routine">
 
-    <Button
-        android:id="@+id/edit_morning"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="268dp"
-        android:text="Edit Morning"
-        app:layout_constraintStart_toEndOf="@+id/start_morning"
-        app:layout_constraintTop_toTopOf="parent" />
+    </ListView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

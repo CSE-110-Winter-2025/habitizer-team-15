@@ -3,7 +3,6 @@ package edu.ucsd.cse110.habitizer.lib.data;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.crypto.Data;
 
 import edu.ucsd.cse110.habitizer.lib.util.HabitizerTime;
 import edu.ucsd.cse110.habitizer.lib.util.observables.MutableNotifiableSubject;
@@ -24,7 +23,7 @@ public class InMemoryDataRoutineManager implements IDataRoutineManager {
                 DataTask.createEmpty("Make lunch"),
                 DataTask.createEmpty("Dinner prep"),
                 DataTask.createEmpty("Pack bag")
-            ), -1, HabitizerTime.fromMinutes(45).time());
+            ), 0, HabitizerTime.fromMinutes(45).time());
     public static final DataRoutine DATA_EVENING_ROUTINE =
         new DataRoutine("Evening",
             List.of(
@@ -34,7 +33,7 @@ public class InMemoryDataRoutineManager implements IDataRoutineManager {
                 DataTask.createEmpty("Wash dishes"),
                 DataTask.createEmpty("Pack bag"),
                 DataTask.createEmpty("Homework")
-            ), -1, HabitizerTime.fromMinutes(45).time());
+            ), 1, HabitizerTime.fromMinutes(45).time());
 
     /**
      * This is used as a <a href="https://refactoring.guru/introduce-null-object">Null Object</a>
@@ -43,6 +42,7 @@ public class InMemoryDataRoutineManager implements IDataRoutineManager {
     public static final DataRoutine NULL_ROUTINE =
             new DataRoutine("Lorem Ipsum", new ArrayList<>(), -1, HabitizerTime.fromMinutes(123).time());
     public void initializeDefaultRoutines() {
+        clearDataRoutines();
         addDataRoutine(DATA_MORNING_ROUTINE);
         addDataRoutine(DATA_EVENING_ROUTINE);
     }
@@ -74,6 +74,8 @@ public class InMemoryDataRoutineManager implements IDataRoutineManager {
      */
     @Override
     public List<DataRoutine> getDataRoutines() {
+        initializeDefaultRoutines(); // temporary, adds all initial routines to fragment
+
         return List.copyOf(dataRoutines.getValue());
     }
 }
