@@ -58,13 +58,14 @@ public class Routine {
         this.tasks.observe(taskList -> {
             flushToDataRoutine();
         });
-        this.tasks.setValue(DataDomainConverter.dataTasksToTasks(data.dataTasks()));
 
+        List<Task> tasks = DataDomainConverter.dataTasksToTasks(data.dataTasks());
+        this.tasks.setValue(tasks);
+        tasks.forEach(this::registerTaskSubjects);
 
 
         this.timeTracker = timeTracker;
         this.time = HabitizerTime.zero;
-
     }
 
     private void flushToDataRoutine() {
@@ -151,7 +152,6 @@ public class Routine {
     public int size() {
         return tasks.getValue().size();
     }
-
     private void registerTaskSubjects(Task task) {
         tasks.updateObservers();
         task.getNameSubject().observe(s -> {
@@ -170,6 +170,7 @@ public class Routine {
     }
 
     public void removeTask(Task task) {
+        task.getNameSubject().removeObservers();
         tasks.getValue().remove(task);
         tasks.updateObservers();
     }
