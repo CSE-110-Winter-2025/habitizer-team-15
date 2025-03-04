@@ -77,9 +77,10 @@ public class TaskViewAdapter extends ArrayAdapter<Task> {
             setupTimeDisplay(task, binding);
         });
 
+        // TODO
         // Edit mode buttons
         binding.delete.setOnClickListener(v -> {
-            model.getRoutine().removeTask(task);
+            model.getActiveRoutine().removeTask(task);
         });
 
         binding.rename.setOnClickListener(v -> {

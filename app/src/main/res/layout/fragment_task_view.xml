@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="visible"
-            app:constraint_referenced_ids="start_routine_button,end_routine_button,debug_tools" />
+            app:constraint_referenced_ids="end_routine_button,debug_tools" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/edit_mode"
@@ -95,16 +95,16 @@
             app:layout_constraintBottom_toBottomOf="@id/bottom_guideline"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <Button
-            android:id="@+id/start_routine_button"
-            android:layout_width="98dp"
-            android:layout_height="55dp"
-            android:contentDescription="@string/debug_start_routine"
-            android:text="@string/start"
-            app:layout_constraintBottom_toBottomOf="@+id/toolbar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/toolbar"
-            app:layout_constraintTop_toTopOf="@+id/toolbar" />
+<!--        <Button-->
+<!--            android:id="@+id/start_routine_button"-->
+<!--            android:layout_width="98dp"-->
+<!--            android:layout_height="55dp"-->
+<!--            android:contentDescription="@string/debug_start_routine"-->
+<!--            android:text="@string/start"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/toolbar"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="@+id/toolbar"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/toolbar" />-->
 
         <Button
             android:id="@+id/add_task_button"

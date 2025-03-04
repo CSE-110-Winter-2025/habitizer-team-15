@@ -8,7 +8,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import edu.ucsd.cse110.habitizer.lib.data.InMemoryDataSource;
+import edu.ucsd.cse110.habitizer.lib.data.InMemoryDataRoutineManager;
 import edu.ucsd.cse110.habitizer.lib.domain.time.MockTimeManager;
 import edu.ucsd.cse110.habitizer.lib.domain.time.TimeTracker;
 
@@ -87,7 +87,7 @@ public class RoutineTaskTests {
     @Test
     public void bddScenario1() {
         MockTimeManager mockTime = new MockTimeManager();
-        Routine routine = new Routine(InMemoryDataSource.MORNING_ROUTINE,
+        Routine routine = new Routine(InMemoryDataRoutineManager.DATA_MORNING_ROUTINE,
                 new TimeTracker(mockTime));
 
         routine.start();

@@ -68,9 +68,9 @@ public class AddTaskDialogFragment extends DialogFragment {
             return;
         Task task = new Task(addedTaskName);
         if (view.taskBottomBtn.isChecked())
-            model.getRoutine().addTask(task);
+            model.getActiveRoutine().addTask(task);
         else
-            model.getRoutine().addTask(0, task);
+            model.getActiveRoutine().addTask(0, task);
         dialog.dismiss();
     }
     private void onCancelClick(DialogInterface dialog, int which) {

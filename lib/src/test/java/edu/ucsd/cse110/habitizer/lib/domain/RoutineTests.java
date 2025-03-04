@@ -9,30 +9,26 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import javax.xml.crypto.Data;
-
 import edu.ucsd.cse110.habitizer.lib.data.DataRoutine;
 import edu.ucsd.cse110.habitizer.lib.data.DataTask;
-import edu.ucsd.cse110.habitizer.lib.data.InMemoryDataSource;
+import edu.ucsd.cse110.habitizer.lib.data.InMemoryDataRoutineManager;
 import edu.ucsd.cse110.habitizer.lib.domain.time.MockTimeManager;
 import edu.ucsd.cse110.habitizer.lib.domain.time.TimeTracker;
 import edu.ucsd.cse110.habitizer.lib.util.HabitizerTime;
-import edu.ucsd.cse110.observables.MutableSubject;
 
 /**
  * Unit tests for Routine.
  */
 public class RoutineTests {
-    private List<Task> routineTasks1 = Task.createListFromDataTasks(InMemoryDataSource.MORNING_ROUTINE.dataTasks());
+    private List<Task> routineTasks1 = Task.createListFromDataTasks(InMemoryDataRoutineManager.DATA_MORNING_ROUTINE.dataTasks());
     private List<Task> routineTasks2 = new ArrayList<>();
     private final String routineName1 = "Test Routine 1";
     private final String routineName2 = "Test Routine 2";
-    private DataRoutine testDataRoutine1 = InMemoryDataSource.MORNING_ROUTINE;
+    private DataRoutine testDataRoutine1 = InMemoryDataRoutineManager.DATA_MORNING_ROUTINE;
     private DataRoutine testEmptyDataRoutine = DataRoutine.createEmpty(routineName1);
     private final MockTimeManager mockTimeManager = new MockTimeManager();
     private final TimeTracker mockTimeTracker = new TimeTracker(mockTimeManager);
