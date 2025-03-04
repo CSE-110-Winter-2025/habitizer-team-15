@@ -18,6 +18,7 @@ import edu.ucsd.cse110.habitizer.app.R;
 import edu.ucsd.cse110.habitizer.app.databinding.FragmentTaskViewBinding;
 import edu.ucsd.cse110.habitizer.app.presentation.MainViewModel;
 import edu.ucsd.cse110.habitizer.app.presentation.routineview.RoutineViewFragment;
+import edu.ucsd.cse110.habitizer.app.presentation.taskview.debug.TaskViewDebugFragment;
 import edu.ucsd.cse110.habitizer.app.presentation.taskview.edit.AddTaskDialogFragment;
 import edu.ucsd.cse110.habitizer.app.presentation.ui.TaskViewAdapter;
 import edu.ucsd.cse110.habitizer.lib.domain.Task;
@@ -70,10 +71,15 @@ public class TaskViewFragment extends Fragment {
 
         MutableNotifiableSubject<List<Task>> tasksSubject = model.getActiveRoutine()
                 .getTasksSubject();
-        this.adapter = new TaskViewAdapter(requireContext(), tasksSubject.getValue(),
-                integer -> model.getActiveRoutine().checkOffById(integer));
 
+        // TODO
+        this.adapter = new TaskViewAdapter(model, requireContext(), tasksSubject.getValue(),
+                integer -> model.getActiveRoutine().checkOffById(integer), isEditMode, this);
 
+        initializeUiTimer();
+    }
+
+    private void initializeUiTimer() {
         this.uiTimerSubject = new PlainMutableNotifiableSubject<>();
 
         FragmentActivity activity = getActivity();
@@ -145,24 +151,14 @@ public class TaskViewFragment extends Fragment {
 //            view.startRoutineButton.setEnabled(false);
 //        });
 
-        TimeManager currTimeManager = model.getActiveTimeManager();
-        PausableTimeManager pausable;
 
-        if (currTimeManager instanceof PausableTimeManager)
-            pausable = (PausableTimeManager) currTimeManager;
-        else {
-            pausable = null;
-        }
+        view.debugMenu.setOnClickListener(v -> {
+            if (view.debugMenuCard.getVisibility() == View.VISIBLE)
+                view.debugMenuCard.setVisibility(View.GONE);
+            else
+                view.debugMenuCard.setVisibility(View.VISIBLE);
+        });
 
-        if (pausable != null) {
-            view.pausePlayButton.setOnClickListener(v -> {
-                pausable.switchPause();
-            });
-
-            view.forwardButton.setOnClickListener(v -> {
-                pausable.forward(30);
-            });
-        }
 
         view.endRoutineButton.setOnClickListener(v -> {
             model.getActiveRoutine().end();
@@ -171,12 +167,12 @@ public class TaskViewFragment extends Fragment {
             view.endRoutineButton.setText(R.string.routine_complete);
         });
 
-        view.addTask.setOnClickListener(v -> {
+        view.addTaskButton.setOnClickListener(v -> {
             var frag = AddTaskDialogFragment.newInstance();
             frag.show(getParentFragmentManager(), "AddTaskDialogFragment");
         });
 
-        view.backToMenu.setOnClickListener(v -> {
+        view.backToMenuButton.setOnClickListener(v -> {
             getParentFragmentManager()
                     .beginTransaction()
                     .replace(R.id.main_activity_fragment_container, RoutineViewFragment.newInstance())

@@ -9,20 +9,30 @@ import android.widget.ArrayAdapter;
 import androidx.annotation.NonNull;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Consumer;
 
 import edu.ucsd.cse110.habitizer.app.R;
 import edu.ucsd.cse110.habitizer.app.databinding.ListItemTaskBinding;
+import edu.ucsd.cse110.habitizer.app.presentation.MainViewModel;
+import edu.ucsd.cse110.habitizer.app.presentation.taskview.TaskViewFragment;
+import edu.ucsd.cse110.habitizer.app.presentation.taskview.edit.RenameTaskDialogFragment;
 import edu.ucsd.cse110.habitizer.lib.domain.Task;
 import edu.ucsd.cse110.habitizer.lib.util.HabitizerTime;
 
 public class TaskViewAdapter extends ArrayAdapter<Task> {
 
+    private final MainViewModel model;
     Consumer<Integer> onTaskClick;
-    public TaskViewAdapter(Context context, List<Task> tasks, Consumer<Integer> onTaskClick) {
+    private final boolean isEditMode;
+    private final TaskViewFragment taskViewFragment;
+
+    public TaskViewAdapter(MainViewModel model, Context context, List<Task> tasks,
+                           Consumer<Integer> onTaskClick, boolean isEditMode, TaskViewFragment taskViewFragment) {
         super(context, 0, tasks);
+        this.model = model;
         this.onTaskClick = onTaskClick;
+        this.isEditMode = isEditMode;
+        this.taskViewFragment = taskViewFragment;
     }
 
     @NonNull
@@ -39,6 +49,27 @@ public class TaskViewAdapter extends ArrayAdapter<Task> {
             binding = ListItemTaskBinding.inflate(layoutInflater, parent, false);
         }
 
+        if (isEditMode) {
+            binding.editMode.setVisibility(View.VISIBLE);
+            binding.runMode.setVisibility(View.GONE);
+        }
+
+        setupMvpHooks(binding, task);
+
+        return binding.getRoot();
+    }
+
+    private void setupMvpHooks(ListItemTaskBinding binding, Task task) {
+        binding.taskName.setText(task.getName());
+
+        task.getNameSubject().observe(newName -> {
+            binding.taskName.setText(newName);
+        });
+
+        setupTimeDisplay(task, binding);
+
+        getCheckmarkVisibility(task, binding);
+
         binding.taskBox.setOnClickListener(v -> {
             var id = task.getId();
             onTaskClick.accept(id);
@@ -46,13 +77,16 @@ public class TaskViewAdapter extends ArrayAdapter<Task> {
             setupTimeDisplay(task, binding);
         });
 
-        binding.taskName.setText(task.getName());
+        // TODO
+        // Edit mode buttons
+        binding.delete.setOnClickListener(v -> {
+            model.getActiveRoutine().removeTask(task);
+        });
 
-        setupTimeDisplay(task, binding);
-
-        getCheckmarkVisibility(task, binding);
-
-        return binding.getRoot();
+        binding.rename.setOnClickListener(v -> {
+            var frag = RenameTaskDialogFragment.newInstance(task);
+            frag.show(taskViewFragment.getParentFragmentManager(), "RenameTaskDialogFragment");
+        });
     }
 
     private void setupTimeDisplay(Task task, ListItemTaskBinding binding) {
@@ -62,7 +96,7 @@ public class TaskViewAdapter extends ArrayAdapter<Task> {
 
     @NonNull
     private String getTimeDisplayString(Task task) {
-        String timeDisplay = "-";
+        String timeDisplay = getContext().getString(R.string.task_empty_time);
         if (Boolean.TRUE.equals(task.isDone().getValue())) {
             HabitizerTime time = task.getRecordedTime();
             String format = getContext().getString(R.string.task_time_string_format);
