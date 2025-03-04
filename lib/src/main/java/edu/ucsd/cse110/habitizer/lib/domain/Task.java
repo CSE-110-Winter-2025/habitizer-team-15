@@ -29,7 +29,7 @@ public class Task {
         this.name.setValue(data.name());
 
         this.name.observe(s -> {
-            this.data = DataTask.createEmpty(s);
+            this.data = DataTask.createEmpty(s).newWithId(getId());
         });
 
         this.data = data;
