@@ -169,7 +169,7 @@ public class Routine {
         registerTaskSubjects(task);
     }
 
-    public void removeTask(Task task) {
+    public void removeTask(@NonNull Task task) {
         task.getNameSubject().removeObservers();
         tasks.getValue().remove(task);
         tasks.updateObservers();

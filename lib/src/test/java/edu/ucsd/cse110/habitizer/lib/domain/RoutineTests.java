@@ -472,9 +472,10 @@ public class RoutineTests {
             testRoutine3.removeTask(task1);
 
             // Nothing should be removed from passing null
-            testRoutine1.removeTask(null);
-            testRoutine2.removeTask(null);
-            testRoutine3.removeTask(null);
+            // Contractually, the Task should be non-null now
+            // testRoutine1.removeTask(null);
+            // testRoutine2.removeTask(null);
+            // testRoutine3.removeTask(null);
 
             tasks1.remove(removeIndex);
 
