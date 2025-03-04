@@ -4,8 +4,6 @@ import androidx.annotation.NonNull;
 
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import edu.ucsd.cse110.habitizer.lib.data.DataTask;
@@ -17,12 +15,22 @@ import edu.ucsd.cse110.observables.Subject;
 public class Task {
     private @Nullable HabitizerTime recordedTime;
     private final @NonNull MutableSubject<String> name;
+
+    @NonNull
+    public DataTask getData() {
+        return data;
+    }
+
     private @NonNull DataTask data;
     private @NonNull PlainMutableSubject<Boolean> isDone;
 
     public Task(@NonNull DataTask data) {
         this.name = new PlainMutableSubject<>();
         this.name.setValue(data.name());
+
+        this.name.observe(s -> {
+            this.data = DataTask.createEmpty(s).newWithId(getId());
+        });
 
         this.data = data;
 
@@ -36,20 +44,6 @@ public class Task {
      */
     public Task(String name) {
         this(DataTask.createEmpty(name));
-    }
-
-    /**
-     * Creates a List of Tasks given a List of DataTasks.
-     * @param dataTasks The List of DataTasks.
-     * @return List of tasks.
-     */
-    // This static method is here since a utility class for DataTasks is not necessary (yet).
-    public static List<Task> createListFromDataTasks(List<DataTask> dataTasks) {
-        ArrayList<Task> tasks = new ArrayList<>();
-        for (DataTask dataTask : dataTasks) {
-            tasks.add(new Task(dataTask));
-        }
-        return tasks;
     }
 
     public int getId() {
