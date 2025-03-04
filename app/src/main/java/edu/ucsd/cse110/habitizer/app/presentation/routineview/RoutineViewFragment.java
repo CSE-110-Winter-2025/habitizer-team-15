@@ -49,8 +49,7 @@ public class RoutineViewFragment extends Fragment {
         Log.i("ROUTINE 1", allDataRoutines.get(0).toString());
         Log.i("ROUTINE 2", allDataRoutines.get(1).toString());
 
-        this.adapter = new RoutineViewAdapter(requireContext(), getParentFragmentManager(), this.allDataRoutines,
-                integer -> model.setActiveRoutine(allDataRoutines.get(integer)));
+        this.adapter = new RoutineViewAdapter(requireContext(), getParentFragmentManager(), model);
 
     }
 

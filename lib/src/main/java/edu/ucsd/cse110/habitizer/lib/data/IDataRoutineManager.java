@@ -9,5 +9,7 @@ public interface IDataRoutineManager {
 
     void addDataRoutine(int i, DataRoutine dataRoutine);
 
+    void setDataRoutine(int i, DataRoutine dataRoutine);
+
     List<DataRoutine> getDataRoutines();
 }

@@ -3,14 +3,16 @@ package edu.ucsd.cse110.habitizer.lib.domain;
 import androidx.annotation.NonNull;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
 import edu.ucsd.cse110.habitizer.lib.data.DataRoutine;
+import edu.ucsd.cse110.habitizer.lib.data.DataTask;
 import edu.ucsd.cse110.habitizer.lib.util.HabitizerTime;
 import edu.ucsd.cse110.habitizer.lib.domain.time.TimeTracker;
+import edu.ucsd.cse110.habitizer.lib.util.conversions.DataDomainConverter;
 import edu.ucsd.cse110.habitizer.lib.util.observables.MutableNotifiableSubject;
+import edu.ucsd.cse110.habitizer.lib.util.observables.NotifiableSubject;
 import edu.ucsd.cse110.habitizer.lib.util.observables.PlainMutableNotifiableSubject;
 import edu.ucsd.cse110.observables.MutableSubject;
 import edu.ucsd.cse110.observables.PlainMutableSubject;
@@ -19,9 +21,20 @@ public class Routine {
 
     private final @NonNull MutableNotifiableSubject<List<Task>> tasks;
     private final @NonNull MutableSubject<String> name;
+
+    @NonNull
+    public DataRoutine getData() {
+        return data;
+    }
+
     private @NonNull DataRoutine data;
     private final @NonNull TimeTracker timeTracker;
     private @NonNull HabitizerTime time;
+
+    /**
+     * Updates when the Routine changes.
+     */
+    private final @NonNull NotifiableSubject<Object> onFlush;
 
 
     public HabitizerTime getElapsedTime() {
@@ -32,20 +45,36 @@ public class Routine {
     }
 
     public Routine(@NonNull DataRoutine data, @NonNull TimeTracker timeTracker){
-
-        this.tasks = new PlainMutableNotifiableSubject<>();
-        this.tasks.observe(taskList -> {
-            updateTaskIds();
-        });
-        this.tasks.setValue(Task.createListFromDataTasks(data.dataTasks()));
-
         this.name = new PlainMutableSubject<>();
         this.name.setValue(data.name());
 
         this.data = data;
 
+        PlainMutableNotifiableSubject<Object> onFlushObject = new PlainMutableNotifiableSubject<>();
+        onFlushObject.setValue(new Object());
+        this.onFlush = onFlushObject;
+
+        this.tasks = new PlainMutableNotifiableSubject<>();
+        this.tasks.observe(taskList -> {
+            flushToDataRoutine();
+        });
+        this.tasks.setValue(DataDomainConverter.dataTasksToTasks(data.dataTasks()));
+
+
+
         this.timeTracker = timeTracker;
-        this.time = new HabitizerTime(0);
+        this.time = HabitizerTime.zero;
+
+    }
+
+    private void flushToDataRoutine() {
+        updateTaskIds();
+
+        List<DataTask> list = DataDomainConverter.tasksToDataTasks(tasks.getValue());
+
+        // TODO: It'd probably be much easier to do this if data was a MutableSubject
+        data = new DataRoutine(getName(), list, getId(), getTotalTime().time());
+        onFlush.updateObservers();
     }
 
     private void updateTaskIds() {
@@ -123,25 +152,28 @@ public class Routine {
         return tasks.getValue().size();
     }
 
-    // update corresponding DataRoutine
+    private void registerTaskSubjects(Task task) {
+        tasks.updateObservers();
+        task.getNameSubject().observe(s -> {
+            tasks.updateObservers();
+        });
+    }
+
     public void addTask(Task task){
         tasks.getValue().add(task);
-        tasks.updateObservers();
+        registerTaskSubjects(task);
     }
 
-    // update corresponding DataRoutine
     public void addTask(int i, Task task){
         tasks.getValue().add(i, task);
-        tasks.updateObservers();
+        registerTaskSubjects(task);
     }
 
-    // update corresponding DataRoutine
     public void removeTask(Task task) {
         tasks.getValue().remove(task);
         tasks.updateObservers();
     }
 
-    // update corresponding DataRoutine
     public void removeTaskById(int id)
     {
         removeTask(findTaskById(id));
@@ -149,5 +181,10 @@ public class Routine {
 
     public MutableNotifiableSubject<List<Task>> getTasksSubject() {
         return tasks;
+    }
+
+    @NonNull
+    public NotifiableSubject<Object> getOnFlushSubject() {
+        return onFlush;
     }
 }
