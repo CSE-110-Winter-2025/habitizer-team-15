@@ -15,6 +15,7 @@ import java.util.function.Consumer;
 import edu.ucsd.cse110.habitizer.app.R;
 import edu.ucsd.cse110.habitizer.app.databinding.ListItemRoutineBinding;
 import edu.ucsd.cse110.habitizer.app.databinding.ListItemTaskBinding;
+import edu.ucsd.cse110.habitizer.app.presentation.MainViewModel;
 import edu.ucsd.cse110.habitizer.app.presentation.routineview.RoutineViewFragment;
 import edu.ucsd.cse110.habitizer.app.presentation.taskview.TaskViewFragment;
 import edu.ucsd.cse110.habitizer.lib.data.DataRoutine;
@@ -23,12 +24,14 @@ import edu.ucsd.cse110.habitizer.lib.util.HabitizerTime;
 
 public class RoutineViewAdapter extends ArrayAdapter<DataRoutine> {
 
-    Consumer<Integer> onRoutineClick;
     FragmentManager parentFragmentManager;
-    public RoutineViewAdapter(Context context, FragmentManager parentFragmentManager, List<DataRoutine> dataRoutines, Consumer<Integer> onRoutineClick) {
-        super(context, 0, dataRoutines);
-        this.onRoutineClick = onRoutineClick;
+    @NonNull
+    private final MainViewModel model;
+
+    public RoutineViewAdapter(Context context, FragmentManager parentFragmentManager, MainViewModel model) {
+        super(context, 0, model.getDataRoutines());
         this.parentFragmentManager = parentFragmentManager;
+        this.model = model;
     }
 
     @NonNull
@@ -45,12 +48,12 @@ public class RoutineViewAdapter extends ArrayAdapter<DataRoutine> {
             binding = ListItemRoutineBinding.inflate(layoutInflater, parent, false);
         }
 
+        // TODO: I recommend using String formats here! (better for localization)
         String buttonName = "Start " + dataRoutine.name();
         binding.startRoutine.setText(buttonName);
 
         binding.startRoutine.setOnClickListener(v -> {
-            var id = dataRoutine.id();
-            onRoutineClick.accept(id);
+            model.setActiveRoutine(dataRoutine);
             this.parentFragmentManager
                     .beginTransaction()
                     .replace(R.id.main_activity_fragment_container, TaskViewFragment.newInstance())
@@ -58,8 +61,7 @@ public class RoutineViewAdapter extends ArrayAdapter<DataRoutine> {
         });
 
         binding.editRoutine.setOnClickListener(v -> {
-            var id = dataRoutine.id();
-            onRoutineClick.accept(id);
+            model.setActiveRoutine(dataRoutine);
             this.parentFragmentManager
                     .beginTransaction()
                     .replace(R.id.main_activity_fragment_container, TaskViewFragment.newInstance(true))
@@ -68,30 +70,4 @@ public class RoutineViewAdapter extends ArrayAdapter<DataRoutine> {
 
         return binding.getRoot();
     }
-
-
-//    private void setupTimeDisplay(Task task, ListItemTaskBinding binding) {
-//        String timeDisplay = getTimeDisplayString(task);
-//        binding.taskTime.setText(timeDisplay);
-//    }
-//
-//    @NonNull
-//    private String getTimeDisplayString(Task task) {
-//        String timeDisplay = "-";
-//        if (Boolean.TRUE.equals(task.isDone().getValue())) {
-//            HabitizerTime time = task.getRecordedTime();
-//            String format = getContext().getString(R.string.task_time_string_format);
-//            timeDisplay = String.format(format, (long) Math.ceil(time.toMinutes()));
-//        }
-//        return timeDisplay;
-//    }
-//
-//    private void getCheckmarkVisibility(Task task, ListItemTaskBinding binding) {
-//        if (Boolean.TRUE.equals(task.isDone().getValue())) {
-//            binding.checkmark.setVisibility(View.VISIBLE);
-//            binding.taskBox.setOnClickListener(null);
-//        } else {
-//            binding.checkmark.setVisibility(View.INVISIBLE);
-//        }
-//    }
 }

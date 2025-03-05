@@ -2,7 +2,7 @@ package edu.ucsd.cse110.habitizer.app.presentation;
 
 import static androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY;
 
-import static edu.ucsd.cse110.habitizer.lib.data.InMemoryDataRoutineManager.NULL_ROUTINE;
+import static edu.ucsd.cse110.habitizer.lib.data.InMemoryDataSource.NULL_ROUTINE;
 
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
@@ -72,8 +72,12 @@ public class MainViewModel extends ViewModel {
         Routine newRoutine = new Routine(data, new TimeTracker(activeTimeManager));
         setActiveRoutine(newRoutine);
     }
-    public void setActiveRoutine(Routine data) {
-        activeRoutine.setValue(data);
+    public void setActiveRoutine(Routine routine) {
+        activeRoutine.setValue(routine);
+        routine.getOnFlushSubject().observe(o -> {
+            inMemoryDataSource.getDataRoutineManager()
+                    .setDataRoutine(routine.getId(), routine.getData());
+        });
     }
 
 
