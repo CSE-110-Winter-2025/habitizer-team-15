@@ -161,15 +161,11 @@ public class TaskViewFragment extends Fragment {
         });
 
         model.getActiveRoutine().getIsEndedSubject().observe(ended -> {
-            if (ended) {
-                model.getActiveRoutine().end();
-                view.endRoutineButton.setText(R.string.routine_complete);
-            }
+            view.endRoutineButton.setText(R.string.routine_complete);
         });
 
         view.endRoutineButton.setOnClickListener(v -> {
             model.getActiveRoutine().end();
-            view.endRoutineButton.setText(R.string.routine_complete);
         });
 
         view.addTaskButton.setOnClickListener(v -> {

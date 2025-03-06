@@ -119,6 +119,7 @@ public class Routine {
             return;
         timeTracker.stop();
         time = timeTracker.getElapsedTime();
+        ended.setValue(Boolean.TRUE);
     }
 
     public Task findTaskById(int id) {
@@ -144,7 +145,6 @@ public class Routine {
             return;
         task.recordTime(timeTracker.getCheckoffTimeAndCheckoff());
         task.checkOff();
-        ended.setValue(allCheckedOff());
     }
 
     public MutableSubject<Boolean> getIsEndedSubject() {
@@ -173,6 +173,11 @@ public class Routine {
         tasks.updateObservers();
         task.getNameSubject().observe(s -> {
             tasks.updateObservers();
+        });
+        task.isDone().observe(s -> {
+            if(allCheckedOff()) {
+                end();
+            }
         });
     }
 
