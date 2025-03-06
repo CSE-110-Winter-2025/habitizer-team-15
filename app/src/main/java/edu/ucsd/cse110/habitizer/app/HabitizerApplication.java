@@ -12,6 +12,9 @@ public class HabitizerApplication extends Application {
 
     private InMemoryDataSource inMemoryDataSource;
 
+    /**
+     * The TimeManager for the entire application.
+     */
     private TimeManager activeTimeManager;
 
     @Override
@@ -20,11 +23,18 @@ public class HabitizerApplication extends Application {
         inMemoryDataSource = new InMemoryDataSource(new InMemoryDataRoutineManager());
 
         // TODO: Initialize with routines only on first run!
+
         inMemoryDataSource.initializeFirstRun();
 
         activeTimeManager = new PausableTimeManager(new JavaTimeManager());
     }
+
+    /**
+     * Gets the application's global TimeManager.
+     * @return The application's global TimeManager.
+     */
     public TimeManager getActiveTimeManager() { return activeTimeManager; }
+
     public InMemoryDataSource getInMemoryDataSource() {
         return inMemoryDataSource;
     }
