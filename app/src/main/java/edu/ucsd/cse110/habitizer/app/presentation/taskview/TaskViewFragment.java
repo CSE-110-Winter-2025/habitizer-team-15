@@ -139,24 +139,25 @@ public class TaskViewFragment extends Fragment {
             adapter.notifyDataSetChanged();
         });
 
-//        view.startRoutineButton.setOnClickListener(v -> {
-////            TODO: What is this?
-////            var str = view.routineTotalTime.getText().toString();
-////            view.routineTotalTime.setText(str);
-////            view.routineTotalTime.setFocusable(false);
-////            view.routineTotalTime.setEnabled(false);
-////            view.routineTotalTime.setCursorVisible(false);
-////            view.routineTotalTime.setKeyListener(null);
-//            // model.getRoutine().start();
-//            view.startRoutineButton.setEnabled(false);
-//        });
-
-
         view.debugMenu.setOnClickListener(v -> {
             if (view.debugMenuCard.getVisibility() == View.VISIBLE)
                 view.debugMenuCard.setVisibility(View.GONE);
             else
                 view.debugMenuCard.setVisibility(View.VISIBLE);
+        });
+
+        view.pauseResumeButton.setOnClickListener(v -> {
+            model.getActiveRoutine().pausePlay();
+            if(model.getActiveRoutine().isPaused()) {
+                view.pauseResumeButton.setText(R.string.routine_paused);
+                view.endRoutineButton.setEnabled(false);
+                view.backToMenuButton.setEnabled(false);
+            }
+            else {
+                view.pauseResumeButton.setText(R.string.routine_unpaused);
+                view.endRoutineButton.setEnabled(true);
+                view.backToMenuButton.setEnabled(true);
+            }
         });
 
 
@@ -165,6 +166,7 @@ public class TaskViewFragment extends Fragment {
             // TODO: This shouldn't rely on the button getting clicked, but
             //  rather the model changing (i.e. this should observe the model)
             view.endRoutineButton.setText(R.string.routine_complete);
+            view.pauseResumeButton.setEnabled(false);
         });
 
         view.addTaskButton.setOnClickListener(v -> {
