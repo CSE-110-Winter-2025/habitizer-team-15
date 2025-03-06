@@ -87,7 +87,7 @@ public class RoutineTaskTests {
     @Test
     public void bddScenario1() {
         MockTimeManager mockTime = new MockTimeManager();
-        Routine routine = new Routine(InMemoryDataSource.MORNING_ROUTINE,
+        Routine routine = new Routine(InMemoryDataSource.DATA_MORNING_ROUTINE,
                 new TimeTracker(mockTime));
 
         routine.start();

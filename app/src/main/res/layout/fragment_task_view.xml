@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="visible"
-            app:constraint_referenced_ids="pause_resume_button,start_routine_button,end_routine_button,debug_tools" />
+            app:constraint_referenced_ids="end_routine_button,debug_tools" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/edit_mode"
@@ -55,14 +55,13 @@
 
         <ListView
             android:id="@+id/task_list_view"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@+id/bottom_guideline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edit_mode_text"
-            app:layout_constraintVertical_bias="0.0"
             tools:listitem="@layout/list_item_task">
 
         </ListView>
@@ -96,28 +95,16 @@
             app:layout_constraintBottom_toBottomOf="@id/bottom_guideline"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <Button
-            android:id="@+id/pause_resume_button"
-            android:layout_width="337dp"
-            android:layout_height="43dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="10dp"
-            android:text="Pause"
-            app:layout_constraintBottom_toTopOf="@+id/end_routine_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/bottom_guideline" />
-
-        <Button
-            android:id="@+id/start_routine_button"
-            android:layout_width="98dp"
-            android:layout_height="55dp"
-            android:contentDescription="@string/debug_start_routine"
-            android:text="@string/start"
-            app:layout_constraintBottom_toBottomOf="@+id/toolbar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/toolbar"
-            app:layout_constraintTop_toTopOf="@+id/toolbar" />
+        <!--        <Button-->
+        <!--            android:id="@+id/start_routine_button"-->
+        <!--            android:layout_width="98dp"-->
+        <!--            android:layout_height="55dp"-->
+        <!--            android:contentDescription="@string/debug_start_routine"-->
+        <!--            android:text="@string/start"-->
+        <!--            app:layout_constraintBottom_toBottomOf="@+id/toolbar"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="@+id/toolbar"-->
+        <!--            app:layout_constraintTop_toTopOf="@+id/toolbar" />-->
 
         <Button
             android:id="@+id/add_task_button"
@@ -145,8 +132,8 @@
 
         <Button
             android:id="@+id/end_routine_button"
-            android:layout_width="337dp"
-            android:layout_height="40dp"
+            android:layout_width="322dp"
+            android:layout_height="48dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
@@ -162,7 +149,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginBottom="16dp"
             android:text="@string/back_to_menu"
-            app:layout_constraintBottom_toTopOf="@+id/bottom_guideline"
+            app:layout_constraintBottom_toBottomOf="@+id/task_list_view"
             app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.constraintlayout.widget.Group
@@ -177,7 +164,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_end="109dp" />
+            app:layout_constraintGuide_end="80dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

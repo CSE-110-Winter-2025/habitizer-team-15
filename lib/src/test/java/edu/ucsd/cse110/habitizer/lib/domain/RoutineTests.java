@@ -9,12 +9,9 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
-
-import javax.xml.crypto.Data;
 
 import edu.ucsd.cse110.habitizer.lib.data.DataRoutine;
 import edu.ucsd.cse110.habitizer.lib.data.DataTask;
@@ -22,17 +19,17 @@ import edu.ucsd.cse110.habitizer.lib.data.InMemoryDataSource;
 import edu.ucsd.cse110.habitizer.lib.domain.time.MockTimeManager;
 import edu.ucsd.cse110.habitizer.lib.domain.time.TimeTracker;
 import edu.ucsd.cse110.habitizer.lib.util.HabitizerTime;
-import edu.ucsd.cse110.observables.MutableSubject;
+import edu.ucsd.cse110.habitizer.lib.util.conversions.DataDomainConverter;
 
 /**
  * Unit tests for Routine.
  */
 public class RoutineTests {
-    private List<Task> routineTasks1 = Task.createListFromDataTasks(InMemoryDataSource.MORNING_ROUTINE.dataTasks());
+    private List<Task> routineTasks1 = DataDomainConverter.dataTasksToTasks(InMemoryDataSource.DATA_MORNING_ROUTINE.dataTasks());
     private List<Task> routineTasks2 = new ArrayList<>();
     private final String routineName1 = "Test Routine 1";
     private final String routineName2 = "Test Routine 2";
-    private DataRoutine testDataRoutine1 = InMemoryDataSource.MORNING_ROUTINE;
+    private DataRoutine testDataRoutine1 = InMemoryDataSource.DATA_MORNING_ROUTINE;
     private DataRoutine testEmptyDataRoutine = DataRoutine.createEmpty(routineName1);
     private final MockTimeManager mockTimeManager = new MockTimeManager();
     private final TimeTracker mockTimeTracker = new TimeTracker(mockTimeManager);
@@ -99,7 +96,7 @@ public class RoutineTests {
 
         List<Task> tasks = new ArrayList<>();
 
-        assertEquals(Task.createListFromDataTasks(new ArrayList<>()), tasks);
+        assertEquals(DataDomainConverter.dataTasksToTasks(new ArrayList<>()), tasks);
         assertEquals(-1, testRoutine.getId());
 
         // Test if TimeTracker was set correctly
@@ -383,7 +380,7 @@ public class RoutineTests {
         Routine testRoutine2 = new Routine(testEmptyDataRoutine, mockTimeTracker);
         Routine testRoutine3 = new Routine(routineName2, mockTimeTracker);
 
-        List<Task> tasks1 = Task.createListFromDataTasks(testDataRoutine1.dataTasks());
+        List<Task> tasks1 = DataDomainConverter.dataTasksToTasks(testDataRoutine1.dataTasks());
         IntStream.range(0, tasks1.size())
             .forEach(index -> {
                 Task task = tasks1.get(index);
@@ -448,7 +445,7 @@ public class RoutineTests {
         Routine testRoutine2 = new Routine(testEmptyDataRoutine, mockTimeTracker);
         Routine testRoutine3 = new Routine(routineName2, mockTimeTracker);
 
-        List<Task> tasks1 = new ArrayList<>(Task.createListFromDataTasks(testDataRoutine1.dataTasks()));
+        List<Task> tasks1 = new ArrayList<>(DataDomainConverter.dataTasksToTasks(testDataRoutine1.dataTasks()));
         IntStream.range(0,tasks1.size())
             .forEach(index -> {
                 Task task = tasks1.get(index);
@@ -475,9 +472,10 @@ public class RoutineTests {
             testRoutine3.removeTask(task1);
 
             // Nothing should be removed from passing null
-            testRoutine1.removeTask(null);
-            testRoutine2.removeTask(null);
-            testRoutine3.removeTask(null);
+            // Contractually, the Task should be non-null now
+            // testRoutine1.removeTask(null);
+            // testRoutine2.removeTask(null);
+            // testRoutine3.removeTask(null);
 
             tasks1.remove(removeIndex);
 
@@ -499,7 +497,7 @@ public class RoutineTests {
         Routine testRoutine2 = new Routine(testEmptyDataRoutine, mockTimeTracker);
         Routine testRoutine3 = new Routine(routineName2, mockTimeTracker);
 
-        List<Task> tasks1 = Task.createListFromDataTasks(testDataRoutine1.dataTasks());
+        List<Task> tasks1 = DataDomainConverter.dataTasksToTasks(testDataRoutine1.dataTasks());
         IntStream.range(0, tasks1.size())
             .forEach(index -> {
                 Task task = tasks1.get(index);

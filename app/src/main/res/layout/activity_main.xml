@@ -9,7 +9,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/main_activity_fragment_container"
-        android:name="edu.ucsd.cse110.habitizer.app.presentation.routineview.TempRoutineViewFragment"
+        android:name="edu.ucsd.cse110.habitizer.app.presentation.routineview.RoutineViewFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

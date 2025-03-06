@@ -86,8 +86,8 @@ public class TaskViewDebugFragment extends Fragment {
 
         uiTimerSubject.observe(t -> {
             StringBuilder debugInfo = new StringBuilder();
-            debugInfo.append("Elapsed time (s): ");
-            debugInfo.append(String.format("%.2f", model.getElapsedTime().toSeconds()));
+            debugInfo.append("Routine elapsed time (s): ");
+            debugInfo.append(String.format("%.2f", model.getActiveRoutineElapsedTime().toSeconds()));
             view.debugInfo.setText(debugInfo.toString());
         });
 
