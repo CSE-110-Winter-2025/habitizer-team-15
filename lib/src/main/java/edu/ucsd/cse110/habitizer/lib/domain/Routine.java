@@ -31,6 +31,9 @@ public class Routine {
     private final @NonNull TimeTracker timeTracker;
     private @NonNull HabitizerTime time;
 
+    private final MutableSubject<Boolean> ended = new PlainMutableSubject<>();
+
+    private final @NonNull MutableNotifiableSubject<Long> totalTime;
     /**
      * Updates when the Routine changes.
      */
@@ -41,7 +44,7 @@ public class Routine {
         return timeTracker.getElapsedTime();
     }
     public HabitizerTime getTotalTime() {
-        return new HabitizerTime(data.totalTime());
+        return new HabitizerTime(this.totalTime.getValue());
     }
 
     public Routine(@NonNull DataRoutine data, @NonNull TimeTracker timeTracker){
@@ -49,12 +52,18 @@ public class Routine {
         this.name.setValue(data.name());
 
         this.data = data;
+        this.totalTime = new PlainMutableNotifiableSubject<>();
+        this.totalTime.setValue(data.totalTime());
+        this.totalTime.observe(totalUpdatedTime -> {
+            flushToDataRoutine();
+        });
 
         PlainMutableNotifiableSubject<Object> onFlushObject = new PlainMutableNotifiableSubject<>();
         onFlushObject.setValue(new Object());
         this.onFlush = onFlushObject;
 
         this.tasks = new PlainMutableNotifiableSubject<>();
+
         this.tasks.observe(taskList -> {
             flushToDataRoutine();
         });
@@ -81,10 +90,10 @@ public class Routine {
     private void updateTaskIds() {
         List<Task> tasks = this.tasks.getValue();
         IntStream.range(0, size())
-            .forEach(index -> {
-                Task task = tasks.get(index);
-                task.setId(index);
-            });
+                .forEach(index -> {
+                    Task task = tasks.get(index);
+                    task.setId(index);
+                });
     }
 
     /**
@@ -117,6 +126,7 @@ public class Routine {
             return;
         timeTracker.stop();
         time = timeTracker.getElapsedTime();
+        ended.setValue(Boolean.TRUE);
     }
 
     public Task findTaskById(int id) {
@@ -144,6 +154,20 @@ public class Routine {
         task.checkOff();
     }
 
+    public MutableSubject<Boolean> getIsEndedSubject() {
+        return ended;
+    }
+
+    public boolean allCheckedOff(){
+        for(Task task: tasks.getValue()) {
+            if(!task.isDone().getValue()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
     public void checkOffById(int id){
         Task task = findTaskById(id);
         checkOff(task);
@@ -157,6 +181,11 @@ public class Routine {
         task.getNameSubject().observe(s -> {
             tasks.updateObservers();
         });
+        task.isDone().observe(s -> {
+            if(allCheckedOff()) {
+                end();
+            }
+        });
     }
 
     public void addTask(Task task){
@@ -167,6 +196,10 @@ public class Routine {
     public void addTask(int i, Task task){
         tasks.getValue().add(i, task);
         registerTaskSubjects(task);
+    }
+
+    public void setTotalTime(long time){
+        this.totalTime.setValue(time);
     }
 
     public void removeTask(@NonNull Task task) {

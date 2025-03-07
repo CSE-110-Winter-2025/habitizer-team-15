@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:constraint_referenced_ids="add_task_button,edit_mode_text"
+            app:constraint_referenced_ids="add_task_button,edit_mode_text,edit_goal_time"
             tools:visibility="gone" />
 
         <androidx.appcompat.widget.Toolbar
@@ -44,14 +44,26 @@
             android:id="@+id/routine_total_elapsed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
             android:text="@string/routine_total_time_format"
             android:textColor="@color/white"
             android:textColorLink="@color/white"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/toolbar"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintHorizontal_bias="0.798"
+            app:layout_constraintStart_toStartOf="@+id/toolbar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.53" />
+
+        <ImageButton
+            android:id="@+id/edit_goal_time"
+            android:layout_width="37dp"
+            android:layout_height="37dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/toolbar"
+            app:layout_constraintStart_toEndOf="@+id/routine_total_elapsed"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/edit_task_name" />
 
         <ListView
             android:id="@+id/task_list_view"
@@ -95,16 +107,16 @@
             app:layout_constraintBottom_toBottomOf="@id/bottom_guideline"
             app:layout_constraintEnd_toEndOf="parent" />
 
-<!--        <Button-->
-<!--            android:id="@+id/start_routine_button"-->
-<!--            android:layout_width="98dp"-->
-<!--            android:layout_height="55dp"-->
-<!--            android:contentDescription="@string/debug_start_routine"-->
-<!--            android:text="@string/start"-->
-<!--            app:layout_constraintBottom_toBottomOf="@+id/toolbar"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="@+id/toolbar"-->
-<!--            app:layout_constraintTop_toTopOf="@+id/toolbar" />-->
+        <!--        <Button-->
+        <!--            android:id="@+id/start_routine_button"-->
+        <!--            android:layout_width="98dp"-->
+        <!--            android:layout_height="55dp"-->
+        <!--            android:contentDescription="@string/debug_start_routine"-->
+        <!--            android:text="@string/start"-->
+        <!--            app:layout_constraintBottom_toBottomOf="@+id/toolbar"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="@+id/toolbar"-->
+        <!--            app:layout_constraintTop_toTopOf="@+id/toolbar" />-->
 
         <Button
             android:id="@+id/add_task_button"
