@@ -31,6 +31,7 @@ public class Routine {
     private final @NonNull TimeTracker timeTracker;
     private @NonNull HabitizerTime time;
 
+    private final MutableSubject<Boolean> ended = new PlainMutableSubject<>();
     /**
      * Updates when the Routine changes.
      */
@@ -55,6 +56,7 @@ public class Routine {
         this.onFlush = onFlushObject;
 
         this.tasks = new PlainMutableNotifiableSubject<>();
+
         this.tasks.observe(taskList -> {
             flushToDataRoutine();
         });
@@ -117,6 +119,7 @@ public class Routine {
             return;
         timeTracker.stop();
         time = timeTracker.getElapsedTime();
+        ended.setValue(Boolean.TRUE);
     }
 
     public Task findTaskById(int id) {
@@ -144,6 +147,20 @@ public class Routine {
         task.checkOff();
     }
 
+    public MutableSubject<Boolean> getIsEndedSubject() {
+        return ended;
+    }
+
+    public boolean allCheckedOff(){
+        for(Task task: tasks.getValue()) {
+            if(!task.isDone().getValue()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
     public void checkOffById(int id){
         Task task = findTaskById(id);
         checkOff(task);
@@ -156,6 +173,11 @@ public class Routine {
         tasks.updateObservers();
         task.getNameSubject().observe(s -> {
             tasks.updateObservers();
+        });
+        task.isDone().observe(s -> {
+            if(allCheckedOff()) {
+                end();
+            }
         });
     }
 
