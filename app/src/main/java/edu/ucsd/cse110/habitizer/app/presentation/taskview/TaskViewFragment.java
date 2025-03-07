@@ -121,6 +121,7 @@ public class TaskViewFragment extends Fragment {
         uiTimerSubject.updateObservers();
     }
 
+
     private void setupModelViewHooks() {
 
         String string = getString(R.string.routine_total_time_format);
@@ -163,10 +164,18 @@ public class TaskViewFragment extends Fragment {
 
         view.endRoutineButton.setOnClickListener(v -> {
             model.getActiveRoutine().end();
-            // TODO: This shouldn't rely on the button getting clicked, but
-            //  rather the model changing (i.e. this should observe the model)
+                    // TODO: This shouldn't rely on the button getting clicked, but
+                    //  rather the model changing (i.e. this should observe the model)
             view.endRoutineButton.setText(R.string.routine_complete);
             view.pauseResumeButton.setEnabled(false);
+        });
+
+        model.getActiveRoutine().getIsEndedSubject().observe(ended -> {
+            view.endRoutineButton.setText(R.string.routine_complete);
+        });
+
+        view.endRoutineButton.setOnClickListener(v -> {
+            model.getActiveRoutine().end();
         });
 
         view.addTaskButton.setOnClickListener(v -> {
