@@ -164,9 +164,6 @@ public class TaskViewFragment extends Fragment {
 
         view.endRoutineButton.setOnClickListener(v -> {
             model.getActiveRoutine().end();
-                    // TODO: This shouldn't rely on the button getting clicked, but
-                    //  rather the model changing (i.e. this should observe the model)
-            view.endRoutineButton.setText(R.string.routine_complete);
             view.pauseResumeButton.setEnabled(false);
         });
 
