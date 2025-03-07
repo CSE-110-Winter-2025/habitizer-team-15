@@ -34,6 +34,7 @@ public class Routine {
     private final MutableSubject<Boolean> ended = new PlainMutableSubject<>();
 
     private final @NonNull MutableNotifiableSubject<Long> totalTime;
+
     /**
      * Updates when the Routine changes.
      */
