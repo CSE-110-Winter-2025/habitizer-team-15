@@ -21,5 +21,12 @@ public interface DataRoutineDao {
     @Query("SELECT COUNT(*) FROM data_routines")
     int size();
 
-
+    /**
+     * Notice how there isn't use of Android Room's LiveData here?
+     * This is because we don't need it until we might need to sort DataRoutines
+     * or rename (basically anything that will cause an *immediate* UI change).
+     *
+     * For now, it's sufficient for all routines to be queried once in
+     * RoutineViewFragment's onCreate().
+     */
 }

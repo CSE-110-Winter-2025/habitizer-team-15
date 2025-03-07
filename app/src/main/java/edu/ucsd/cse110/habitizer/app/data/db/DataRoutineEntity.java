@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverter;
+import androidx.room.TypeConverters;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,13 +22,14 @@ public class DataRoutineEntity {
     @ColumnInfo(name = "name")
     public String name;
 
+    @TypeConverters(DataTaskListConverter.class)
     @ColumnInfo(name = "data_tasks")
-    public List<DataTaskEntity> dataTasks;
+    public List<DataTask> dataTasks;
 
     @ColumnInfo(name = "total_time")
     public long totalTime;
 
-    public DataRoutineEntity(Integer id, String name, List<DataTaskEntity> dataTasks, long totalTime) {
+    public DataRoutineEntity(Integer id, String name, List<DataTask> dataTasks, long totalTime) {
         this.id = id;
         this.name = name;
         this.dataTasks = dataTasks;
@@ -35,24 +38,15 @@ public class DataRoutineEntity {
 
 
     public static DataRoutineEntity fromDataRoutine(@NonNull DataRoutine dataRoutine) {
-        List<DataTaskEntity> list = dataRoutine.
-                dataTasks().
-                stream().
-                map(DataTaskEntity::fromDataTask)
-                .toList();
         return new DataRoutineEntity(
             dataRoutine.id(),
             dataRoutine.name(),
-                list,
+            dataRoutine.dataTasks(),
             dataRoutine.totalTime()
         );
     }
 
     public @NonNull DataRoutine toDataRoutine() {
-        List<DataTask> list = dataTasks.
-                stream()
-                .map(DataTaskEntity::toDataTask)
-                .toList();
-        return new DataRoutine(name, list, id, totalTime);
+        return new DataRoutine(name, dataTasks, id, totalTime);
     }
 }
