@@ -99,8 +99,16 @@ public class TaskViewAdapter extends ArrayAdapter<Task> {
         String timeDisplay = getContext().getString(R.string.task_empty_time);
         if (Boolean.TRUE.equals(task.isDone().getValue())) {
             HabitizerTime time = task.getRecordedTime();
-            String format = getContext().getString(R.string.task_time_string_format);
-            timeDisplay = String.format(format, (long) Math.ceil(time.toMinutes()));
+            String formatMin = getContext().getString(R.string.task_time_string_format);
+            String formatSec = "[%d s]";
+            long calculatedTime = (long) (Math.ceil(time.toSeconds() / 5.0) * 5);
+            if (calculatedTime < 60){
+                timeDisplay = String.format(formatSec, calculatedTime);
+            }
+            else {
+                timeDisplay = String.format(formatMin, (long) Math.ceil(time.toMinutes()));
+            }
+
         }
         return timeDisplay;
     }
