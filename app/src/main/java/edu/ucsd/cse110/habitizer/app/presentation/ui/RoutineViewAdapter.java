@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -21,6 +22,7 @@ import edu.ucsd.cse110.habitizer.app.presentation.taskview.TaskViewFragment;
 import edu.ucsd.cse110.habitizer.lib.data.DataRoutine;
 import edu.ucsd.cse110.habitizer.lib.domain.Task;
 import edu.ucsd.cse110.habitizer.lib.util.HabitizerTime;
+import edu.ucsd.cse110.habitizer.lib.util.observables.MutableNotifiableSubject;
 
 public class RoutineViewAdapter extends ArrayAdapter<DataRoutine> {
 
@@ -28,8 +30,8 @@ public class RoutineViewAdapter extends ArrayAdapter<DataRoutine> {
     @NonNull
     private final MainViewModel model;
 
-    public RoutineViewAdapter(Context context, FragmentManager parentFragmentManager, MainViewModel model) {
-        super(context, 0, model.getDataRoutines());
+    public RoutineViewAdapter(Context context, FragmentManager parentFragmentManager, MainViewModel model, List<DataRoutine> dataRoutines) {
+        super(context, 0, dataRoutines);
         this.parentFragmentManager = parentFragmentManager;
         this.model = model;
     }
