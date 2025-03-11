@@ -36,7 +36,7 @@ public class RoutineTests {
     private final HabitizerTime routineTime1 = new HabitizerTime(42);
     private final HabitizerTime routineTime2 = new HabitizerTime(-1);
     private final Routine testRoutine = new Routine(testDataRoutine1, mockTimeTracker);
-    public static final DataRoutine MORNING_ROUTINE_WITH_IDS =
+    public final DataRoutine MORNING_ROUTINE_WITH_IDS =
         new DataRoutine("Morning",
             List.of(
             new DataTask("Shower", 4),
@@ -512,5 +512,103 @@ public class RoutineTests {
         assertEquals(tasks1, testRoutine1.getTasksSubject().getValue());
         assertEquals(tasks2, testRoutine2.getTasksSubject().getValue());
         assertEquals(tasks3, testRoutine3.getTasksSubject().getValue());
+    }
+
+    @Test
+    public void testMoveTaskUp() {
+        Routine testRoutine1 = new Routine(testDataRoutine1, mockTimeTracker);
+        Routine testRoutine2 = new Routine(testDataRoutine1, mockTimeTracker);
+
+
+        int showerId = 0;
+        int brushTeethId = 1;
+        int dressId = 2;
+
+        Task shower1 = testRoutine1.findTaskById(showerId);
+        Task brush1 = testRoutine1.findTaskById(brushTeethId);
+        Task dress1 = testRoutine1.findTaskById(dressId);
+
+        Task shower2 = testRoutine2.findTaskById(showerId);
+        Task brush2 = testRoutine2.findTaskById(brushTeethId);
+        Task dress2 = testRoutine2.findTaskById(dressId);
+
+
+        // Routine1
+        // check start order
+        assertEquals(testRoutine1.getTasksSubject().getValue().get(0), shower1);
+        assertEquals(testRoutine1.getTasksSubject().getValue().get(1), brush1);
+        assertEquals(testRoutine1.getTasksSubject().getValue().get(2), dress1);
+
+        // call moveTaskUp
+        testRoutine1.moveTaskUp(brush1);
+
+        // check order after moving brush up
+        assertEquals(testRoutine1.getTasksSubject().getValue().get(0), brush1);
+        assertEquals(testRoutine1.getTasksSubject().getValue().get(1), shower1);
+        assertEquals(testRoutine1.getTasksSubject().getValue().get(2), dress1);
+
+        //Routine2
+        // check start order
+        assertEquals(testRoutine2.getTasksSubject().getValue().get(0), shower2);
+        assertEquals(testRoutine2.getTasksSubject().getValue().get(1), brush2);
+        assertEquals(testRoutine2.getTasksSubject().getValue().get(2), dress2);
+
+        // call moveTaskUp on top task
+        testRoutine2.moveTaskUp(shower2);
+
+        // order should stay the same
+        assertEquals(testRoutine2.getTasksSubject().getValue().get(0), shower2);
+        assertEquals(testRoutine2.getTasksSubject().getValue().get(1), brush2);
+        assertEquals(testRoutine2.getTasksSubject().getValue().get(2), dress2);
+    }
+
+    @Test
+    public void testMoveTaskDown() {
+        Routine testRoutine1 = new Routine(testDataRoutine1, mockTimeTracker);
+        Routine testRoutine2 = new Routine(testDataRoutine1, mockTimeTracker);
+
+
+        int showerId = 0;
+        int brushTeethId = 1;
+        int dressId = 2;
+        int packId = 6;
+
+        Task shower1 = testRoutine1.findTaskById(showerId);
+        Task brush1 = testRoutine1.findTaskById(brushTeethId);
+        Task dress1 = testRoutine1.findTaskById(dressId);
+
+        Task shower2 = testRoutine2.findTaskById(showerId);
+        Task brush2 = testRoutine2.findTaskById(brushTeethId);
+        Task dress2 = testRoutine2.findTaskById(dressId);
+        Task pack = testRoutine2.findTaskById(packId);
+
+
+        // Routine1
+        // check start order
+        assertEquals(testRoutine1.getTasksSubject().getValue().get(0), shower1);
+        assertEquals(testRoutine1.getTasksSubject().getValue().get(1), brush1);
+        assertEquals(testRoutine1.getTasksSubject().getValue().get(2), dress1);
+
+        // call moveTaskDown
+        testRoutine1.moveTaskDown(shower1);
+
+        // check order after moving shower down
+        assertEquals(testRoutine1.getTasksSubject().getValue().get(0), brush1);
+        assertEquals(testRoutine1.getTasksSubject().getValue().get(1), shower1);
+        assertEquals(testRoutine1.getTasksSubject().getValue().get(2), dress1);
+
+        //Routine2
+        // check start order
+        assertEquals(testRoutine2.getTasksSubject().getValue().get(0), shower2);
+        assertEquals(testRoutine2.getTasksSubject().getValue().get(1), brush2);
+        assertEquals(testRoutine2.getTasksSubject().getValue().get(6), pack);
+
+        // call moveTaskDown on bottom task
+        testRoutine2.moveTaskDown(pack);
+
+        // order should stay the same
+        assertEquals(testRoutine2.getTasksSubject().getValue().get(0), shower2);
+        assertEquals(testRoutine2.getTasksSubject().getValue().get(1), brush2);
+        assertEquals(testRoutine2.getTasksSubject().getValue().get(6), pack);
     }
 }
