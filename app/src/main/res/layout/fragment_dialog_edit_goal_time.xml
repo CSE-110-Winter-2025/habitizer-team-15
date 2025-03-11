@@ -26,7 +26,8 @@
                 android:id="@+id/input_goal_time_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Number of minutes ..." />
+                android:hint="Number of minutes ..."
+                android:numeric="integer" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
