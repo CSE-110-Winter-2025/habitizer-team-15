@@ -19,6 +19,7 @@ import edu.ucsd.cse110.observables.PlainMutableSubject;
 
 public class Routine {
 
+    // TODO add var for time since checkoff, will also be displayed in toolbar
     private final @NonNull MutableNotifiableSubject<List<Task>> tasks;
     private final @NonNull MutableSubject<String> name;
 
