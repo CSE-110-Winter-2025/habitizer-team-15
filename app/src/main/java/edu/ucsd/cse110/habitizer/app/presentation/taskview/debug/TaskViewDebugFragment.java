@@ -13,11 +13,10 @@ import android.view.ViewGroup;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import edu.ucsd.cse110.habitizer.app.R;
 import edu.ucsd.cse110.habitizer.app.databinding.FragmentTaskViewDebugBinding;
 import edu.ucsd.cse110.habitizer.app.presentation.MainViewModel;
-import edu.ucsd.cse110.habitizer.lib.domain.time.PausableTimeManager;
-import edu.ucsd.cse110.habitizer.lib.domain.time.TimeManager;
+import edu.ucsd.cse110.habitizer.lib.domain.time.ITimeManager;
+import edu.ucsd.cse110.habitizer.lib.domain.time.PausableWrapperITimeManager;
 import edu.ucsd.cse110.habitizer.lib.util.observables.MutableNotifiableSubject;
 import edu.ucsd.cse110.habitizer.lib.util.observables.PlainMutableNotifiableSubject;
 
@@ -77,11 +76,11 @@ public class TaskViewDebugFragment extends Fragment {
 
     @SuppressLint("DefaultLocale")
     private void setupMvpHooks() {
-        TimeManager currTimeManager = model.getActiveTimeManager();
-        PausableTimeManager pausable;
+        ITimeManager currITimeManager = model.getActiveTimeManager();
+        PausableWrapperITimeManager pausable;
 
-        if (currTimeManager instanceof PausableTimeManager)
-            pausable = (PausableTimeManager) currTimeManager;
+        if (currITimeManager instanceof PausableWrapperITimeManager)
+            pausable = (PausableWrapperITimeManager) currITimeManager;
         else
             pausable = null;
 

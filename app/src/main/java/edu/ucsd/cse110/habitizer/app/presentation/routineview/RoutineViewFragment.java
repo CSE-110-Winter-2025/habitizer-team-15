@@ -33,7 +33,7 @@ public class RoutineViewFragment extends Fragment {
     private FragmentRoutineViewBinding view;
     private MainViewModel model;
     private RoutineViewAdapter adapter;
-    private MutableNotifiableSubject<ArrayList<DataRoutine>> allDataRoutines;
+    private MutableNotifiableSubject<List<DataRoutine>> allDataRoutines;
     public static RoutineViewFragment newInstance() {
         RoutineViewFragment fragment = new RoutineViewFragment();
         Bundle args = new Bundle();

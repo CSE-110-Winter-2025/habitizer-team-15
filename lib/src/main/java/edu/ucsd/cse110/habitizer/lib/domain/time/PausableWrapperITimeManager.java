@@ -6,20 +6,19 @@ import edu.ucsd.cse110.habitizer.lib.util.HabitizerTime;
 
 /**
  * Wrapper for TimeManager that allows for pausing
- * TODO: Copy pause functionality to TimeTracker
  */
-public class PausableTimeManager extends TimeManager {
-    private Boolean isPaused;
+public class PausableWrapperITimeManager implements ITimeManager {
+    private boolean isPaused;
     private HabitizerTime pauseTime;
     private HabitizerTime diffTime;
-    private final TimeManager usedTimeManager;
+    private final ITimeManager usedITimeManager;
 
-    public PausableTimeManager(@NonNull TimeManager usedTimeManager) {
+    public PausableWrapperITimeManager(@NonNull ITimeManager usedITimeManager) {
         this.isPaused = false;
         this.pauseTime = new HabitizerTime(0);
         this.diffTime = new HabitizerTime(0);
 
-        this.usedTimeManager = usedTimeManager;
+        this.usedITimeManager = usedITimeManager;
     }
 
     @Override
@@ -29,30 +28,32 @@ public class PausableTimeManager extends TimeManager {
         if (isPaused) {
             return pauseTime;
         } else {
-            return usedTimeManager.getCurrentTime().add(diffTime);
+            return usedITimeManager.getCurrentTime().add(diffTime);
         }
     }
 
-    public void switchPause() {
-        HabitizerTime currTime = usedTimeManager.getCurrentTime();
+    public boolean switchPause() {
+        HabitizerTime currTime = usedITimeManager.getCurrentTime();
 
         isPaused ^= true;
 
         // If it becomes paused: we stop at currTime.
         // Else it becomes unpaused: diffTime now closes the gap between time during pause
-        if (isPaused) {
+        if (isPaused)
             pauseTime = currTime.add(diffTime);
-        } else {
+        else
             diffTime = pauseTime.subtract(currTime);
-        }
+        return isPaused;
     }
 
     public void forward(long skipSeconds) {
-        if (isPaused) {
+        if (isPaused)
             pauseTime = pauseTime.add(new HabitizerTime(skipSeconds * HabitizerTime.secondsToNanoseconds));
-        } else {
+        else
             diffTime = diffTime.add(new HabitizerTime(skipSeconds * HabitizerTime.secondsToNanoseconds));
-        }
     }
 
+    public boolean isPaused() {
+        return isPaused;
+    }
 }

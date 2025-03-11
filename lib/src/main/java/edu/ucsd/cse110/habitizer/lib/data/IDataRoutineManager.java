@@ -18,5 +18,5 @@ public interface IDataRoutineManager {
 
     List<DataRoutine> getDataRoutines();
 
-    MutableNotifiableSubject<ArrayList<DataRoutine>> getDataRoutineSubject();
+    MutableNotifiableSubject<List<DataRoutine>> getDataRoutineSubject();
 }

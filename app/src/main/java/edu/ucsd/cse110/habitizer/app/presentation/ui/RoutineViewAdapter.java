@@ -30,7 +30,7 @@ public class RoutineViewAdapter extends ArrayAdapter<DataRoutine> {
     @NonNull
     private final MainViewModel model;
 
-    public RoutineViewAdapter(Context context, FragmentManager parentFragmentManager, MainViewModel model, ArrayList<DataRoutine> dataRoutines) {
+    public RoutineViewAdapter(Context context, FragmentManager parentFragmentManager, MainViewModel model, List<DataRoutine> dataRoutines) {
         super(context, 0, dataRoutines);
         this.parentFragmentManager = parentFragmentManager;
         this.model = model;

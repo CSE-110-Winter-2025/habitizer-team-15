@@ -37,14 +37,15 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.common)
+    annotationProcessor(libs.androidx.room.compiler)
 
     implementation(libs.android.material)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    implementation(project(":lib"))
     implementation(project(":observables"))
-    implementation(project(":lib"))
     implementation(project(":lib"))
 
     testImplementation(libs.junit4)

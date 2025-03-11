@@ -17,7 +17,7 @@ import edu.ucsd.cse110.habitizer.lib.data.DataRoutine;
 import edu.ucsd.cse110.habitizer.lib.data.IDataRoutineManager;
 import edu.ucsd.cse110.habitizer.lib.data.InMemoryDataSource;
 import edu.ucsd.cse110.habitizer.lib.domain.Routine;
-import edu.ucsd.cse110.habitizer.lib.domain.time.TimeManager;
+import edu.ucsd.cse110.habitizer.lib.domain.time.ITimeManager;
 import edu.ucsd.cse110.habitizer.lib.domain.time.TimeTracker;
 import edu.ucsd.cse110.habitizer.lib.util.HabitizerTime;
 import edu.ucsd.cse110.habitizer.lib.util.observables.MutableNotifiableSubject;
@@ -25,7 +25,7 @@ import edu.ucsd.cse110.habitizer.lib.util.observables.PlainMutableNotifiableSubj
 
 public class MainViewModel extends ViewModel {
     private MutableNotifiableSubject<Routine> activeRoutine;
-    private TimeManager activeTimeManager;
+    private ITimeManager activeITimeManager;
     private final InMemoryDataSource inMemoryDataSource;
     public static final ViewModelInitializer<MainViewModel> initializer =
             new ViewModelInitializer<>(
@@ -42,12 +42,12 @@ public class MainViewModel extends ViewModel {
         return modelProvider.get(MainViewModel.class);
     }
 
-    public MainViewModel(TimeManager activeTimeManager, InMemoryDataSource inMemoryDataSource) {
+    public MainViewModel(ITimeManager activeITimeManager, InMemoryDataSource inMemoryDataSource) {
         this.inMemoryDataSource = inMemoryDataSource;
         this.activeRoutine = new PlainMutableNotifiableSubject<>();
-        this.activeRoutine.setValue(new Routine(NULL_ROUTINE, new TimeTracker(activeTimeManager)));;
+        this.activeRoutine.setValue(new Routine(NULL_ROUTINE, new TimeTracker(activeITimeManager)));;
 
-        this.activeTimeManager = activeTimeManager;
+        this.activeITimeManager = activeITimeManager;
     }
 
     public String getActiveRoutineName() {
@@ -73,7 +73,7 @@ public class MainViewModel extends ViewModel {
     }
 
     public void setActiveRoutine(DataRoutine data) {
-        Routine newRoutine = new Routine(data, new TimeTracker(activeTimeManager));
+        Routine newRoutine = new Routine(data, new TimeTracker(activeITimeManager));
         setActiveRoutine(newRoutine);
     }
     public void setActiveRoutine(Routine routine) {
@@ -86,10 +86,10 @@ public class MainViewModel extends ViewModel {
 
 
 
-    public TimeManager getActiveTimeManager() {
-        return activeTimeManager;
+    public ITimeManager getActiveTimeManager() {
+        return activeITimeManager;
     }
-    public void setActiveTimeManager(TimeManager timeManager) {
-        activeTimeManager = timeManager;
+    public void setActiveTimeManager(ITimeManager ITimeManager) {
+        activeITimeManager = ITimeManager;
     }
 }

@@ -13,7 +13,7 @@ import edu.ucsd.cse110.habitizer.lib.util.observables.PlainMutableNotifiableSubj
 
 public class InMemoryDataRoutineManager implements IDataRoutineManager {
 
-    public MutableNotifiableSubject<ArrayList<DataRoutine>> dataRoutines = new PlainMutableNotifiableSubject<>();
+    public MutableNotifiableSubject<List<DataRoutine>> dataRoutines = new PlainMutableNotifiableSubject<>();
     public InMemoryDataRoutineManager() {
         dataRoutines.setValue(new ArrayList<>());
         dataRoutines.observe(d -> {
@@ -58,7 +58,7 @@ public class InMemoryDataRoutineManager implements IDataRoutineManager {
 
     @Override
     public void setDataRoutine(int i, DataRoutine dataRoutine) {
-        ArrayList<DataRoutine> list = dataRoutines.getValue();
+        List<DataRoutine> list = dataRoutines.getValue();
         list.set(i, dataRoutine);
         dataRoutines.updateObservers();
     }
@@ -73,5 +73,5 @@ public class InMemoryDataRoutineManager implements IDataRoutineManager {
     }
 
     @Override
-    public MutableNotifiableSubject<ArrayList<DataRoutine>> getDataRoutineSubject() {return this.dataRoutines; }
+    public MutableNotifiableSubject<List<DataRoutine>> getDataRoutineSubject() {return this.dataRoutines; }
 }

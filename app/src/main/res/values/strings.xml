@@ -8,7 +8,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="routine_complete">Routine complete!</string>
-    <string name="routine_paused">Routine paused!</string>
+    <string name="routine_paused">Resume</string>
+    <string name="routine_unpaused">Pause</string>
     <string name="edit_mode">Edit Mode</string>
     <string name="debug_start_routine">Debug Start Routine</string>
     <string name="start">Start</string>
