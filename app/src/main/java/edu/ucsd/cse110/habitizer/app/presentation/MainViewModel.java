@@ -14,6 +14,7 @@ import java.util.List;
 
 import edu.ucsd.cse110.habitizer.app.HabitizerApplication;
 import edu.ucsd.cse110.habitizer.lib.data.DataRoutine;
+import edu.ucsd.cse110.habitizer.lib.data.IDataRoutineManager;
 import edu.ucsd.cse110.habitizer.lib.data.InMemoryDataSource;
 import edu.ucsd.cse110.habitizer.lib.domain.Routine;
 import edu.ucsd.cse110.habitizer.lib.domain.time.ITimeManager;
@@ -66,6 +67,9 @@ public class MainViewModel extends ViewModel {
 
     public List<DataRoutine> getDataRoutines() {
         return inMemoryDataSource.getDataRoutineManager().getDataRoutines();
+    }
+    public IDataRoutineManager getDataRoutineManager() {
+        return inMemoryDataSource.getDataRoutineManager();
     }
 
     public void setActiveRoutine(DataRoutine data) {

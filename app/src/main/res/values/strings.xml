@@ -16,9 +16,10 @@
     <string name="debug_pause_play">Debug Pause/Play</string>
     <string name="debug_forward_30">Debug Forward 30</string>
     <string name="task_name">Task name...</string>
+    <string name="routine_name">Routine name...</string>
     <string name="top">Top</string>
     <string name="bottom">Bottom</string>
-    <string name="task_dialog_add">Add</string>
+    <string name="dialog_add">Add</string>
     <string name="dialog_cancel">Cancel</string>
     <string name="task_dialog_message">Please provide the new task name.</string>
     <string name="task_dialog_title">New Task</string>
@@ -28,4 +29,7 @@
     <string name="rename_task">Rename Task</string>
     <string name="enter_new_task_name">Enter new task name</string>
     <string name="rename">Rename</string>
+    <string name="add_routine">Add Routine</string>
+    <string name="routine_dialog_title">New Routine</string>
+    <string name="routine_dialog_message">Please provide the new Routine name.</string>
 </resources>
