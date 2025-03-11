@@ -23,7 +23,7 @@ import edu.ucsd.cse110.habitizer.app.presentation.taskview.edit.AddTaskDialogFra
 import edu.ucsd.cse110.habitizer.app.presentation.ui.TaskViewAdapter;
 import edu.ucsd.cse110.habitizer.lib.domain.Task;
 import edu.ucsd.cse110.habitizer.lib.domain.time.PausableWrapperTimeManager;
-import edu.ucsd.cse110.habitizer.lib.domain.time.ITimeManager;
+import edu.ucsd.cse110.habitizer.lib.domain.time.TimeManager;
 import edu.ucsd.cse110.habitizer.lib.util.observables.MutableNotifiableSubject;
 import edu.ucsd.cse110.habitizer.lib.util.observables.PlainMutableNotifiableSubject;
 
@@ -166,16 +166,14 @@ public class TaskViewFragment extends Fragment {
             model.getActiveRoutine().end();
                     // TODO: This shouldn't rely on the button getting clicked, but
                     //  rather the model changing (i.e. this should observe the model)
-            view.endRoutineButton.setText(R.string.routine_complete);
             view.pauseResumeButton.setEnabled(false);
+            view.endRoutineButton.setText(R.string.routine_complete);
+
         });
 
         model.getActiveRoutine().getIsEndedSubject().observe(ended -> {
+            view.pauseResumeButton.setEnabled(false);
             view.endRoutineButton.setText(R.string.routine_complete);
-        });
-
-        view.endRoutineButton.setOnClickListener(v -> {
-            model.getActiveRoutine().end();
         });
 
         view.addTaskButton.setOnClickListener(v -> {

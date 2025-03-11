@@ -7,13 +7,13 @@ import edu.ucsd.cse110.habitizer.lib.util.HabitizerTime;
 /**
  * Wrapper for TimeManager that allows for pausing
  */
-public class PausableWrapperTimeManager implements ITimeManager {
+public class PausableWrapperTimeManager extends TimeManager {
     private boolean isPaused;
     private HabitizerTime pauseTime;
     private HabitizerTime diffTime;
-    private final ITimeManager usedTimeManager;
+    private final TimeManager usedTimeManager;
 
-    public PausableWrapperTimeManager(@NonNull ITimeManager usedTimeManager) {
+    public PausableWrapperTimeManager(@NonNull TimeManager usedTimeManager) {
         this.isPaused = false;
         this.pauseTime = new HabitizerTime(0);
         this.diffTime = new HabitizerTime(0);

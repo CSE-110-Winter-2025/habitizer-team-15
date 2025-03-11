@@ -16,7 +16,7 @@ import edu.ucsd.cse110.habitizer.app.HabitizerApplication;
 import edu.ucsd.cse110.habitizer.lib.data.DataRoutine;
 import edu.ucsd.cse110.habitizer.lib.data.InMemoryDataSource;
 import edu.ucsd.cse110.habitizer.lib.domain.Routine;
-import edu.ucsd.cse110.habitizer.lib.domain.time.ITimeManager;
+import edu.ucsd.cse110.habitizer.lib.domain.time.TimeManager;
 import edu.ucsd.cse110.habitizer.lib.domain.time.TimeTracker;
 import edu.ucsd.cse110.habitizer.lib.util.HabitizerTime;
 import edu.ucsd.cse110.habitizer.lib.util.observables.MutableNotifiableSubject;
@@ -24,7 +24,7 @@ import edu.ucsd.cse110.habitizer.lib.util.observables.PlainMutableNotifiableSubj
 
 public class MainViewModel extends ViewModel {
     private MutableNotifiableSubject<Routine> activeRoutine;
-    private ITimeManager activeTimeManager;
+    private TimeManager activeTimeManager;
     private final InMemoryDataSource inMemoryDataSource;
     public static final ViewModelInitializer<MainViewModel> initializer =
             new ViewModelInitializer<>(
@@ -41,7 +41,7 @@ public class MainViewModel extends ViewModel {
         return modelProvider.get(MainViewModel.class);
     }
 
-    public MainViewModel(ITimeManager activeTimeManager, InMemoryDataSource inMemoryDataSource) {
+    public MainViewModel(TimeManager activeTimeManager, InMemoryDataSource inMemoryDataSource) {
         this.inMemoryDataSource = inMemoryDataSource;
         this.activeRoutine = new PlainMutableNotifiableSubject<>();
         this.activeRoutine.setValue(new Routine(NULL_ROUTINE, new TimeTracker(activeTimeManager)));;
@@ -82,10 +82,10 @@ public class MainViewModel extends ViewModel {
 
 
 
-    public ITimeManager getActiveTimeManager() {
+    public TimeManager getActiveTimeManager() {
         return activeTimeManager;
     }
-    public void setActiveTimeManager(ITimeManager timeManager) {
+    public void setActiveTimeManager(TimeManager timeManager) {
         activeTimeManager = timeManager;
     }
 }

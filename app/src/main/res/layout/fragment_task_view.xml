@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="visible"
-            app:constraint_referenced_ids="end_routine_button,debug_tools" />
+            app:constraint_referenced_ids="pause_resume_button,end_routine_button,debug_tools" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/edit_mode"

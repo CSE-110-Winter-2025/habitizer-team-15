@@ -4,7 +4,7 @@ import java.util.Calendar;
 
 import edu.ucsd.cse110.habitizer.lib.util.HabitizerTime;
 
-public class JavaTimeManager implements ITimeManager {
+public class JavaTimeManager extends TimeManager {
 
     @Override
     public HabitizerTime getCurrentTime() {

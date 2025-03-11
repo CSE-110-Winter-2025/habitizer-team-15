@@ -16,7 +16,7 @@ public class TimeTracker {
 
 	private MutableSubject<Boolean> isStarted;
 
-	public TimeTracker(ITimeManager timeManager) {
+	public TimeTracker(TimeManager timeManager) {
 		this.isStarted = new PlainMutableSubject<>();
 		this.isStarted.setValue(false);
 		this.pausableTimeManager = new PausableWrapperTimeManager(timeManager);
