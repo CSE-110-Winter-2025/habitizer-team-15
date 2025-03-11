@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:constraint_referenced_ids="rename,delete"
+        app:constraint_referenced_ids="move_task_up,move_task_down,rename,delete"
         tools:visibility="visible" />
 
     <View
@@ -33,7 +33,7 @@
         android:id="@+id/task_name"
         android:layout_width="wrap_content"
         android:layout_height="32dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="8dp"
         android:fadingEdge="horizontal"
         android:fadingEdgeLength="40dp"
         android:requiresFadingEdge="horizontal"
@@ -42,7 +42,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/task_time"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/move_task_up"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
@@ -73,6 +73,29 @@
         android:orientation="vertical"
         app:layout_constraintGuide_end="24dp" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/left_padding"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="16dp" />
+
+    <ImageButton
+        android:id="@+id/move_task_up"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        app:layout_constraintStart_toStartOf="@+id/left_padding"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/up_arrow" />
+
+    <ImageButton
+        android:id="@+id/move_task_down"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/left_padding"
+        app:srcCompat="@drawable/down_arrow" />
+
     <ImageButton
         android:id="@+id/rename"
         android:layout_width="37dp"
@@ -87,7 +110,6 @@
         android:id="@+id/delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/task_time"
         app:layout_constraintTop_toTopOf="parent"

@@ -187,5 +187,7 @@ public class TaskViewFragment extends Fragment {
                     .replace(R.id.main_activity_fragment_container, RoutineViewFragment.newInstance())
                     .commit();
         });
+
+
     }
 }

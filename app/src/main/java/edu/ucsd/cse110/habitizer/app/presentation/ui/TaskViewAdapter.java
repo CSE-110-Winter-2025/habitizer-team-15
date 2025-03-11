@@ -87,6 +87,14 @@ public class TaskViewAdapter extends ArrayAdapter<Task> {
             var frag = RenameTaskDialogFragment.newInstance(task);
             frag.show(taskViewFragment.getParentFragmentManager(), "RenameTaskDialogFragment");
         });
+
+        binding.moveTaskUp.setOnClickListener(v -> {
+            model.getActiveRoutine().moveTaskUp(task);
+        });
+
+        binding.moveTaskDown.setOnClickListener(v -> {
+            model.getActiveRoutine().moveTaskDown(task);
+        });
     }
 
     private void setupTimeDisplay(Task task, ListItemTaskBinding binding) {

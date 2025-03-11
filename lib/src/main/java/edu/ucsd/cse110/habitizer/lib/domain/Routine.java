@@ -2,6 +2,7 @@ package edu.ucsd.cse110.habitizer.lib.domain;
 
 import androidx.annotation.NonNull;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
@@ -218,6 +219,25 @@ public class Routine {
         tasks.getValue().remove(task);
         tasks.updateObservers();
     }
+
+    public void moveTaskUp(@NonNull Task task) {
+        var size = tasks.getValue().size();
+        var index = tasks.getValue().indexOf(task);
+        if (index > 0 && index < size) {
+            Collections.swap(tasks.getValue(), index, index - 1);
+        }
+        tasks.updateObservers();
+    }
+
+    public void moveTaskDown(@NonNull Task task) {
+        var size = tasks.getValue().size();
+        var index = tasks.getValue().indexOf(task);
+        if (index >= 0 && index < size() - 1) {
+            Collections.swap(tasks.getValue(), index, index + 1);
+        }
+        tasks.updateObservers();
+    }
+
 
     public void removeTaskById(int id)
     {
