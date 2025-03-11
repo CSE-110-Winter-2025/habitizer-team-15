@@ -43,7 +43,7 @@ public class AddTaskDialogFragment extends DialogFragment {
                 .setTitle(R.string.task_dialog_title)
                 .setMessage(R.string.task_dialog_message)
                 .setView(view.getRoot())
-                .setPositiveButton(getString(R.string.task_dialog_add), this::onAddClick)
+                .setPositiveButton(getString(R.string.dialog_add), this::onAddClick)
                 .setNegativeButton(getString(R.string.dialog_cancel), this::onCancelClick);
 
         AlertDialog alertDialog = builder.create();
