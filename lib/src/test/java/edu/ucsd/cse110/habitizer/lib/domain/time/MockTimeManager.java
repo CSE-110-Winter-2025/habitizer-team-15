@@ -2,7 +2,7 @@ package edu.ucsd.cse110.habitizer.lib.domain.time;
 
 import edu.ucsd.cse110.habitizer.lib.util.HabitizerTime;
 
-public class MockTimeManager implements ITimeManager {
+public class MockTimeManager extends TimeManager {
 
     private double mockTimeMinutes;
 
