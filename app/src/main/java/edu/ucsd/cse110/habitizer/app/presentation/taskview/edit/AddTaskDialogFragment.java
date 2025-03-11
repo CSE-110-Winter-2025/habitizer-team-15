@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,6 +14,7 @@ import androidx.fragment.app.DialogFragment;
 import edu.ucsd.cse110.habitizer.app.R;
 import edu.ucsd.cse110.habitizer.app.databinding.FragmentDialogAddTaskBinding;
 import edu.ucsd.cse110.habitizer.app.presentation.MainViewModel;
+import edu.ucsd.cse110.habitizer.app.util.SimplifiedTextWatcher;
 import edu.ucsd.cse110.habitizer.lib.domain.Task;
 
 public class AddTaskDialogFragment extends DialogFragment {
@@ -39,25 +42,28 @@ public class AddTaskDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         this.view = FragmentDialogAddTaskBinding.inflate(getLayoutInflater());
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.task_dialog_title)
                 .setMessage(R.string.task_dialog_message)
                 .setView(view.getRoot())
-                .setPositiveButton(getString(R.string.task_dialog_add), this::onAddClick)
+                .setPositiveButton(getString(R.string.dialog_add), this::onAddClick)
                 .setNegativeButton(getString(R.string.dialog_cancel), this::onCancelClick);
 
         AlertDialog alertDialog = builder.create();
 
         // We can't reference alertDialog until we've actually created it
-        alertDialog.setOnShowListener(dialogInterface -> {
-            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+        view.inputTaskNameEditText.addTextChangedListener(new SimplifiedTextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {;
+                // We can't use .empty() here since that's on API 35
+                boolean enabled = charSequence.length() != 0;
+                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(enabled);
+            }
         });
 
-        alertDialog.setOnKeyListener((dialogInterface, i, keyEvent) -> {
-            String taskName = view.inputTaskNameEditText.getText().toString();
-            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(!taskName.isEmpty());
-            // We didn't "consume" keyEvent, so we return false
-            return false;
+        alertDialog.setOnShowListener(dialogInterface -> {
+            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
         });
         return alertDialog;
     }
