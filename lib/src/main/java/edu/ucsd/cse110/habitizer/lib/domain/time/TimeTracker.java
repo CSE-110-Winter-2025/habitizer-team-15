@@ -8,7 +8,7 @@ import edu.ucsd.cse110.observables.PlainMutableSubject;
  * Add javadoc
  */
 public class TimeTracker {
-	private final TimeManager timeManager;
+	private final PausableWrapperITimeManager pausableTimeManager;
 	private HabitizerTime timeManagerStartTime;
 	private HabitizerTime trackerLastCheckoff;
 
@@ -16,10 +16,10 @@ public class TimeTracker {
 
 	private MutableSubject<Boolean> isStarted;
 
-	public TimeTracker(TimeManager timeManager) {
+	public TimeTracker(ITimeManager ITimeManager) {
 		this.isStarted = new PlainMutableSubject<>();
 		this.isStarted.setValue(false);
-		this.timeManager = timeManager;
+		this.pausableTimeManager = new PausableWrapperITimeManager(ITimeManager);
 	}
 
 	public HabitizerTime getElapsedTime() {
@@ -27,7 +27,7 @@ public class TimeTracker {
 			return trackerEndTime;
 		if (timeManagerStartTime == null)
 			return HabitizerTime.zero;
-		return timeManager.getCurrentTime().subtract(this.timeManagerStartTime);
+		return pausableTimeManager.getCurrentTime().subtract(this.timeManagerStartTime);
 	}
 
 	private void checkoff() {
@@ -46,7 +46,7 @@ public class TimeTracker {
 
 	public void start() {
 		this.isStarted.setValue(true);
-		this.timeManagerStartTime = this.timeManager.getCurrentTime();
+		this.timeManagerStartTime = this.pausableTimeManager.getCurrentTime();
 		this.trackerLastCheckoff = HabitizerTime.zero;
 	}
 
@@ -55,7 +55,15 @@ public class TimeTracker {
 		this.isStarted.setValue(false);
 	}
 
-	public MutableSubject<Boolean> isStarted() {
+	public boolean switchPause() {
+		return this.pausableTimeManager.switchPause();
+	}
+
+	public boolean isPaused() {
+		return this.pausableTimeManager.isPaused();
+	}
+
+	public MutableSubject<Boolean> getIsStartedSubject() {
 		return isStarted;
 	}
 }

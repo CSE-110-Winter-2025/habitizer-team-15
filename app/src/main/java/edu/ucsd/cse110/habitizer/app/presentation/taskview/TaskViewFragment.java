@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,13 +18,10 @@ import edu.ucsd.cse110.habitizer.app.R;
 import edu.ucsd.cse110.habitizer.app.databinding.FragmentTaskViewBinding;
 import edu.ucsd.cse110.habitizer.app.presentation.MainViewModel;
 import edu.ucsd.cse110.habitizer.app.presentation.routineview.RoutineViewFragment;
-import edu.ucsd.cse110.habitizer.app.presentation.taskview.debug.TaskViewDebugFragment;
 import edu.ucsd.cse110.habitizer.app.presentation.taskview.edit.AddTaskDialogFragment;
 import edu.ucsd.cse110.habitizer.app.presentation.taskview.edit.EditRoutineGoalTimeFragment;
 import edu.ucsd.cse110.habitizer.app.presentation.ui.TaskViewAdapter;
 import edu.ucsd.cse110.habitizer.lib.domain.Task;
-import edu.ucsd.cse110.habitizer.lib.domain.time.PausableTimeManager;
-import edu.ucsd.cse110.habitizer.lib.domain.time.TimeManager;
 import edu.ucsd.cse110.habitizer.lib.util.observables.MutableNotifiableSubject;
 import edu.ucsd.cse110.habitizer.lib.util.observables.PlainMutableNotifiableSubject;
 
@@ -142,23 +138,10 @@ public class TaskViewFragment extends Fragment {
             adapter.notifyDataSetChanged();
         });
 
-//        view.startRoutineButton.setOnClickListener(v -> {
-////            TODO: What is this?
-////            var str = view.routineTotalTime.getText().toString();
-////            view.routineTotalTime.setText(str);
-////            view.routineTotalTime.setFocusable(false);
-////            view.routineTotalTime.setEnabled(false);
-////            view.routineTotalTime.setCursorVisible(false);
-////            view.routineTotalTime.setKeyListener(null);
-//            // model.getRoutine().start();
-//            view.startRoutineButton.setEnabled(false);
-//        });
-
         view.editGoalTime.setOnClickListener(v ->{
             var frag = EditRoutineGoalTimeFragment.newInstance(model.getActiveRoutine());
             frag.show(getParentFragmentManager(), "EditRoutineGoalTimeFragment");
         });
-
         view.debugMenu.setOnClickListener(v -> {
             if (view.debugMenuCard.getVisibility() == View.VISIBLE)
                 view.debugMenuCard.setVisibility(View.GONE);
@@ -166,12 +149,31 @@ public class TaskViewFragment extends Fragment {
                 view.debugMenuCard.setVisibility(View.VISIBLE);
         });
 
-        model.getActiveRoutine().getIsEndedSubject().observe(ended -> {
-            view.endRoutineButton.setText(R.string.routine_complete);
+        view.pauseResumeButton.setOnClickListener(v -> {
+            model.getActiveRoutine().pausePlay();
+            if(model.getActiveRoutine().isPaused()) {
+                view.pauseResumeButton.setText(R.string.routine_paused);
+                view.endRoutineButton.setEnabled(false);
+                view.backToMenuButton.setEnabled(false);
+            }
+            else {
+                view.pauseResumeButton.setText(R.string.routine_unpaused);
+                view.endRoutineButton.setEnabled(true);
+                view.backToMenuButton.setEnabled(true);
+            }
         });
+
 
         view.endRoutineButton.setOnClickListener(v -> {
             model.getActiveRoutine().end();
+            view.pauseResumeButton.setEnabled(false);
+            view.endRoutineButton.setText(R.string.routine_complete);
+
+        });
+
+        model.getActiveRoutine().getIsEndedSubject().observe(ended -> {
+            view.pauseResumeButton.setEnabled(false);
+            view.endRoutineButton.setText(R.string.routine_complete);
         });
 
         view.addTaskButton.setOnClickListener(v -> {
