@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import edu.ucsd.cse110.habitizer.app.presentation.MainViewModel;
 import edu.ucsd.cse110.habitizer.app.presentation.routineview.RoutineViewFragment;
 import edu.ucsd.cse110.habitizer.app.presentation.taskview.debug.TaskViewDebugFragment;
 import edu.ucsd.cse110.habitizer.app.presentation.taskview.edit.AddTaskDialogFragment;
+import edu.ucsd.cse110.habitizer.app.presentation.taskview.edit.EditRoutineGoalTimeFragment;
 import edu.ucsd.cse110.habitizer.app.presentation.ui.TaskViewAdapter;
 import edu.ucsd.cse110.habitizer.lib.domain.Task;
 import edu.ucsd.cse110.habitizer.lib.domain.time.PausableTimeManager;
@@ -152,6 +154,10 @@ public class TaskViewFragment extends Fragment {
 //            view.startRoutineButton.setEnabled(false);
 //        });
 
+        view.editGoalTime.setOnClickListener(v ->{
+            var frag = EditRoutineGoalTimeFragment.newInstance(model.getActiveRoutine());
+            frag.show(getParentFragmentManager(), "EditRoutineGoalTimeFragment");
+        });
 
         view.debugMenu.setOnClickListener(v -> {
             if (view.debugMenuCard.getVisibility() == View.VISIBLE)
