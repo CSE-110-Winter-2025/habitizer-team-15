@@ -123,6 +123,12 @@ public class Routine {
         timeTracker.start();
     }
 
+    public void pausePlay() {
+        if (!isStarted())
+            return;
+        timeTracker.switchPause();
+    }
+
     public void end() {
         if (!isStarted())
             return;
@@ -145,12 +151,16 @@ public class Routine {
     }
 
     public boolean isStarted() {
-        Boolean value = timeTracker.isStarted().getValue();
+        Boolean value = timeTracker.getIsStartedSubject().getValue();
         return Boolean.TRUE.equals(value);
     }
 
+    public boolean isPaused() {
+        return timeTracker.isPaused();
+    }
+
     public void checkOff(Task task) {
-        if (!isStarted() || task.isDone().getValue())
+        if (!isStarted() || isPaused() ||  task.isDone().getValue())
             return;
         task.recordTime(timeTracker.getCheckoffTimeAndCheckoff());
         task.checkOff();
