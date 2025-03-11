@@ -71,4 +71,7 @@ public class InMemoryDataRoutineManager implements IDataRoutineManager {
     public List<DataRoutine> getDataRoutines() {
         return List.copyOf(dataRoutines.getValue());
     }
+
+    @Override
+    public MutableNotifiableSubject<ArrayList<DataRoutine>> getDataRoutineSubject() {return this.dataRoutines; }
 }
