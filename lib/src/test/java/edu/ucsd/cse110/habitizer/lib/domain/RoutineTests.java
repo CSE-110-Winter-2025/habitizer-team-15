@@ -16,7 +16,7 @@ import java.util.stream.IntStream;
 import edu.ucsd.cse110.habitizer.lib.data.DataRoutine;
 import edu.ucsd.cse110.habitizer.lib.data.DataTask;
 import edu.ucsd.cse110.habitizer.lib.data.InMemoryDataSource;
-import edu.ucsd.cse110.habitizer.lib.domain.time.MockTimeManager;
+import edu.ucsd.cse110.habitizer.lib.domain.time.MockITimeManager;
 import edu.ucsd.cse110.habitizer.lib.domain.time.TimeTracker;
 import edu.ucsd.cse110.habitizer.lib.util.HabitizerTime;
 import edu.ucsd.cse110.habitizer.lib.util.conversions.DataDomainConverter;
@@ -31,7 +31,7 @@ public class RoutineTests {
     private final String routineName2 = "Test Routine 2";
     private DataRoutine testDataRoutine1 = InMemoryDataSource.DATA_MORNING_ROUTINE;
     private DataRoutine testEmptyDataRoutine = DataRoutine.createEmpty(routineName1);
-    private final MockTimeManager mockTimeManager = new MockTimeManager();
+    private final MockITimeManager mockTimeManager = new MockITimeManager();
     private final TimeTracker mockTimeTracker = new TimeTracker(mockTimeManager);
     private final HabitizerTime routineTime1 = new HabitizerTime(42);
     private final HabitizerTime routineTime2 = new HabitizerTime(-1);
@@ -50,7 +50,7 @@ public class RoutineTests {
 
     @Test
     public void testConstructorWithDataRoutine() {
-        MockTimeManager mockTime = new MockTimeManager();
+        MockITimeManager mockTime = new MockITimeManager();
         TimeTracker mockTimeTracker = new TimeTracker(mockTime);
 
         Routine testRoutine = new Routine(testDataRoutine1, mockTimeTracker);
@@ -89,7 +89,7 @@ public class RoutineTests {
 
     @Test
     public void testConstructorWithRoutineName() {
-        MockTimeManager mockTime = new MockTimeManager();
+        MockITimeManager mockTime = new MockITimeManager();
         TimeTracker mockTimeTracker = new TimeTracker(mockTime);
 
         Routine testRoutine = new Routine(routineName1, mockTimeTracker);
@@ -183,7 +183,7 @@ public class RoutineTests {
      */
     @Test
     public void testStartAndEnd() {
-        MockTimeManager mockTime = new MockTimeManager();
+        MockITimeManager mockTime = new MockITimeManager();
         TimeTracker mockTimeTracker = new TimeTracker(mockTime);
 
         Routine testRoutine1 = new Routine(testDataRoutine1, mockTimeTracker);
@@ -223,7 +223,7 @@ public class RoutineTests {
 
     @Test
     public void testIsStarted() {
-        MockTimeManager mockTime = new MockTimeManager();
+        MockITimeManager mockTime = new MockITimeManager();
         TimeTracker mockTimeTracker = new TimeTracker(mockTime);
 
         Routine testRoutine1 = new Routine(testDataRoutine1, mockTimeTracker);
@@ -250,8 +250,8 @@ public class RoutineTests {
     // Includes checkOff by Task and by Id
     @Test
     public void testCheckOff() {
-        MockTimeManager mockTime1 = new MockTimeManager();
-        MockTimeManager mockTime2 = new MockTimeManager();
+        MockITimeManager mockTime1 = new MockITimeManager();
+        MockITimeManager mockTime2 = new MockITimeManager();
         TimeTracker mockTimeTracker1 = new TimeTracker(mockTime1);
         TimeTracker mockTimeTracker2 = new TimeTracker(mockTime2);
 

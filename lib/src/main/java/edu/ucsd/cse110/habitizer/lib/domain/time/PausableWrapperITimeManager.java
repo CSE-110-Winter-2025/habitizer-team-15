@@ -7,18 +7,18 @@ import edu.ucsd.cse110.habitizer.lib.util.HabitizerTime;
 /**
  * Wrapper for TimeManager that allows for pausing
  */
-public class PausableWrapperTimeManager extends TimeManager {
+public class PausableWrapperITimeManager implements ITimeManager {
     private boolean isPaused;
     private HabitizerTime pauseTime;
     private HabitizerTime diffTime;
-    private final TimeManager usedTimeManager;
+    private final ITimeManager usedITimeManager;
 
-    public PausableWrapperTimeManager(@NonNull TimeManager usedTimeManager) {
+    public PausableWrapperITimeManager(@NonNull ITimeManager usedITimeManager) {
         this.isPaused = false;
         this.pauseTime = new HabitizerTime(0);
         this.diffTime = new HabitizerTime(0);
 
-        this.usedTimeManager = usedTimeManager;
+        this.usedITimeManager = usedITimeManager;
     }
 
     @Override
@@ -28,12 +28,12 @@ public class PausableWrapperTimeManager extends TimeManager {
         if (isPaused) {
             return pauseTime;
         } else {
-            return usedTimeManager.getCurrentTime().add(diffTime);
+            return usedITimeManager.getCurrentTime().add(diffTime);
         }
     }
 
     public boolean switchPause() {
-        HabitizerTime currTime = usedTimeManager.getCurrentTime();
+        HabitizerTime currTime = usedITimeManager.getCurrentTime();
 
         isPaused ^= true;
 

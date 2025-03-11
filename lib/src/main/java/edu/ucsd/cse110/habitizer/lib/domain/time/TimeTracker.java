@@ -8,7 +8,7 @@ import edu.ucsd.cse110.observables.PlainMutableSubject;
  * Add javadoc
  */
 public class TimeTracker {
-	private final PausableWrapperTimeManager pausableTimeManager;
+	private final PausableWrapperITimeManager pausableTimeManager;
 	private HabitizerTime timeManagerStartTime;
 	private HabitizerTime trackerLastCheckoff;
 
@@ -16,10 +16,10 @@ public class TimeTracker {
 
 	private MutableSubject<Boolean> isStarted;
 
-	public TimeTracker(TimeManager timeManager) {
+	public TimeTracker(ITimeManager ITimeManager) {
 		this.isStarted = new PlainMutableSubject<>();
 		this.isStarted.setValue(false);
-		this.pausableTimeManager = new PausableWrapperTimeManager(timeManager);
+		this.pausableTimeManager = new PausableWrapperITimeManager(ITimeManager);
 	}
 
 	public HabitizerTime getElapsedTime() {

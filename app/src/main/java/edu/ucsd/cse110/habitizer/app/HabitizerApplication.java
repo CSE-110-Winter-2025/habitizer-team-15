@@ -6,11 +6,10 @@ import androidx.room.Room;
 
 import edu.ucsd.cse110.habitizer.app.data.RoomDataRoutineManager;
 import edu.ucsd.cse110.habitizer.app.data.db.DataRoutineDatabase;
-import edu.ucsd.cse110.habitizer.lib.data.InMemoryDataRoutineManager;
 import edu.ucsd.cse110.habitizer.lib.data.InMemoryDataSource;
-import edu.ucsd.cse110.habitizer.lib.domain.time.JavaTimeManager;
-import edu.ucsd.cse110.habitizer.lib.domain.time.PausableWrapperTimeManager;
-import edu.ucsd.cse110.habitizer.lib.domain.time.TimeManager;
+import edu.ucsd.cse110.habitizer.lib.domain.time.JavaITimeManager;
+import edu.ucsd.cse110.habitizer.lib.domain.time.PausableWrapperITimeManager;
+import edu.ucsd.cse110.habitizer.lib.domain.time.ITimeManager;
 
 public class HabitizerApplication extends Application {
 
@@ -22,7 +21,7 @@ public class HabitizerApplication extends Application {
     /**
      * The TimeManager for the entire application.
      */
-    private TimeManager activeTimeManager;
+    private ITimeManager activeITimeManager;
 
     @Override
     public void onCreate() {
@@ -47,7 +46,7 @@ public class HabitizerApplication extends Application {
         }
 
 
-        activeTimeManager = new PausableWrapperTimeManager(new JavaTimeManager());
+        activeITimeManager = new PausableWrapperITimeManager(new JavaITimeManager());
     }
 
 
@@ -55,7 +54,7 @@ public class HabitizerApplication extends Application {
      * Gets the application's global TimeManager.
      * @return The application's global TimeManager.
      */
-    public TimeManager getActiveTimeManager() { return activeTimeManager; }
+    public ITimeManager getActiveTimeManager() { return activeITimeManager; }
 
     public InMemoryDataSource getInMemoryDataSource() {
         return inMemoryDataSource;
