@@ -33,6 +33,9 @@ public class Routine {
     private @NonNull HabitizerTime time;
 
     private final MutableSubject<Boolean> ended = new PlainMutableSubject<>();
+
+    private final @NonNull MutableNotifiableSubject<Long> totalTime;
+
     /**
      * Updates when the Routine changes.
      */
@@ -43,7 +46,7 @@ public class Routine {
         return timeTracker.getElapsedTime();
     }
     public HabitizerTime getTotalTime() {
-        return new HabitizerTime(data.totalTime());
+        return new HabitizerTime(this.totalTime.getValue());
     }
 
     public Routine(@NonNull DataRoutine data, @NonNull TimeTracker timeTracker){
@@ -51,6 +54,11 @@ public class Routine {
         this.name.setValue(data.name());
 
         this.data = data;
+        this.totalTime = new PlainMutableNotifiableSubject<>();
+        this.totalTime.setValue(data.totalTime());
+        this.totalTime.observe(totalUpdatedTime -> {
+            flushToDataRoutine();
+        });
 
         PlainMutableNotifiableSubject<Object> onFlushObject = new PlainMutableNotifiableSubject<>();
         onFlushObject.setValue(new Object());
@@ -84,10 +92,10 @@ public class Routine {
     private void updateTaskIds() {
         List<Task> tasks = this.tasks.getValue();
         IntStream.range(0, size())
-            .forEach(index -> {
-                Task task = tasks.get(index);
-                task.setId(index);
-            });
+                .forEach(index -> {
+                    Task task = tasks.get(index);
+                    task.setId(index);
+                });
     }
 
     /**
@@ -190,6 +198,10 @@ public class Routine {
     public void addTask(int i, Task task){
         tasks.getValue().add(i, task);
         registerTaskSubjects(task);
+    }
+
+    public void setTotalTime(long time){
+        this.totalTime.setValue(time);
     }
 
     public void removeTask(@NonNull Task task) {
