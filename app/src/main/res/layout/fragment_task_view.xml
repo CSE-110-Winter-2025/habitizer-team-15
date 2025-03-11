@@ -15,8 +15,8 @@
             android:id="@+id/run_mode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="visible"
-            app:constraint_referenced_ids="pause_resume_button,end_routine_button,debug_tools" />
+            app:constraint_referenced_ids="pause_resume_button,end_routine_button,debug_tools"
+            tools:visibility="gone" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/edit_mode"
@@ -67,7 +67,9 @@
             android:id="@+id/task_list_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/bottom_guideline"
+            android:clipToPadding="false"
+            android:paddingBottom="100dp"
+            app:layout_constraintBottom_toTopOf="@+id/pause_resume_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -102,7 +104,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:text="Debug Menu"
-            app:layout_constraintBottom_toBottomOf="@id/bottom_guideline"
+            app:layout_constraintBottom_toBottomOf="@+id/task_list_view"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <!--        <Button-->
