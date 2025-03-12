@@ -18,11 +18,11 @@ public class MockITimeManager implements ITimeManager {
         return mockTimeMinutes;
     }
 
-    public void setMockTimeSeconds(double mockTimeSeconds) {
-        this.mockTimeMinutes = mockTimeSeconds / HabitizerTime.minutesToSeconds;
-    }
-
     public void addMockTimeMinutes(long elapsedMockTimeMinutes) {
         this.mockTimeMinutes += elapsedMockTimeMinutes;
+    }
+
+    public void setMockTimeSeconds(double mockTimeSeconds) {
+        this.mockTimeMinutes = mockTimeMinutes = mockTimeSeconds / HabitizerTime.minutesToSeconds;
     }
 }
