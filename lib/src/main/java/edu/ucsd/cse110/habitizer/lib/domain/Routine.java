@@ -2,6 +2,7 @@ package edu.ucsd.cse110.habitizer.lib.domain;
 
 import androidx.annotation.NonNull;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -44,6 +45,46 @@ public class Routine {
 
 
     public HabitizerTime getLastCheckedOffTime() {return lastCheckedOff;}
+    /**
+     * This uses the Memento design pattern.
+     * (<a href="https://refactoring.guru/design-patterns/memento">...</a>).
+     */
+    public static class RoutineSnapshot {
+        public List<HabitizerTime> recordedTaskTimes;
+        public long timeTrackerTime;
+        public int routineId;
+        public RoutineSnapshot() {
+            recordedTaskTimes = new ArrayList<>();
+        }
+    }
+
+    public RoutineSnapshot createSnapshot() {
+        RoutineSnapshot routineSnapshot = new RoutineSnapshot();
+        routineSnapshot.routineId = getId();
+        ArrayList<HabitizerTime> recordedTaskTimes = new ArrayList<>();
+        routineSnapshot.recordedTaskTimes = recordedTaskTimes;
+        List<Task> taskList = tasks.getValue();
+        for (Task t : taskList) {
+            HabitizerTime recordedTime = t.getRecordedTime();
+            if (Boolean.FALSE.equals(t.isDone().getValue()))
+                recordedTime = null;
+            recordedTaskTimes.add(recordedTime);
+        }
+        routineSnapshot.timeTrackerTime = timeTracker.getElapsedTime().time();
+        return routineSnapshot;
+    }
+
+    public void restoreSnapshot(RoutineSnapshot snapshot) {
+        List<Task> taskList = tasks.getValue();
+        for (int i = 0; i < taskList.size(); i++) {
+            HabitizerTime time = snapshot.recordedTaskTimes.get(i);
+            if (time == null)
+                continue;
+            taskList.get(i).recordTime(time);
+        }
+        timeTracker.addStartTime(new HabitizerTime(snapshot.timeTrackerTime));
+    }
+
     public HabitizerTime getElapsedTime() {
         return timeTracker.getElapsedTime();
     }
@@ -166,9 +207,9 @@ public class Routine {
     public void checkOff(Task task) {
         if (!isStarted() || isPaused() ||  task.isDone().getValue())
             return;
-        task.recordTime(timeTracker.getCheckoffTimeAndCheckoff());
+        task.recordTime(timeTracker.getCheckoffTime());
         lastCheckedOff = getElapsedTime();
-        task.checkOff();
+        timeTracker.checkoff();
     }
 
     public MutableSubject<Boolean> getIsEndedSubject() {

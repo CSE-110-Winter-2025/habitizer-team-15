@@ -1,5 +1,7 @@
 package edu.ucsd.cse110.habitizer.app.presentation.taskview;
 
+import static edu.ucsd.cse110.habitizer.lib.data.InMemoryDataSource.NULL_ROUTINE;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,6 +23,7 @@ import edu.ucsd.cse110.habitizer.app.presentation.routineview.RoutineViewFragmen
 import edu.ucsd.cse110.habitizer.app.presentation.taskview.edit.AddTaskDialogFragment;
 import edu.ucsd.cse110.habitizer.app.presentation.taskview.edit.EditRoutineGoalTimeFragment;
 import edu.ucsd.cse110.habitizer.app.presentation.ui.TaskViewAdapter;
+import edu.ucsd.cse110.habitizer.lib.data.DataRoutine;
 import edu.ucsd.cse110.habitizer.lib.domain.Task;
 import edu.ucsd.cse110.habitizer.lib.util.observables.MutableNotifiableSubject;
 import edu.ucsd.cse110.habitizer.lib.util.observables.PlainMutableNotifiableSubject;
@@ -187,6 +190,7 @@ public class TaskViewFragment extends Fragment {
         });
 
         view.backToMenuButton.setOnClickListener(v -> {
+            model.setActiveRoutine(NULL_ROUTINE);
             getParentFragmentManager()
                     .beginTransaction()
                     .replace(R.id.main_activity_fragment_container, RoutineViewFragment.newInstance())
