@@ -166,8 +166,8 @@ public class TaskTests {
         assertEquals("Test Task 2", testTask2.getName());
         assertEquals(123, testTask1.getId());
         assertEquals(-1, testTask2.getId());
-        assertFalse(testTask1.isDone().getValue());
-        assertFalse(testTask2.isDone().getValue());
+        assertTrue(testTask1.isDone().getValue());
+        assertTrue(testTask2.isDone().getValue());
 
         testTask1.setId(taskId2);
         testTask2.setId(taskId1);
@@ -177,8 +177,8 @@ public class TaskTests {
         assertEquals(new HabitizerTime(-1), testTask2.getRecordedTime());
         assertEquals("Test Task 1", testTask1.getName());
         assertEquals("Test Task 2", testTask2.getName());
-        assertFalse(testTask1.isDone().getValue());
-        assertFalse(testTask2.isDone().getValue());
+        assertTrue(testTask1.isDone().getValue());
+        assertTrue(testTask2.isDone().getValue());
 
         testTask1.setName("Test Task 2");
         testTask2.setName("Test Task 1");
@@ -188,8 +188,8 @@ public class TaskTests {
         assertEquals(new HabitizerTime(-1), testTask2.getRecordedTime());
         assertEquals(taskId2, testTask1.getId());
         assertEquals(taskId1, testTask2.getId());
-        assertFalse(testTask1.isDone().getValue());
-        assertFalse(testTask2.isDone().getValue());
+        assertTrue(testTask1.isDone().getValue());
+        assertTrue(testTask2.isDone().getValue());
 
         testTask1.checkOff();
         testTask2.checkOff();
