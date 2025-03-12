@@ -12,6 +12,7 @@ import androidx.fragment.app.DialogFragment;
 import edu.ucsd.cse110.habitizer.app.R;
 import edu.ucsd.cse110.habitizer.app.databinding.FragmentDialogRenameTaskBinding;
 import edu.ucsd.cse110.habitizer.app.presentation.MainViewModel;
+import edu.ucsd.cse110.habitizer.app.util.SimplifiedTextWatcher;
 import edu.ucsd.cse110.habitizer.lib.domain.Task;
 
 public class RenameTaskDialogFragment extends DialogFragment {
@@ -55,15 +56,17 @@ public class RenameTaskDialogFragment extends DialogFragment {
 
         AlertDialog alertDialog = builder.create();
 
-        alertDialog.setOnShowListener(dialogInterface -> {
-            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+        view.inputRenameTaskEditText.addTextChangedListener(new SimplifiedTextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {;
+                // We can't use .empty() here since that's on API 35
+                boolean enabled = charSequence.length() != 0;
+                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(enabled);
+            }
         });
 
-        alertDialog.setOnKeyListener((dialogInterface, i, keyEvent) -> {
-            String taskName = view.inputRenameTaskEditText.getText().toString();
-            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(!taskName.isEmpty());
-            // We didn't "consume" keyEvent, so we return false
-            return false;
+        alertDialog.setOnShowListener(dialogInterface -> {
+            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
         });
         return alertDialog;
     }

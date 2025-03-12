@@ -20,6 +20,7 @@ import edu.ucsd.cse110.habitizer.app.R;
 import edu.ucsd.cse110.habitizer.app.databinding.FragmentDialogAddRoutineBinding;
 import edu.ucsd.cse110.habitizer.app.presentation.MainViewModel;
 import edu.ucsd.cse110.habitizer.app.presentation.taskview.TaskViewFragment;
+import edu.ucsd.cse110.habitizer.app.util.SimplifiedTextWatcher;
 import edu.ucsd.cse110.habitizer.lib.data.DataRoutine;
 import edu.ucsd.cse110.habitizer.lib.data.DataTask;
 import edu.ucsd.cse110.habitizer.lib.domain.Routine;
@@ -63,16 +64,17 @@ public class AddRoutineDialogFragment extends DialogFragment {
 
         AlertDialog alertDialog = builder.create();
 
-        // We can't reference alertDialog until we've actually created it
-        alertDialog.setOnShowListener(dialogInterface -> {
-            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+        view.inputRoutineNameEditText.addTextChangedListener(new SimplifiedTextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {;
+                // We can't use .empty() here since that's on API 35
+                boolean enabled = charSequence.length() != 0;
+                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(enabled);
+            }
         });
 
-        alertDialog.setOnKeyListener((dialogInterface, i, keyEvent) -> {
-            String routineName = view.inputRoutineNameEditText.getText().toString();
-            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(!routineName.isEmpty());
-            // We didn't "consume" keyEvent, so we return false
-            return false;
+        alertDialog.setOnShowListener(dialogInterface -> {
+            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
         });
         return alertDialog;
     }
