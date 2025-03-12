@@ -11,7 +11,7 @@ import edu.ucsd.cse110.habitizer.lib.domain.time.MockITimeManager;
 import edu.ucsd.cse110.habitizer.lib.domain.time.PausableWrapperITimeManager;
 import edu.ucsd.cse110.habitizer.lib.domain.time.TimeTracker;
 
-public class AsyncTimersBDDTest {
+public class AsyncRoutineTimerBDDTest {
     // Async Routine Timer Tests
 
 //    Scenario #1: Display how long finished Routine took
@@ -129,22 +129,4 @@ public class AsyncTimersBDDTest {
 
         assertEquals(1, (long) testRoutine.getElapsedTime().toMinutes());
     }
-
-    // Async Task Timer Tests
-
-//    Scenario 1:
-//    Given
-//    The Morning routine has been started
-//    And 12 minutes have passed
-//    And nothing has been checked off
-//    And 2 live timers with the same numbers are visible in the status bar
-//    When
-//    The user checks off “Shower”
-//    Then
-//    The checkoff time is recorded for the “Shower” task
-//    The left timer restarts from 0
-//    The right timer continues as-is
-
-
-
 }
