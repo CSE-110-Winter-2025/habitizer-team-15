@@ -4,6 +4,8 @@ import static androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.APPLI
 
 import static edu.ucsd.cse110.habitizer.lib.data.InMemoryDataSource.NULL_ROUTINE;
 
+import android.content.Context;
+
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
@@ -13,6 +15,9 @@ import androidx.lifecycle.viewmodel.ViewModelInitializer;
 import java.util.List;
 
 import edu.ucsd.cse110.habitizer.app.HabitizerApplication;
+import edu.ucsd.cse110.habitizer.app.R;
+import edu.ucsd.cse110.habitizer.app.presentation.taskview.TaskViewFragment;
+import edu.ucsd.cse110.habitizer.app.util.RoutineSnapshotSerializer;
 import edu.ucsd.cse110.habitizer.lib.data.DataRoutine;
 import edu.ucsd.cse110.habitizer.lib.data.IDataRoutineManager;
 import edu.ucsd.cse110.habitizer.lib.data.InMemoryDataSource;
@@ -28,13 +33,21 @@ public class MainViewModel extends ViewModel {
     private ITimeManager activeITimeManager;
     private final InMemoryDataSource inMemoryDataSource;
     public static final ViewModelInitializer<MainViewModel> initializer =
-            new ViewModelInitializer<>(
-                    MainViewModel.class,
-                    creationExtras -> {
-                        var app = (HabitizerApplication)creationExtras.get(APPLICATION_KEY);
-                        assert app != null;
-                        return new MainViewModel(app.getActiveTimeManager(), app.getInMemoryDataSource());
-                    });
+        new ViewModelInitializer<>(
+            MainViewModel.class,
+            creationExtras -> {
+                var app = (HabitizerApplication)creationExtras.get(APPLICATION_KEY);
+                assert app != null;
+
+
+                InMemoryDataSource inMemoryDataSource = app.getInMemoryDataSource();
+                ITimeManager activeTimeManager = app.getActiveTimeManager();
+                MainViewModel mainViewModel = new MainViewModel(activeTimeManager, inMemoryDataSource);
+
+
+
+                return mainViewModel;
+            });
 
     public static final MainViewModel getSingletonModel(ViewModelStoreOwner modelOwner) {
         var modelFactory = ViewModelProvider.Factory.from(MainViewModel.initializer);

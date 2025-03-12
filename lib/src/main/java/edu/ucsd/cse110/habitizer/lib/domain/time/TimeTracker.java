@@ -5,11 +5,16 @@ import edu.ucsd.cse110.observables.MutableSubject;
 import edu.ucsd.cse110.observables.PlainMutableSubject;
 
 /**
- * Add javadoc
+ * Tracks time for a Routine session.
  */
 public class TimeTracker {
 	private final PausableWrapperITimeManager pausableTimeManager;
 	private HabitizerTime timeManagerStartTime;
+
+	/**
+	 * This start time difference is mainly used when restoring a Routine session.
+ 	 */
+	private HabitizerTime trackerStartTimeDiff = HabitizerTime.zero;
 	private HabitizerTime trackerLastCheckoff;
 
 	private HabitizerTime trackerEndTime;
@@ -27,21 +32,17 @@ public class TimeTracker {
 			return trackerEndTime;
 		if (timeManagerStartTime == null)
 			return HabitizerTime.zero;
-		return pausableTimeManager.getCurrentTime().subtract(this.timeManagerStartTime);
+		return pausableTimeManager.getCurrentTime()
+				.subtract(this.timeManagerStartTime)
+				.add(trackerStartTimeDiff);
 	}
 
-	private void checkoff() {
+	public void checkoff() {
 		this.trackerLastCheckoff = getElapsedTime();
 	}
 
 	public HabitizerTime getCheckoffTime() {
 		return getElapsedTime().subtract(this.trackerLastCheckoff);
-	}
-
-	public HabitizerTime getCheckoffTimeAndCheckoff() {
-		var time = getCheckoffTime();
-		checkoff();
-		return time;
 	}
 
 	public void start() {
@@ -53,6 +54,10 @@ public class TimeTracker {
 	public void stop() {
 		this.trackerEndTime = getElapsedTime();
 		this.isStarted.setValue(false);
+	}
+
+	public void addStartTime(HabitizerTime time) {
+		this.trackerStartTimeDiff = trackerStartTimeDiff.add(time);
 	}
 
 	public boolean switchPause() {
