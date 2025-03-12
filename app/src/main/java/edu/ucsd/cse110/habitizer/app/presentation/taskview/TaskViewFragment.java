@@ -130,7 +130,7 @@ public class TaskViewFragment extends Fragment {
         uiTimerSubject.observe(t -> {
             long time = (long) model.getActiveRoutineElapsedTime().toMinutes();
             long total_time = (long) model.getActiveRoutine().getTotalTime().toMinutes();
-            long timeSinceLastTask = time - (long) model.getActiveRoutine().getLastCheckedOffTime().toMinutes();
+            long timeSinceLastTask = (long) model.getActiveRoutine().getCheckoffTime().toMinutes();
             var str = String.format(string, time, total_time);
             var str2 = String.format(lastTime, timeSinceLastTask);
             view.routineTotalElapsed.setText(str);

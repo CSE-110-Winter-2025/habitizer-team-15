@@ -16,6 +16,7 @@ public class TimeTracker {
  	 */
 	private HabitizerTime trackerStartTimeDiff = HabitizerTime.zero;
 	private HabitizerTime trackerLastCheckoff;
+	private HabitizerTime trackerLastCheckoffDiff = HabitizerTime.zero;
 
 	private HabitizerTime trackerEndTime;
 
@@ -41,14 +42,20 @@ public class TimeTracker {
 		this.trackerLastCheckoff = getElapsedTime();
 	}
 
+	public void setTrackerLastCheckoffDiff(HabitizerTime t) {
+		this.trackerLastCheckoffDiff = t;
+	}
+
 	public HabitizerTime getCheckoffTime() {
-		return getElapsedTime().subtract(this.trackerLastCheckoff);
+		return getElapsedTime()
+				.subtract(this.trackerLastCheckoff)
+				.add(this.trackerLastCheckoffDiff);
 	}
 
 	public void start() {
 		this.isStarted.setValue(true);
 		this.timeManagerStartTime = this.pausableTimeManager.getCurrentTime();
-		this.trackerLastCheckoff = HabitizerTime.zero;
+		this.trackerLastCheckoff = trackerLastCheckoffDiff;
 	}
 
 	public void stop() {

@@ -88,6 +88,8 @@ public class TaskViewDebugFragment extends Fragment {
             StringBuilder debugInfo = new StringBuilder();
             debugInfo.append("Routine elapsed time (s): ");
             debugInfo.append(String.format("%.2f", model.getActiveRoutineElapsedTime().toSeconds()));
+            debugInfo.append("\nRoutine last check off time (s): ");
+            debugInfo.append(String.format("%.2f", model.getActiveRoutine().getCheckoffTime().toSeconds()));
             view.debugInfo.setText(debugInfo.toString());
         });
 

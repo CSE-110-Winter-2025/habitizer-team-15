@@ -36,15 +36,12 @@ public class Routine {
     private final MutableSubject<Boolean> ended = new PlainMutableSubject<>();
 
     private final @NonNull MutableNotifiableSubject<Long> totalTime;
-    private @NonNull HabitizerTime lastCheckedOff;
 
     /**
      * Updates when the Routine changes.
      */
     private final @NonNull NotifiableSubject<Object> onFlush;
 
-
-    public HabitizerTime getLastCheckedOffTime() {return lastCheckedOff;}
     /**
      * This uses the Memento design pattern.
      * (<a href="https://refactoring.guru/design-patterns/memento">...</a>).
@@ -52,7 +49,9 @@ public class Routine {
     public static class RoutineSnapshot {
         public List<HabitizerTime> recordedTaskTimes;
         public long timeTrackerTime;
+        public long timeTrackerLastCheckoff;
         public int routineId;
+
         public RoutineSnapshot() {
             recordedTaskTimes = new ArrayList<>();
         }
@@ -71,6 +70,7 @@ public class Routine {
             recordedTaskTimes.add(recordedTime);
         }
         routineSnapshot.timeTrackerTime = timeTracker.getElapsedTime().time();
+        routineSnapshot.timeTrackerLastCheckoff = timeTracker.getCheckoffTime().time();
         return routineSnapshot;
     }
 
@@ -83,6 +83,7 @@ public class Routine {
             taskList.get(i).recordTime(time);
         }
         timeTracker.addStartTime(new HabitizerTime(snapshot.timeTrackerTime));
+        timeTracker.setTrackerLastCheckoffDiff(new HabitizerTime(snapshot.timeTrackerLastCheckoff));
     }
 
     public HabitizerTime getElapsedTime() {
@@ -120,7 +121,6 @@ public class Routine {
 
         this.timeTracker = timeTracker;
         this.time = HabitizerTime.zero;
-        this.lastCheckedOff = HabitizerTime.zero;
     }
 
     private void flushToDataRoutine() {
@@ -208,7 +208,6 @@ public class Routine {
         if (!isStarted() || isPaused() ||  task.isDone().getValue())
             return;
         task.recordTime(timeTracker.getCheckoffTime());
-        lastCheckedOff = getElapsedTime();
         timeTracker.checkoff();
     }
 
@@ -282,6 +281,10 @@ public class Routine {
             Collections.swap(tasks.getValue(), index, index + 1);
         }
         tasks.updateObservers();
+    }
+
+    public HabitizerTime getCheckoffTime() {
+        return timeTracker.getCheckoffTime();
     }
 
 
