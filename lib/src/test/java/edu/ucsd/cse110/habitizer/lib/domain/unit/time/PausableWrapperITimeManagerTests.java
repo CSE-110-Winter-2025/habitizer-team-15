@@ -1,4 +1,4 @@
-package edu.ucsd.cse110.habitizer.lib.domain.time;
+package edu.ucsd.cse110.habitizer.lib.domain.unit.time;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -6,6 +6,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import edu.ucsd.cse110.habitizer.lib.domain.time.MockITimeManager;
+import edu.ucsd.cse110.habitizer.lib.domain.time.PausableWrapperITimeManager;
 import edu.ucsd.cse110.habitizer.lib.util.HabitizerTime;
 
 /**

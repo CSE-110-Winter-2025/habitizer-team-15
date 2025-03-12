@@ -1,4 +1,4 @@
-package edu.ucsd.cse110.habitizer.lib.domain;
+package edu.ucsd.cse110.habitizer.lib.domain.integration;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -9,6 +9,8 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import edu.ucsd.cse110.habitizer.lib.data.InMemoryDataSource;
+import edu.ucsd.cse110.habitizer.lib.domain.Routine;
+import edu.ucsd.cse110.habitizer.lib.domain.Task;
 import edu.ucsd.cse110.habitizer.lib.domain.time.MockITimeManager;
 import edu.ucsd.cse110.habitizer.lib.domain.time.TimeTracker;
 

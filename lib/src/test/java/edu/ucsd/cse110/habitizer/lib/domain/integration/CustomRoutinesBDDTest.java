@@ -1,4 +1,4 @@
-package edu.ucsd.cse110.habitizer.lib.domain;
+package edu.ucsd.cse110.habitizer.lib.domain.integration;
 
 import static org.junit.Assert.assertEquals;
 
@@ -7,9 +7,6 @@ import org.junit.Test;
 import edu.ucsd.cse110.habitizer.lib.data.DataRoutine;
 import edu.ucsd.cse110.habitizer.lib.data.DataRoutineBuilder;
 import edu.ucsd.cse110.habitizer.lib.data.InMemoryDataRoutineManager;
-import edu.ucsd.cse110.habitizer.lib.data.InMemoryDataSource;
-import edu.ucsd.cse110.habitizer.lib.domain.time.MockITimeManager;
-import edu.ucsd.cse110.habitizer.lib.domain.time.TimeTracker;
 import edu.ucsd.cse110.habitizer.lib.util.HabitizerTime;
 
 public class CustomRoutinesBDDTest {
