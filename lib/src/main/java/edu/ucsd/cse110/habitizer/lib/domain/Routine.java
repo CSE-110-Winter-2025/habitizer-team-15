@@ -82,8 +82,10 @@ public class Routine {
                 continue;
             taskList.get(i).recordTime(time);
         }
-        timeTracker.addStartTime(new HabitizerTime(snapshot.timeTrackerTime));
-        timeTracker.setTrackerLastCheckoffDiff(new HabitizerTime(snapshot.timeTrackerLastCheckoff));
+        HabitizerTime totalTime = new HabitizerTime(snapshot.timeTrackerTime);
+        timeTracker.addStartTime(totalTime);
+        HabitizerTime lastCheckoff = new HabitizerTime(snapshot.timeTrackerLastCheckoff);
+        timeTracker.setTrackerLastCheckoffInit(totalTime.subtract(lastCheckoff));
     }
 
     public HabitizerTime getElapsedTime() {
