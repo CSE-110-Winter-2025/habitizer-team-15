@@ -61,10 +61,13 @@ public class EditRoutineGoalTimeFragment extends DialogFragment {
 
         AlertDialog alertDialog = builder.create();
 
+
         alertDialog.setOnShowListener(dialogInterface -> {
             alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
         });
 
+        // For some reason, this listener works on Android keyboard despite
+        // the documentation saying otherwise
         alertDialog.setOnKeyListener((dialogInterface, i, keyEvent) -> {
             String goalTime = view.inputGoalTimeEditText.getText().toString();
             alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(!goalTime.isEmpty());
