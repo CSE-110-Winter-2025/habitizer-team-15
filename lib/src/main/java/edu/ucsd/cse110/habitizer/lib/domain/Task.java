@@ -62,6 +62,7 @@ public class Task {
     }
     public void recordTime(HabitizerTime time) {
         this.recordedTime = time;
+        checkOff();
     }
     @androidx.annotation.Nullable
     public HabitizerTime getRecordedTime() {

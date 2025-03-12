@@ -47,10 +47,14 @@ public class PausableWrapperITimeManager implements ITimeManager {
     }
 
     public void forward(long skipSeconds) {
+        forward(new HabitizerTime(skipSeconds * HabitizerTime.secondsToNanoseconds));
+    }
+
+    public void forward(HabitizerTime time) {
         if (isPaused)
-            pauseTime = pauseTime.add(HabitizerTime.fromSeconds(skipSeconds));
+            pauseTime = pauseTime.add(time);
         else
-            diffTime = diffTime.add(HabitizerTime.fromSeconds(skipSeconds));
+            diffTime = diffTime.add(time);
     }
 
     public boolean isPaused() {
