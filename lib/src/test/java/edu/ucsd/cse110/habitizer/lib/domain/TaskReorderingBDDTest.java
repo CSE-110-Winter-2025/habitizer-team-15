@@ -1,10 +1,6 @@
 package edu.ucsd.cse110.habitizer.lib.domain;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -13,7 +9,7 @@ import edu.ucsd.cse110.habitizer.lib.domain.time.MockITimeManager;
 import edu.ucsd.cse110.habitizer.lib.domain.time.TimeTracker;
 
 
-public class TaskReorderingTests {
+public class TaskReorderingBDDTest {
 
     //Scenario 1: Change task order
     //  Given
