@@ -22,7 +22,12 @@ public class MockITimeManager implements ITimeManager {
         this.mockTimeMinutes += elapsedMockTimeMinutes;
     }
 
+    public void addMockTimeSeconds(double elapsedMockTimeSeconds) {
+        this.mockTimeMinutes += (elapsedMockTimeSeconds / HabitizerTime.minutesToSeconds);
+    }
+
     public void setMockTimeSeconds(double mockTimeSeconds) {
         this.mockTimeMinutes = mockTimeSeconds / HabitizerTime.minutesToSeconds;
     }
 }
+
