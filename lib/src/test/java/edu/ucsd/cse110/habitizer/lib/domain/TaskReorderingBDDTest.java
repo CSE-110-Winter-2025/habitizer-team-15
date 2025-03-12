@@ -13,7 +13,7 @@ public class TaskReorderingBDDTest {
 
     //Scenario 1: Change task order
     //  Given
-    //    User is viewing morning routine
+    //    User is viewing morning routine in edit mode
     //    “Shower” task exists first
     //    “Brush Teeth” task exists second
     //  When
