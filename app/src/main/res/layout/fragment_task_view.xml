@@ -15,8 +15,8 @@
             android:id="@+id/run_mode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="pause_resume_button,end_routine_button,debug_tools"
-            tools:visibility="gone" />
+            app:constraint_referenced_ids="pause_resume_button,end_routine_button,debug_tools,async_Timer"
+            tools:visibility="visible" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/edit_mode"
@@ -24,15 +24,16 @@
             android:layout_height="wrap_content"
             android:visibility="gone"
             app:constraint_referenced_ids="add_task_button,edit_mode_text,edit_goal_time"
-            tools:visibility="visible" />
+            tools:visibility="gone" />
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="64dp"
             android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
+            app:layout_constraintBottom_toTopOf="@id/async_Timer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -117,6 +118,16 @@
         <!--            app:layout_constraintEnd_toEndOf="parent"-->
         <!--            app:layout_constraintStart_toStartOf="@+id/toolbar"-->
         <!--            app:layout_constraintTop_toTopOf="@+id/toolbar" />-->
+
+        <TextView
+            android:id="@+id/async_Timer"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="Since Last Task: "
+            android:textColor="#451D1D"
+            app:layout_constraintEnd_toEndOf="@+id/edit_mode_text"
+            app:layout_constraintStart_toStartOf="@+id/edit_mode_text"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
         <Button
             android:id="@+id/add_task_button"
