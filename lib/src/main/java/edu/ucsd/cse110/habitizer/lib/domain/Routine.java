@@ -35,6 +35,7 @@ public class Routine {
     private final MutableSubject<Boolean> ended = new PlainMutableSubject<>();
 
     private final @NonNull MutableNotifiableSubject<Long> totalTime;
+    private @NonNull HabitizerTime lastCheckedOff;
 
     /**
      * Updates when the Routine changes.
@@ -42,6 +43,7 @@ public class Routine {
     private final @NonNull NotifiableSubject<Object> onFlush;
 
 
+    public HabitizerTime getLastCheckedOffTime() {return lastCheckedOff;}
     public HabitizerTime getElapsedTime() {
         return timeTracker.getElapsedTime();
     }
@@ -77,6 +79,7 @@ public class Routine {
 
         this.timeTracker = timeTracker;
         this.time = HabitizerTime.zero;
+        this.lastCheckedOff = HabitizerTime.zero;
     }
 
     private void flushToDataRoutine() {
@@ -164,6 +167,7 @@ public class Routine {
         if (!isStarted() || isPaused() ||  task.isDone().getValue())
             return;
         task.recordTime(timeTracker.getCheckoffTimeAndCheckoff());
+        lastCheckedOff = getElapsedTime();
         task.checkOff();
     }
 

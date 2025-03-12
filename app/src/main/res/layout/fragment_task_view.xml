@@ -15,7 +15,7 @@
             android:id="@+id/run_mode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="pause_resume_button,end_routine_button,debug_tools"
+            app:constraint_referenced_ids="pause_resume_button,end_routine_button,debug_tools,async_Timer"
             tools:visibility="gone" />
 
         <androidx.constraintlayout.widget.Group
@@ -37,6 +37,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/async_Timer"
             app:title="Routine Name"
             app:titleTextColor="@color/white" />
 
@@ -117,6 +118,17 @@
         <!--            app:layout_constraintEnd_toEndOf="parent"-->
         <!--            app:layout_constraintStart_toStartOf="@+id/toolbar"-->
         <!--            app:layout_constraintTop_toTopOf="@+id/toolbar" />-->
+
+        <TextView
+            android:id="@+id/async_Timer"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:text="Since Last Task: "
+            android:textColor="#451D1D"
+            app:layout_constraintBottom_toTopOf="@+id/task_list_view"
+            app:layout_constraintEnd_toEndOf="@+id/edit_mode_text"
+            app:layout_constraintStart_toStartOf="@+id/edit_mode_text"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
         <Button
             android:id="@+id/add_task_button"
