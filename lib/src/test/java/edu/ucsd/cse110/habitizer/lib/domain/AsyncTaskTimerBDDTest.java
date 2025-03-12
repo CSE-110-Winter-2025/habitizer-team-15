@@ -42,22 +42,15 @@ public class AsyncTaskTimerBDDTest {
 
         testRoutine.start();
 
-        mockTime.setMockTimeMinutes(15);
+        mockTime.setMockTimeMinutes(12);
+
+        assertEquals((long) testRoutine.getCheckoffTime().toMinutes(), (long) testRoutine.getElapsedTime().toMinutes());
 
         testRoutine.checkOffById(0);
 
-        mockTime.addMockTimeMinutes(5);
-
-        testRoutine.checkOffById(1);
-
-        mockTime.addMockTimeMinutes(5);
-
-        assertEquals(25, (long) testRoutine.getElapsedTime().toMinutes());
+        assertEquals(0, (long) testRoutine.getCheckoffTime().toMinutes());
+        assertEquals(12, (long) testRoutine.getElapsedTime().toMinutes());
 
         testRoutine.end();
-
-        assertEquals(25, (long) testRoutine.getElapsedTime().toMinutes());
     }
-
-
 }
