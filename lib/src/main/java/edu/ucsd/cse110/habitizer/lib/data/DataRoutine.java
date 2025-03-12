@@ -19,6 +19,7 @@ public record DataRoutine(
 
     long totalTime)
 {
+    @Deprecated(since = "Use `new DataRoutineBuilder().build()` for default empty routines.")
     public static DataRoutine createEmpty(String name) {
         return new DataRoutine(name, new ArrayList<>(), -1, 0);
     }

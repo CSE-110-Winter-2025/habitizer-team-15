@@ -13,7 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
+import javax.xml.crypto.Data;
+
 import edu.ucsd.cse110.habitizer.lib.data.DataRoutine;
+import edu.ucsd.cse110.habitizer.lib.data.DataRoutineBuilder;
 import edu.ucsd.cse110.habitizer.lib.data.DataTask;
 import edu.ucsd.cse110.habitizer.lib.data.InMemoryDataSource;
 import edu.ucsd.cse110.habitizer.lib.domain.time.MockITimeManager;
@@ -37,16 +40,17 @@ public class RoutineTests {
     private final HabitizerTime routineTime2 = new HabitizerTime(-1);
     private final Routine testRoutine = new Routine(testDataRoutine1, mockTimeTracker);
     public final DataRoutine MORNING_ROUTINE_WITH_IDS =
-        new DataRoutine("Morning",
-            List.of(
-            new DataTask("Shower", 4),
-            new DataTask("Brush teeth", 3),
-            new DataTask("Dress", 6),
-            new DataTask("Make coffee", 1),
-            new DataTask("Make lunch", 7),
-            new DataTask("Dinner prep", 5),
-            new DataTask("Pack bag", 2)
-        ), -1, 45);
+            new DataRoutineBuilder()
+                .setName("Morning")
+                .setTotalTime(45)
+                .addTask("Shower", 4)
+                .addTask("Brush teeth", 3)
+                .addTask("Dress", 6)
+                .addTask("Make coffee", 1)
+                .addTask("Make lunch", 7)
+                .addTask("Dinner prep", 5)
+                .addTask("Pack bag", 2)
+                .build();
 
     @Test
     public void testConstructorWithDataRoutine() {
