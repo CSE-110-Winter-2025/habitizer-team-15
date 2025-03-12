@@ -14,6 +14,7 @@ public class RoutineSnapshotSerializer {
             JSONObject root = new JSONObject(string);
             routineSnapshot.routineId = root.getInt("routineId");
             routineSnapshot.timeTrackerTime = root.getLong("timeTrackerTime");
+            routineSnapshot.timeTrackerLastCheckoff = root.getLong("timeTrackerLastCheckoff");
             JSONArray recordedTaskTimes = root.getJSONArray("recordedTaskTimes");
             for (int i = 0; i < recordedTaskTimes.length(); i++) {
                 if (recordedTaskTimes.isNull(i))
@@ -39,6 +40,7 @@ public class RoutineSnapshotSerializer {
                     recordedTaskTimes.put(recordedTaskTime.time());
             }
             root.put("recordedTaskTimes", recordedTaskTimes);
+            root.put("timeTrackerLastCheckoff", snapshot.timeTrackerLastCheckoff);
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }

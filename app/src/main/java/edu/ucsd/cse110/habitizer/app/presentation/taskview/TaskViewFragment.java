@@ -126,12 +126,17 @@ public class TaskViewFragment extends Fragment {
     private void setupModelViewHooks() {
 
         String string = getString(R.string.routine_total_time_format);
+        String lastTime = getString(R.string.async);
         uiTimerSubject.observe(t -> {
             long time = (long) model.getActiveRoutineElapsedTime().toMinutes();
             long total_time = (long) model.getActiveRoutine().getTotalTime().toMinutes();
+            long timeSinceLastTask = (long) model.getActiveRoutine().getCheckoffTime().toMinutes();
             var str = String.format(string, time, total_time);
+            var str2 = String.format(lastTime, timeSinceLastTask);
             view.routineTotalElapsed.setText(str);
+            view.asyncTimer.setText(str2);
         });
+
 
         model.getActiveRoutine().getNameSubject().observe(newName -> {
             view.toolbar.setTitle(newName);

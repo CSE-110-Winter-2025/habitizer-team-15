@@ -15,7 +15,8 @@ public class TimeTracker {
 	 * This start time difference is mainly used when restoring a Routine session.
  	 */
 	private HabitizerTime trackerStartTimeDiff = HabitizerTime.zero;
-	private HabitizerTime trackerLastCheckoff;
+	private HabitizerTime trackerLastCheckoff = HabitizerTime.zero;
+	private HabitizerTime trackerLastCheckoffInit = HabitizerTime.zero;
 
 	private HabitizerTime trackerEndTime;
 
@@ -41,6 +42,10 @@ public class TimeTracker {
 		this.trackerLastCheckoff = getElapsedTime();
 	}
 
+	public void setTrackerLastCheckoffInit(HabitizerTime t) {
+		this.trackerLastCheckoffInit = t;
+	}
+
 	public HabitizerTime getCheckoffTime() {
 		return getElapsedTime().subtract(this.trackerLastCheckoff);
 	}
@@ -48,7 +53,7 @@ public class TimeTracker {
 	public void start() {
 		this.isStarted.setValue(true);
 		this.timeManagerStartTime = this.pausableTimeManager.getCurrentTime();
-		this.trackerLastCheckoff = HabitizerTime.zero;
+		this.trackerLastCheckoff = trackerLastCheckoffInit;
 	}
 
 	public void stop() {

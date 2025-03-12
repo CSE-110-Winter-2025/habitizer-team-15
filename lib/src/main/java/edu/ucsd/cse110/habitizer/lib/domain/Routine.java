@@ -42,7 +42,6 @@ public class Routine {
      */
     private final @NonNull NotifiableSubject<Object> onFlush;
 
-
     /**
      * This uses the Memento design pattern.
      * (<a href="https://refactoring.guru/design-patterns/memento">...</a>).
@@ -50,7 +49,9 @@ public class Routine {
     public static class RoutineSnapshot {
         public List<HabitizerTime> recordedTaskTimes;
         public long timeTrackerTime;
+        public long timeTrackerLastCheckoff;
         public int routineId;
+
         public RoutineSnapshot() {
             recordedTaskTimes = new ArrayList<>();
         }
@@ -69,6 +70,7 @@ public class Routine {
             recordedTaskTimes.add(recordedTime);
         }
         routineSnapshot.timeTrackerTime = timeTracker.getElapsedTime().time();
+        routineSnapshot.timeTrackerLastCheckoff = timeTracker.getCheckoffTime().time();
         return routineSnapshot;
     }
 
@@ -80,7 +82,10 @@ public class Routine {
                 continue;
             taskList.get(i).recordTime(time);
         }
-        timeTracker.addStartTime(new HabitizerTime(snapshot.timeTrackerTime));
+        HabitizerTime totalTime = new HabitizerTime(snapshot.timeTrackerTime);
+        timeTracker.addStartTime(totalTime);
+        HabitizerTime lastCheckoff = new HabitizerTime(snapshot.timeTrackerLastCheckoff);
+        timeTracker.setTrackerLastCheckoffInit(totalTime.subtract(lastCheckoff));
     }
 
     public HabitizerTime getElapsedTime() {
@@ -278,6 +283,10 @@ public class Routine {
             Collections.swap(tasks.getValue(), index, index + 1);
         }
         tasks.updateObservers();
+    }
+
+    public HabitizerTime getCheckoffTime() {
+        return timeTracker.getCheckoffTime();
     }
 
 
