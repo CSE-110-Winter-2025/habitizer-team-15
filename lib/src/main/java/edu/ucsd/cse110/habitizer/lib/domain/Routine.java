@@ -85,6 +85,7 @@ public class Routine {
         List<DataTask> list = DataDomainConverter.tasksToDataTasks(tasks.getValue());
 
         // TODO: It'd probably be much easier to do this if data was a MutableSubject
+        //  but that's too much refactoring and would interfere with other branches
         data = new DataRoutine(getName(), list, getId(), getTotalTime().time());
         onFlush.updateObservers();
     }
