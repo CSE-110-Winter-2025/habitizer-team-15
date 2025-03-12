@@ -17,15 +17,15 @@ public class ManuallyAdvanceTimeTests {
     /**
      * Scenario 1: Tester forwards from 14 to 29 seconds
      * Given
-        * The tester has started "Morning" routine
-        * 14 seconds has passed w/out checkoff
-        * The tester is on the first task called "Shower"
+         * The tester has started "Morning" routine
+         * 14 seconds has passed w/out checkoff
+         * The tester is on the first task called "Shower"
      * When
-        * The tester taps the forward button once
-        * And then taps the "Shower" task
+         * The tester taps the forward button once
+         * And then taps the "Shower" task
      * Then
-        * The routine should now display the tasks as “Shower [30 s]”
-        * And the rest of the tasks as "Task [-]"
+         * The routine should now display the tasks as “Shower [30 s]”
+         * And the rest of the tasks as "Task [-]"
      */
     @Test
     public void bddScenario1() {
