@@ -26,7 +26,7 @@ public class InMemoryDataRoutineManager implements IDataRoutineManager {
         IntStream.range(0, size())
             .forEach(index -> {
                 DataRoutine routine = routines.get(index);
-                routine.newWithId(index);
+                routines.set(index, routine.newWithId(index));
             });
     }
 
