@@ -22,6 +22,7 @@ import edu.ucsd.cse110.habitizer.app.presentation.MainViewModel;
 import edu.ucsd.cse110.habitizer.app.presentation.taskview.TaskViewFragment;
 import edu.ucsd.cse110.habitizer.app.util.SimplifiedTextWatcher;
 import edu.ucsd.cse110.habitizer.lib.data.DataRoutine;
+import edu.ucsd.cse110.habitizer.lib.data.DataRoutineBuilder;
 import edu.ucsd.cse110.habitizer.lib.data.DataTask;
 import edu.ucsd.cse110.habitizer.lib.domain.Routine;
 import edu.ucsd.cse110.habitizer.lib.util.HabitizerTime;
@@ -84,8 +85,13 @@ public class AddRoutineDialogFragment extends DialogFragment {
         if (addedRoutineName.isEmpty())
             return;
 
-        List<DataTask> tasks = List.of(DataTask.createEmpty("Empty"));
-        DataRoutine routine = new DataRoutine(addedRoutineName, tasks , model.getDataRoutines().size(), HabitizerTime.fromMinutes(10).time());
+        DataRoutine routine = new DataRoutineBuilder()
+            .setName(addedRoutineName)
+            .addTask("Empty")
+            .setId(model.getDataRoutines().size())
+            .setTotalTime(HabitizerTime.fromMinutes(10))
+            .build();
+
         model.getDataRoutineManager().addDataRoutine(routine);
 
         dialog.dismiss();
