@@ -60,7 +60,8 @@ public class RoutinePauseTests {
         // Should be 1 since we just checked off
         HabitizerTime timeSinceLastCheckoffBeforePause = timeTracker.getCheckoffTime();
         // User "taps" on pause button
-        assertTrue(timeTracker.switchPause());
+        testRoutine.pausePlay();
+        assertTrue(testRoutine.isPaused());
 
         // When time is paused, changing mockTime shouldn't change elapsed nor lastcheckoff time
         mockTime.setMockTimeMinutes(7);

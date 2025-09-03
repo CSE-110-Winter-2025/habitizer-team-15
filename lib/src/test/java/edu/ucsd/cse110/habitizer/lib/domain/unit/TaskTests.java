@@ -204,5 +204,31 @@ public class TaskTests {
         testTask2.setId(taskId1);
     }
 
-    // TODO: Add equals test
+    @Test
+    public void testEqualsAndHashCode() {
+        Task testTask1 = new Task(testDataTask1);
+        Task testTask2 = new Task(taskName2);
+
+        // Same object must be equal to itself
+        assertTrue(testTask1.equals(testTask1));
+        assertEquals(testTask1.hashCode(), testTask1.hashCode());
+        // Thus the hashcode must be equal as well
+        assertEquals(testTask1.hashCode(), testTask1.hashCode());
+
+        // Should not equal null nor a different class
+        assertFalse(testTask1.equals(null));
+        assertFalse(testTask1.equals(testDataTask1));
+
+        // Different object with same fields + both null recorded must be equal
+        Task testTask3 = new Task(taskName2);
+        assertTrue(testTask2.equals(testTask3));
+        assertEquals(testTask2.hashCode(), testTask3.hashCode());
+        // Should not be equal if only one task's recorded time is null
+
+        testTask2.recordTime(new HabitizerTime(1));
+        assertFalse(testTask2.equals(testTask3));
+        testTask3.recordTime(new HabitizerTime(1));
+        assertTrue(testTask2.equals(testTask3));
+        assertEquals(testTask2.hashCode(), testTask3.hashCode());
+    }
 }
